@@ -1,0 +1,1 @@
+.\bin\Debug\openstack.net.exe "$args"

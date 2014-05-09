@@ -1,0 +1,4 @@
+#!/bin/bash
+wget --timestamping https://getcomposer.org/installer
+php installer
+php composer.phar update

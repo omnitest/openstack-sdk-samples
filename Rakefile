@@ -1,19 +1,25 @@
 require 'polytrix'
 
+def is_windows?
+  RbConfig::CONFIG['host_os'] =~ /mswin(\d+)|mingw/i
+end
+
+desc 'Fetch dependencies for each SDK'
+task :bootstrap do
+  Bundler.with_clean_env do
+    Dir['sdks/*'].each do |sdk_dir|
+      Dir.chdir sdk_dir do
+        if is_windows?
+          system "PowerShell -NoProfile -ExecutionPolicy Bypass .\\scripts\\bootstrap"
+        else
+          system "scripts/bootstrap"
+        end
+      end
+    end
+  end
+end
+
 namespace :documentation do
-  desc 'Generate annoted source code'
-  # task :annotated do
-  #   system "groc"
-  # end
-
-  # task :copy_src do
-  #   sdks = Dir['sdks/*'].each do |sdk|
-  #     sdk = File.basename sdk
-  #     FileUtils.mkdir_p "docs/src/#{sdk}"
-  #     FileUtils.cp_r "sdks/#{sdk}/challenges/", "docs/src/#{sdk}"
-  #   end
-  # end
-
   desc 'Generate the Feature Matrix dashboard'
   task :dashboard do # => [:copy_src, :annotated] do
     $: << 'spec'

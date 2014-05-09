@@ -2,3 +2,4 @@ Gemfile.lock
 docs/
 reports/
 pacto.log
+tmp/
