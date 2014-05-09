@@ -1,7 +1,19 @@
 require 'polytrix'
+require 'rspec/core/rake_task'
 
-def is_windows?
-  RbConfig::CONFIG['host_os'] =~ /mswin(\d+)|mingw/i
+RSpec::Core::RakeTask.new('spec')
+task :default => :spec
+
+NOT_SETUP = "You need to set RAX_USERNAME and RAX_API_KEY env vars in order to run tests"
+
+task :check_setup do
+  fail NOT_SETUP unless ENV['RAX_USERNAME'] && ENV['RAX_API_KEY']
+end
+
+desc 'Remove reports and other generated artifacts'
+task :clean do
+  FileUtils.rm_rf 'docs'
+  FileUtils.rm_rf 'reports'
 end
 
 desc 'Fetch dependencies for each SDK'
@@ -44,4 +56,8 @@ namespace :documentation do
 
     fail "Combined results contain failures - check the reports" if formatter.has_failures?
   end
+end
+
+def is_windows?
+  RbConfig::CONFIG['host_os'] =~ /mswin(\d+)|mingw/i
 end
