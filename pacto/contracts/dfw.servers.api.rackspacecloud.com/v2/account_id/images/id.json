@@ -1,0 +1,176 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "params": {
+    },
+    "path": "/v2/:account_id/images/:id"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from vcr with shasum 84e4f99e789ea3412d751782552d036dad968eee",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "image": {
+          "type": "object",
+          "required": true,
+          "properties": {
+            "status": {
+              "type": "string",
+              "required": true
+            },
+            "updated": {
+              "type": "string",
+              "required": true
+            },
+            "links": {
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "rel": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            },
+            "OS-DCF:diskConfig": {
+              "type": "string",
+              "required": true
+            },
+            "id": {
+              "type": "string",
+              "required": true
+            },
+            "OS-EXT-IMG-SIZE:size": {
+              "type": "integer",
+              "required": true
+            },
+            "name": {
+              "type": "string",
+              "required": true
+            },
+            "created": {
+              "type": "string",
+              "required": true
+            },
+            "minDisk": {
+              "type": "integer",
+              "required": true
+            },
+            "progress": {
+              "type": "integer",
+              "required": true
+            },
+            "minRam": {
+              "type": "integer",
+              "required": true
+            },
+            "metadata": {
+              "type": "object",
+              "required": true,
+              "properties": {
+                "os_distro": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__visible_core": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__build_rackconnect": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__options": {
+                  "type": "string",
+                  "required": true
+                },
+                "image_type": {
+                  "type": "string",
+                  "required": true
+                },
+                "cache_in_nova": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__source": {
+                  "type": "string",
+                  "required": true
+                },
+                "org.openstack__1__os_distro": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__release_build_date": {
+                  "type": "string",
+                  "required": true
+                },
+                "os_type": {
+                  "type": "string",
+                  "required": true
+                },
+                "auto_disk_config": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__release_version": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__platform_target": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__visible_rackconnect": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__release_id": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__visible_managed": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__build_core": {
+                  "type": "string",
+                  "required": true
+                },
+                "org.openstack__1__os_version": {
+                  "type": "string",
+                  "required": true
+                },
+                "org.openstack__1__architecture": {
+                  "type": "string",
+                  "required": true
+                },
+                "com.rackspace__1__build_managed": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

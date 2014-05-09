@@ -1,0 +1,189 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "params": {
+    },
+    "path": "/v2/:account_id/servers/:id"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from vcr with shasum e0d9982dff7545409a7686f24f01ce06a0b1e853",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "server": {
+          "type": "object",
+          "required": true,
+          "properties": {
+            "status": {
+              "type": "string",
+              "required": true
+            },
+            "updated": {
+              "type": "string",
+              "required": true
+            },
+            "hostId": {
+              "type": "string",
+              "required": true
+            },
+            "addresses": {
+              "type": "object",
+              "required": true,
+              "properties": {
+              }
+            },
+            "links": {
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "rel": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            },
+            "key_name": {
+              "type": ["string", "null"],
+              "required": false
+            },
+            "image": {
+              "type": "object",
+              "required": true,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "links": {
+                  "type": "array",
+                  "required": true,
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                      "href": {
+                        "type": "string",
+                        "required": true
+                      },
+                      "rel": {
+                        "type": "string",
+                        "required": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "OS-EXT-STS:task_state": {
+              "type": ["string", "null"],
+              "required": false
+            },
+            "OS-EXT-STS:vm_state": {
+              "type": "string",
+              "required": true
+            },
+            "flavor": {
+              "type": "object",
+              "required": true,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "links": {
+                  "type": "array",
+                  "required": true,
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                      "href": {
+                        "type": "string",
+                        "required": true
+                      },
+                      "rel": {
+                        "type": "string",
+                        "required": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "id": {
+              "type": "string",
+              "required": true
+            },
+            "user_id": {
+              "type": "string",
+              "required": true
+            },
+            "name": {
+              "type": "string",
+              "required": true
+            },
+            "created": {
+              "type": "string",
+              "required": true
+            },
+            "tenant_id": {
+              "type": "string",
+              "required": true
+            },
+            "OS-DCF:diskConfig": {
+              "type": "string",
+              "required": true
+            },
+            "accessIPv4": {
+              "type": "string",
+              "required": true
+            },
+            "accessIPv6": {
+              "type": "string",
+              "required": true
+            },
+            "progress": {
+              "type": "integer",
+              "required": true
+            },
+            "OS-EXT-STS:power_state": {
+              "type": "integer",
+              "required": true
+            },
+            "config_drive": {
+              "type": "string",
+              "required": true
+            },
+            "metadata": {
+              "type": "object",
+              "required": true,
+              "additionalProperties": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

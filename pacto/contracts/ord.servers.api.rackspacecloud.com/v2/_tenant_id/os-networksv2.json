@@ -1,0 +1,46 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/v2/:tenant_id/os-networksv2"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://ord.servers.api.rackspacecloud.com/v2/:tenant_id/os-networksv2 with shasum ef5650d153090855ea761c121171df3bfec67c9d",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "networks": {
+          "type": "array",
+          "required": true,
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "required": true,
+            "properties": {
+              "cidr": {
+                "type": "string",
+                "required": false
+              },
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "label": {
+                "type": "string",
+                "required": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

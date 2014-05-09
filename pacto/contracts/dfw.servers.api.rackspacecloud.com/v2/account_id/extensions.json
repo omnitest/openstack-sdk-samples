@@ -1,0 +1,64 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "params": {
+    },
+    "path": "/v2/:account_id/extensions"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from vcr with shasum d0fe7c3680149b7ad092f0d8d22dcbf9b183acad",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "extensions": {
+          "type": "array",
+          "required": true,
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "required": true,
+            "properties": {
+              "updated": {
+                "type": "string",
+                "required": true
+              },
+              "name": {
+                "type": "string",
+                "required": true
+              },
+              "links": {
+                "type": "array",
+                "required": true,
+                "minItems": 0,
+                "uniqueItems": true,
+                "items": {
+                }
+              },
+              "namespace": {
+                "type": "string",
+                "required": true
+              },
+              "alias": {
+                "type": "string",
+                "required": true
+              },
+              "description": {
+                "type": "string",
+                "required": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/v2/:tenant_id/servers/detail"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://ord.servers.api.rackspacecloud.com/v2/:tenant_id/servers/detail with shasum 1c7341b036cda60e635ee836dd71c182f8f78712",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "servers": {
+          "type": "array",
+          "required": true,
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "required": true,
+            "properties": {
+              "status": {
+                "type": "string",
+                "required": true
+              },
+              "updated": {
+                "type": "string",
+                "required": true
+              },
+              "hostId": {
+                "type": "string",
+                "required": true
+              },
+              "addresses": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "public": {
+                    "type": "array",
+                    "required": true,
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "object",
+                      "required": true,
+                      "properties": {
+                        "version": {
+                          "type": "integer",
+                          "required": true
+                        },
+                        "addr": {
+                          "type": "string",
+                          "required": true
+                        }
+                      }
+                    }
+                  },
+                  "private": {
+                    "type": "array",
+                    "required": true,
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "object",
+                      "required": true,
+                      "properties": {
+                        "version": {
+                          "type": "integer",
+                          "required": true
+                        },
+                        "addr": {
+                          "type": "string",
+                          "required": true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "links": {
+                "type": "array",
+                "required": true,
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "rel": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
+                }
+              },
+              "key_name": {
+              },
+              "image": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "links": {
+                    "type": "array",
+                    "required": true,
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "object",
+                      "required": true,
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "required": true
+                        },
+                        "rel": {
+                          "type": "string",
+                          "required": true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "OS-EXT-STS:task_state": {
+              },
+              "OS-EXT-STS:vm_state": {
+                "type": "string",
+                "required": false
+              },
+              "flavor": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "links": {
+                    "type": "array",
+                    "required": true,
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "object",
+                      "required": true,
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "required": true
+                        },
+                        "rel": {
+                          "type": "string",
+                          "required": true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "id": {
+                "type": "string",
+                "required": true
+              },
+              "user_id": {
+                "type": "string",
+                "required": true
+              },
+              "name": {
+                "type": "string",
+                "required": true
+              },
+              "created": {
+                "type": "string",
+                "required": true
+              },
+              "tenant_id": {
+                "type": "string",
+                "required": true
+              },
+              "OS-DCF:diskConfig": {
+                "type": "string",
+                "required": false
+              },
+              "accessIPv4": {
+                "type": "string",
+                "required": true
+              },
+              "accessIPv6": {
+                "type": "string",
+                "required": true
+              },
+              "progress": {
+                "type": "integer",
+                "required": true
+              },
+              "OS-EXT-STS:power_state": {
+                "type": "integer",
+                "required": false
+              },
+              "config_drive": {
+                "type": "string",
+                "required": true
+              },
+              "metadata": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "params": {
+      "format": "json"
+    },
+    "path": "/v1/:mosso_id/"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept-Ranges": "bytes"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://storage101.ord1.clouddrive.com/v1/:mosso_id/?format=json with shasum f8f6461144643dda6fc335e09f96a5930008b9d9",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": true,
+        "properties": {
+          "count": {
+            "type": "integer",
+            "required": true
+          },
+          "bytes": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}

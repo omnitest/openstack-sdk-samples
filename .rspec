@@ -1,0 +1,8 @@
+--format MatrixFormatter::Formatters::JSONFormatter
+--out reports/matrix<%= ENV['TEST_ENV_NUMBER'].to_i %>.json
+--format MatrixFormatter::Formatters::HTMLFormatter
+--out reports/matrix.html
+--format html
+--out reports/rspec.html
+--format documentation
+--color

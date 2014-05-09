@@ -1,0 +1,114 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/v1.0/:tenant_id/loadbalancers"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://ord.loadbalancers.api.rackspacecloud.com/v1.0/:tenant_id/loadbalancers with shasum 20251c7e274236b680c1994d77dfc2e069ff1c21",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "loadBalancers": {
+          "type": "array",
+          "required": true,
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "required": true,
+            "properties": {
+              "name": {
+                "type": "string",
+                "required": true
+              },
+              "id": {
+                "type": "integer",
+                "required": true
+              },
+              "protocol": {
+                "type": "string",
+                "required": true
+              },
+              "port": {
+                "type": "integer",
+                "required": true
+              },
+              "algorithm": {
+                "type": "string",
+                "required": true
+              },
+              "status": {
+                "type": "string",
+                "required": true
+              },
+              "timeout": {
+                "type": "integer",
+                "required": true
+              },
+              "created": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "time": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              },
+              "virtualIps": {
+                "type": "array",
+                "required": true,
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "required": true,
+                  "properties": {
+                    "address": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "id": {
+                      "type": "integer",
+                      "required": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "required": true
+                    },
+                    "ipVersion": {
+                      "type": "string",
+                      "required": true
+                    }
+                  }
+                }
+              },
+              "updated": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "time": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              },
+              "nodeCount": {
+                "type": "integer",
+                "required": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

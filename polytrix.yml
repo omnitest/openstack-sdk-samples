@@ -1,0 +1,89 @@
+---
+  global_env:
+    RAX_USERNAME: <%= ENV['RAX_USERNAME'] %>
+    RAX_API_KEY: <%= ENV['RAX_API_KEY'] %>
+    # Enables Pacto integration
+    OS_AUTH_URL: http://identity.api.rackspacecloud.dev:9900
+    # Enables Mimic integration
+    # OS_AUTH_URL: http://localhost:8901
+  suites:
+    Cleanup:
+      env:
+          CONFIRM_DELETE: y
+          CREATE_KEYPAIR_NAME: my_test_keypair
+          UPLOAD_KEYPAIR_NAME: my_uploaded_keypair
+          SERVER_NAME: my_test_server
+          VOLUME_NAME: my_test_volume
+          ATTACHMENT_NAME: /dev/xvdb
+          REMOTE_DIRECTORY: automated_test_dir
+      samples:
+        - delete keypair
+        - detach volume
+        - delete server
+        - delete container
+    Identity:
+      env:
+        SECONDARY_USER: test_user
+        SECONDARY_EMAIL: test@example.com
+      samples:
+        - authenticate token
+        - add user
+        - list users
+        - reset api key
+        - delete user
+    Network:
+      env:
+        NETWORK_LABEL: test_network
+        SERVER_NAME: test_networked_server
+      samples:
+        - create network
+        - create networked server # re-use create server?
+        - delete server # basically a duplicate of delete server
+        - delete network
+    Compute:
+      env:
+        CONFIRM_DELETE: y
+        CREATE_KEYPAIR_NAME: my_test_keypair
+        UPLOAD_KEYPAIR_NAME: my_uploaded_keypair
+        SERVER_NAME: my_test_server
+        SERVER_SIZE: 1 GB Performance
+        SERVER_RESIZE: 2 GB Performance
+        VOLUME_NAME: my_test_volume
+        ATTACHMENT_NAME: /dev/xvdb
+      samples:
+        - create keypair
+        - create server
+        - attach volume
+        - detach volume
+        - delete server
+    Storage:
+      env:
+        REMOTE_DIRECTORY: automated_test_dir
+        LOCAL_DIRECTORY: tmp/storage
+        REMOTE_FILE: sample.txt
+        UPLOAD_DIRECTORY: fixtures/sample_site
+      samples:
+        - create container
+        - upload file
+        - upload directory
+        - change metadata
+        - get file
+        - delete container
+    Queues:
+      env:
+        QUEUE_NAME: test_queue
+        MSGS_TO_CLAIM: "5" # Env vars must be strings
+      samples:
+        - create queue
+        - add message
+        - claim messages
+        - delete queue
+    Load Balancers:
+      env:
+        LOAD_BALANCER_NAME: test_lb
+      samples:
+        - create load balancer
+        - secure load balancer
+        - throttle connections
+        - setup ssl
+        - delete load balancer

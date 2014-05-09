@@ -1,0 +1,63 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "post",
+    "params": {
+    },
+    "path": "/v2/:account_id/servers"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Location": "https://{region}.servers.api.rackspacecloud.com/v2/{account_id}/servers/{server_id}"
+    },
+    "status": 202,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from vcr with shasum a4f7a7725c144d64603518689321a46c51c8e68f",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "server": {
+          "type": "object",
+          "required": true,
+          "properties": {
+            "OS-DCF:diskConfig": {
+              "type": "string",
+              "required": true
+            },
+            "id": {
+              "type": "string",
+              "required": true
+            },
+            "links": {
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": true,
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "rel": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            },
+            "adminPass": {
+              "type": "string",
+              "required": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

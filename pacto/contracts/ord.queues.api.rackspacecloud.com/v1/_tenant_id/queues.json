@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/v1/:tenant_id/queues"
+  },
+  "response": {
+    "headers": {
+    },
+    "status": 204
+  }
+}

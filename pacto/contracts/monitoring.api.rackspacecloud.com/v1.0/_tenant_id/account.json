@@ -1,0 +1,39 @@
+{
+  "request": {
+    "headers": {
+      "Accept-Encoding": "gzip, deflate"
+    },
+    "method": "get",
+    "path": "/v1.0/:tenant_id/account"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json; charset=UTF-8",
+      "Vary": "Accept-Encoding",
+      "Content-Encoding": "gzip"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://monitoring.api.rackspacecloud.com/v1.0/:tenant_id/account with shasum 289752c74aff6826c35115a6393b6eb4e0bb553d",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "required": true
+        },
+        "metadata": {
+          "type": "object",
+          "required": true,
+          "properties": {
+          }
+        },
+        "webhook_token": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+}

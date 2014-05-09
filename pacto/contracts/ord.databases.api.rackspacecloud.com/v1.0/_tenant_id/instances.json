@@ -1,0 +1,30 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/v1.0/:tenant_id/instances"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://ord.databases.api.rackspacecloud.com/v1.0/:tenant_id/instances with shasum b6ddf7e003abfd1b01e6137cadf30d50ee00b5d2",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "instances": {
+          "type": "array",
+          "required": true,
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+          }
+        }
+      }
+    }
+  }
+}

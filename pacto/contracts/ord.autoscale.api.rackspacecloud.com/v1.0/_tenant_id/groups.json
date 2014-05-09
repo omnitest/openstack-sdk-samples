@@ -1,0 +1,38 @@
+{
+  "request": {
+    "headers": {
+    },
+    "method": "get",
+    "path": "/v1.0/:tenant_id/groups"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "body": {
+      "$schema": "http://json-schema.org/draft-03/schema#",
+      "description": "Generated from https://ord.autoscale.api.rackspacecloud.com/v1.0/:tenant_id/groups with shasum 3b9a4e76e4b1bd055860d0de1ded4f9d303a98dc",
+      "type": "object",
+      "required": true,
+      "properties": {
+        "groups_links": {
+          "type": "array",
+          "required": true,
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+          }
+        },
+        "groups": {
+          "type": "array",
+          "required": true,
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+          }
+        }
+      }
+    }
+  }
+}
