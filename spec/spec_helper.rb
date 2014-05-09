@@ -13,7 +13,7 @@ def infer_lang(sdk_name)
     'fog' => 'ruby',
     'gophercloud' => 'go',
     'jclouds' => 'java',
-    'openstack.net' => 'C#',
+    'openstack.net' => 'c', # should be c#, but see https://github.com/tripit/slate/issues/29
     'php-opencloud' => 'php',
     'pyrax' => 'python',
     'pkgcloud' => 'javascript'
