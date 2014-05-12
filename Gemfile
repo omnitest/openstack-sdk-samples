@@ -2,9 +2,13 @@
 source "https://rubygems.org"
 
 gem "rake"
+gem "dpl"
+# Pre-fetch fog for use by dpl
+gem "fog"
 gem "polytrix", :git => 'https://github.com/rackerlabs/polytrix'
 gem "pacto", :git => 'https://github.com/thoughtworks/pacto', :branch => 'uri_templates'
-gem "addressable", :git => 'https://github.com/sporkmonger/addressable.git', :branch => 'master'
+gem "addressable", '~> 2.3.6'
+# Should be released in WebMock 1.17.5 or 1.18.0
 gem "webmock", :git => 'https://github.com/bblimke/webmock', :branch => 'master'
 gem "goliath"
 gem "em-http-request"
