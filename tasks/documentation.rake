@@ -16,13 +16,11 @@ namespace :documentation do
       asset_generator.generate
 
       output = File.open('docs/source/index.html', 'w')
-      options = { view: 'doc-src/angular.html.slim', layout: 'default_layout.html.slim' }
+      options = { view: 'angular.html.slim', layout: 'default_layout.html.slim' }
       formatter = MatrixFormatter::Formatters::HTML5ReportWriter.new output, options
       formatter.parse_results Dir['reports/matrix*.json']
       formatter.write_report
       output.close
-
-      fail 'Combined results contain failures - check the reports' if formatter.has_failures?
     end
 
     desc 'Generate documentation with middleman'
@@ -42,7 +40,7 @@ namespace :documentation do
   desc 'Publish generated documentation to cloudfiles'
   task :publish do # => 'generate:all' do
     credentials = "--username=#{ENV['RAX_PUBLISH_USERNAME']} --api-key=#{ENV['RAX_PUBLISH_API_KEY']}"
-    target = '--region=ord --container=sdk_dashboard'
+    target = '--region=ord --container=drg_dashboard'
     command = "bundle exec dpl --provider=cloudfiles --skip_cleanup #{credentials} #{target}"
     # Need to fix (or stop using) AssetGenerator
     FileUtils.cp_r 'docs/assets', 'docs/build'

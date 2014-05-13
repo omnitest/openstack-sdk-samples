@@ -1,4 +1,3 @@
 #!/bin/bash
 set -e
-bundle exec rake clean bootstrap spec documentation:dashboard
-bundle exec rake publish:docs
+bundle exec rake clean bootstrap spec documentation:publish
