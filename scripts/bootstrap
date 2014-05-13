@@ -4,7 +4,6 @@ rbenv rehash
 bundle update
 virtualenv polytrix
 source polytrix/bin/activate
-pip install pygments
-npm install groc
 export PATH="$PATH:`pwd`/node_modules/.bin"
 bundle exec rake bootstrap
+cp -r doc-src docs/

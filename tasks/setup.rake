@@ -1,4 +1,4 @@
-NOT_SETUP = "You need to set RAX_USERNAME and RAX_API_KEY env vars in order to run tests"
+NOT_SETUP = 'You need to set RAX_USERNAME and RAX_API_KEY env vars in order to run tests'
 
 task :check_setup do
   fail NOT_SETUP unless ENV['RAX_USERNAME'] && ENV['RAX_API_KEY']
@@ -15,16 +15,17 @@ task :bootstrap do
   Bundler.with_clean_env do
     Dir['sdks/*'].each do |sdk_dir|
       Dir.chdir sdk_dir do
-        if is_windows?
-          system "PowerShell -NoProfile -ExecutionPolicy Bypass .\\scripts\\bootstrap"
+        if windows?
+          system 'PowerShell -NoProfile -ExecutionPolicy Bypass .\\scripts\\bootstrap'
         else
-          system "scripts/bootstrap"
+          system 'scripts/bootstrap'
         end
       end
     end
   end
+  FileUtils.cp_r 'doc-src/', 'docs'
 end
 
-def is_windows?
+def windows?
   RbConfig::CONFIG['host_os'] =~ /mswin(\d+)|mingw/i
 end
