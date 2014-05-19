@@ -29,6 +29,7 @@ Polytrix.implementors = Dir['sdks/*'].map{ |sdk|
 require 'polytrix/runners/middleware/pacto'
 Polytrix.configure do |c|
   c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}
+  c.default_doc_template = 'doc-src/source/_scenario.rst'
 end
 
 RSpec.configure do |c|
@@ -43,7 +44,7 @@ pacto_coverage = Hashie::Mash.new
 
 Polytrix.default_validator_callback = proc{ |challenge|
   result = challenge[:result]
-  expect(result.process.exitstatus).to eq(0)
+  expect(result.execution_result.exitstatus).to eq(0)
 
   # expected_services = begin
   #   challenge[:plugin_data]['pacto']['expected_services'] || []
