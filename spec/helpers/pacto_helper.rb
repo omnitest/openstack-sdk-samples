@@ -17,7 +17,7 @@ PACTO_SERVER = "http://identity.api.rackspacecloud.dev:#{pacto_port}" unless ENV
 RSpec.configure do |c|
   c.include Goliath::TestHelper
   c.before(:each)  { Pacto.clear! }
-  c.after(:each) { save_coverage }
+  # c.after(:each) { save_coverage }
 end
 
 def generate?

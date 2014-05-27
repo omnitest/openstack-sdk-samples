@@ -31,7 +31,7 @@ if options[:validate]
   #   host = File.basename host_dir
   #   Pacto.load_contracts(host_dir, "https://#{host}")
   # end
-  contracts = Pacto::Extensions::Loaders::URIMapLoader.load(File.absolute_path('pacto/rackspace_uri_map.yaml'))
+  contracts = Pacto.load_contracts File.absolute_path('pacto/rackspace_uri_map.yaml'), nil, :uri_map
 end
 
 if options[:live]

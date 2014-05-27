@@ -20,29 +20,34 @@ def infer_lang(sdk_name)
   }[sdk_name]
 end
 
-Polytrix.implementors = Dir['sdks/*'].map{ |sdk|
-  name = File.basename(sdk)
-  lang = infer_lang name
-  Polytrix::Implementor.new :name => name, :language => lang
-}
 
-require 'polytrix/runners/middleware/pacto'
+Dir['spec/polytrix/runners/middleware/*.rb'].each do |middleware|
+  file = middleware.gsub('spec/', '').gsub('.rb','')
+  require file
+end
+
 Polytrix.configure do |c|
+  c.test_manifest = 'polytrix.yml'
+  Dir['sdks/*'].each { |sdk|
+    name = File.basename(sdk)
+    lang = infer_lang name
+    c.implementor :name => name, :language => lang
+  }
+  # Mimic isn't really ready
+  # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
   c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}
-  c.default_doc_template = 'doc-src/source/_scenario.rst'
+  c.default_doc_template = 'doc-src/_scenario.rst'
 end
 
 RSpec.configure do |c|
   c.matrix_implementors = Polytrix.implementors.map(&:name)
-  c.treat_symbols_as_metadata_keys_with_true_values = true
-  c.include Polytrix::RSpec::Helper
 end
 
 # Will have a better system for this in the future
 pacto_expectations = YAML::load(File.read("pacto_expectations.yml"))
 pacto_coverage = Hashie::Mash.new
 
-Polytrix.default_validator_callback = proc{ |challenge|
+Polytrix.configuration.default_validator_callback = proc{ |challenge|
   result = challenge[:result]
   expect(result.execution_result.exitstatus).to eq(0)
 
