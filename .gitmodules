@@ -1,6 +1,3 @@
 [submodule "sdks/fog"]
 	path = sdks/fog
 	url = https://github.com/maxlinc/fog-samples
-[submodule "doc-src"]
-	path = doc-src
-	url = https://github.com/maxlinc/slate
