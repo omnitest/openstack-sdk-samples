@@ -1,7 +1,7 @@
-NOT_SETUP = 'You need to set RAX_USERNAME and RAX_API_KEY env vars in order to run tests'
+NO_CREDS    = 'You need to set RAX_USERNAME and RAX_API_KEY env vars in order to run tests'
 
 task :check_setup do
-  fail NOT_SETUP unless ENV['RAX_USERNAME'] && ENV['RAX_API_KEY']
+  fail NO_CREDS unless ENV['RAX_USERNAME'] && ENV['RAX_API_KEY']
 end
 
 desc 'Remove reports and other generated artifacts'
