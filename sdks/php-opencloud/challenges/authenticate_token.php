@@ -10,5 +10,5 @@ $credentials = array(
 
 $rackspace = new Rackspace($endpoint, $credentials);
 $rackspace->Authenticate();
-echo('Authenticated')
+echo("Authenticated\n")
 ?>

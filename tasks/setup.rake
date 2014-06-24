@@ -12,17 +12,7 @@ end
 
 desc 'Fetch dependencies for each SDK'
 task :bootstrap do
-  Bundler.with_clean_env do
-    Dir['sdks/*'].each do |sdk_dir|
-      Dir.chdir sdk_dir do
-        if windows?
-          system 'PowerShell -NoProfile -ExecutionPolicy Bypass .\\scripts\\bootstrap'
-        else
-          system 'scripts/bootstrap'
-        end
-      end
-    end
-  end
+  sh 'bundle exec polytrix bootstrap'
   FileUtils.cp_r 'doc-src/', 'docs'
 end
 

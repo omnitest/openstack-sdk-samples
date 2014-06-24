@@ -34,7 +34,7 @@ class Pacto::Extensions::Loaders::URIMapLoader < Pacto::Extensions::Loaders::Yam
     host = "https://#{server}"
     request_clause = Pacto::RequestClause.new({
       'host'   => host,
-      'method' => service_definition['method'],
+      'http_method' => service_definition['method'],
       'headers' => [], #not supporting this yet, probably needs conversion
       'path' => convert_template(service_definition['uriTemplate']),
       'schema' => service_definition['requestSchema'] || {}

@@ -1,6 +1,4 @@
 <% challenges.compact.each do |challenge| %>
 <% implementor = challenge.implementor %>
-.. code-block:: <%= implementor.language %>
-<%= File.read(challenge.source_file) %>
-
+<%= code_block challenge.source, implementor.language, :format => :rst %>
 <% end %>

@@ -15,7 +15,7 @@ namespace :documentation do
       asset_generator = MatrixFormatter::Assets::Generator.new asset_generator_options
       asset_generator.generate
 
-      output = File.open('docs/source/index.html', 'w')
+      output = File.open('docs/matrix.html', 'w')
       options = { view: 'angular.html.slim', layout: 'default_layout.html.slim' }
       formatter = MatrixFormatter::Formatters::HTML5ReportWriter.new output, options
       formatter.parse_results Dir['reports/matrix*.json']
