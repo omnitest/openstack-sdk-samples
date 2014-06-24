@@ -28,9 +28,7 @@ end
 Polytrix.configure do |c|
   c.test_manifest = 'polytrix_tests.yml'
   Dir['sdks/*'].each { |sdk|
-    name = File.basename(sdk)
-    lang = infer_lang name
-    c.implementor :name => name, :language => lang
+    c.implementor sdk
   }
   # Mimic isn't really ready
   # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}

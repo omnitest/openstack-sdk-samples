@@ -38,7 +38,7 @@ namespace :documentation do
   end
 
   desc 'Publish generated documentation to cloudfiles'
-  task :publish do # => 'generate:all' do
+  task :publish => 'generate:dashboard' do
     credentials = "--username=#{ENV['RAX_PUBLISH_USERNAME']} --api-key=#{ENV['RAX_PUBLISH_API_KEY']}"
     target = '--region=ord --container=drg_dashboard'
     command = "bundle exec dpl --provider=cloudfiles --skip_cleanup #{credentials} #{target}"
