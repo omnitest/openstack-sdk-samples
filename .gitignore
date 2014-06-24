@@ -4,3 +4,5 @@ docs/
 reports/
 pacto.log
 tmp/
+matrix.csv
+matrix.html
