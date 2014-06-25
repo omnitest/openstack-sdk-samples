@@ -26,15 +26,55 @@ namespace :confluence do
     updated_csv = CSV.open('matrix.csv.tmp', 'wb')
 
     last_product = nil
-    csv = CSV.foreach("matrix.csv", headers: :first_row) do |row|
+    CSV.foreach("matrix.csv", headers: :first_row, return_headers: true) do |row|
       product = row['Product'].strip
-      product = product.empty? ? last_product : product
-      row['Product'] = last_product = product
+      feature = row['Feature'].strip
+      next if feature.empty?
+      unless row.header_row?
+        row.each do |header, value|
+          if header == 'Product'
+            product = product.empty? ? last_product : product
+            row['Product'] = last_product = product
+          end
+
+          unless %w(Product Feature).include? header
+            done = value.strip =~ /\Adone\Z/i
+            value = done ? 'done' : ''
+            row[header] = value
+          end
+        end
+      end
+
       updated_csv << row
     end
     updated_csv.flush
     updated_csv.close
     FileUtils.move('matrix.csv.tmp', 'matrix.csv')
     puts 'Cleaned matrix.csv'
+  end
+
+  desc 'Convert to polytrix test results'
+  task :csv2polytrix do
+    manifest = Polytrix::Manifest.new
+
+    CSV.foreach("matrix.csv", headers: :first_row) do |row|
+      # WIP
+      product = row['Product']
+      feature = row['Feature']
+      print "Searching test manifest for product: #{product}, feature: #{feature}"
+      challenge = Polytrix.manifest.find_challenge(product, feature)
+
+      puts challenge.nil? ? '' : " - found!"
+      if challenge
+        row.each do |header, value|
+          next if %w(Product Feature).include? header
+
+          if value == 'done'
+            validation = Polytrix::Validation.new(validated_by: 'csv', result: 'passed')
+            puts "Adding validation for #{header}: #{validation.inspect}"
+          end
+        end
+      end
+    end
   end
 end
