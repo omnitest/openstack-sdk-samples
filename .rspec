@@ -8,5 +8,6 @@
 --out reports/matrix.html
 --format html
 --out reports/rspec.html
+--format RspecJunitFormatter --out reports/junit/rspec<%= ENV['TEST_ENV_NUMBER'].to_i %>.xml
 --format documentation
 --color
