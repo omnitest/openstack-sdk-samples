@@ -29,9 +29,11 @@ Polytrix.configure do |c|
   c.test_manifest = 'polytrix_tests.yml'
   Dir['sdks/*'].each { |sdk|
     next if sdk =~ /jclouds/
+    next if sdk =~ /php-opencloud/
     c.implementor sdk
   }
   c.implementor 'sdks/jclouds/rackspace'
+  c.implementor 'sdks/php-opencloud/samples'
   # Mimic isn't really ready
   # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
   c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}

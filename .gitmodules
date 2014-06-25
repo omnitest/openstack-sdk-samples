@@ -4,3 +4,6 @@
 [submodule "sdks/jclouds"]
 	path = sdks/jclouds
 	url = https://github.com/maxlinc/jclouds-examples
+[submodule "sdks/php-opencloud"]
+	path = sdks/php-opencloud
+	url = https://github.com/maxlinc/php-opencloud
