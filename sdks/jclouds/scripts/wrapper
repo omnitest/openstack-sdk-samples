@@ -1,7 +1,0 @@
-#!/bin/bash
-CHALLENGE_FILE=$1
-CHALLENGE=`basename $CHALLENGE_FILE .java`
-CLASS="org.jclouds.examples.rackspace.${CHALLENGE}"
-
-mvn -q compile
-mvn -q exec:java -Dexec.mainClass=$CLASS -e
