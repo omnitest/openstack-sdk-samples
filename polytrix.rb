@@ -18,7 +18,7 @@ Polytrix.configure do |c|
   c.implementor 'sdks/jclouds/rackspace'
   c.implementor 'sdks/openstack.net'
   c.implementor 'sdks/php-opencloud/samples'
-  c.implementor 'sdks/pkgcloud'
+  c.implementor 'sdks/pkgcloud/lib/providers/rackspace/'
   c.implementor 'sdks/pyrax'
 
   # Mimic isn't really ready

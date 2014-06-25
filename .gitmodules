@@ -10,3 +10,6 @@
 [submodule "sdks/gophercloud"]
 	path = sdks/gophercloud
 	url = https://github.com/maxlinc/gophercloud
+[submodule "sdks/pkgcloud"]
+	path = sdks/pkgcloud
+	url = https://github.com/pkgcloud/pkgcloud-integration-tests/
