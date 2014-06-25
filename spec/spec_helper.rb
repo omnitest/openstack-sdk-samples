@@ -8,7 +8,7 @@ end
 
 # Will have a better system for this in the future
 pacto_expectations = YAML::load(File.read("pacto_expectations.yml"))
-pacto_coverage = Hashie::Mash.new
+# pacto_coverage = Hashie::Mash.new
 
 Polytrix.configuration.default_validator_callback = proc{ |challenge|
   result = challenge[:result]
@@ -32,8 +32,8 @@ Polytrix.configuration.default_validator_callback = proc{ |challenge|
     # expect(detected_services).to include service
   end
 
-  pacto_coverage[challenge.name] ||= Hashie::Mash.new
-  pacto_coverage[challenge.name][example.description] = detected_services.uniq
+  # pacto_coverage[challenge.name] ||= Hashie::Mash.new
+  # pacto_coverage[challenge.name][example.description] = detected_services.uniq
 
-  File.open("reports/pacto_coverage.yml", 'wb') do |f| f.write YAML::dump pacto_coverage.to_hash end
+  # File.open("reports/pacto_coverage.yml", 'wb') do |f| f.write YAML::dump pacto_coverage.to_hash end
 }

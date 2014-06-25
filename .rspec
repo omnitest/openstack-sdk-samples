@@ -1,3 +1,5 @@
+--format Polytrix::RSpec::YAMLReport
+--out reports/test_report<%= ENV['TEST_ENV_NUMBER'].to_i %>.yaml
 --format Polytrix::RSpec::DocumentationFormatter
 --out /dev/null
 --format MatrixFormatter::Formatters::JSONFormatter
