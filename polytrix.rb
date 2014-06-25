@@ -28,8 +28,10 @@ end
 Polytrix.configure do |c|
   c.test_manifest = 'polytrix_tests.yml'
   Dir['sdks/*'].each { |sdk|
+    next if sdk =~ /jclouds/
     c.implementor sdk
   }
+  c.implementor 'sdks/jclouds/rackspace'
   # Mimic isn't really ready
   # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
   c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}

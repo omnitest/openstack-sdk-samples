@@ -1,3 +1,6 @@
 [submodule "sdks/fog"]
 	path = sdks/fog
 	url = https://github.com/maxlinc/fog-samples
+[submodule "sdks/jclouds"]
+	path = sdks/jclouds
+	url = https://github.com/maxlinc/jclouds-examples
