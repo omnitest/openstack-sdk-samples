@@ -1,9 +1,0 @@
-#!/bin/bash
-
-virtualenv pyrax_env
-source pyrax_env/bin/activate
-
-# Slow!
-pip -q install -r requirements.txt
-
-# pip -q install pyrax
