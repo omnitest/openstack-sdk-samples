@@ -19,7 +19,7 @@ Polytrix.configure do |c|
   c.implementor 'sdks/openstack.net'
   c.implementor 'sdks/php-opencloud/samples'
   c.implementor 'sdks/pkgcloud/lib/providers/rackspace/'
-  c.implementor 'sdks/pyrax'
+  c.implementor 'sdks/pyrax/samples'
 
   # Mimic isn't really ready
   # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}

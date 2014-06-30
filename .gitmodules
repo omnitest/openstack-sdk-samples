@@ -13,3 +13,6 @@
 [submodule "sdks/pkgcloud"]
 	path = sdks/pkgcloud
 	url = https://github.com/maxlinc/pkgcloud-integration-tests/
+[submodule "sdks/pyrax"]
+	path = sdks/pyrax
+	url = https://github.com/maxlinc/pyrax.git
