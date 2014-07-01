@@ -26,3 +26,8 @@ Polytrix.configure do |c|
   c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}
   c.default_doc_template = 'doc-src/_scenario.rst'
 end
+
+Polytrix.validate suite: 'Compute', sample: 'create server' do |challenge|
+  detected_services = challenge.plugin_data[:pacto][:detected_services]
+  expect(detected_services).to include 'Create Server'
+end
