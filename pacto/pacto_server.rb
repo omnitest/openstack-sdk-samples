@@ -83,6 +83,7 @@ class PactoServer < Goliath::API
     opts.on('-m', '--match-strict', 'Enforce strict request matching rules') { |val| options[:strict] = true }
     opts.on('-x', '--contracts_dir DIR', 'Directory that contains the contracts to be registered') { |val| options[:directory] = val }
     opts.on('-H', '--host HOST', 'Host of the real service, for generating or validating live requests') { |val| options[:backend_host] = val }
+    opts.on('--stenographer-log-file', 'Location for the stenographer log file') { |val| options[:stenographer_log_file] = val }
   end
 
   def on_headers(env, headers)

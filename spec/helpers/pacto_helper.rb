@@ -27,7 +27,7 @@ end
 def save_coverage
   data = YAML::load(File.read(COVERAGE_FILE)) if File.exists?(COVERAGE_FILE)
   data ||= {}
-  validations = Pacto::ValidationRegistry.instance.validations
-  data[example.full_description] = validations.reject{|v| v.contract.nil?}.map{|v| v.contract.name }
+  investigation = Pacto::InvestigationRegistry.instance.investigation
+  data[example.full_description] = investigation.reject{|v| v.contract.nil?}.map{|v| v.contract.name }
   File.open(COVERAGE_FILE, 'w') {|f| f.write data.to_yaml }
 end

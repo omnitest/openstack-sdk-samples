@@ -3,7 +3,7 @@ RSpec.configure do |c|
 end
 
 def auth_token
-  @auth_token ||= Pacto::ValidationRegistry.instance.validations.map do | val |
+  @auth_token ||= Pacto::InvestigationRegistry.instance.investigations.map do | val |
     token = val.request.headers['X-Auth-Token']
   end.compact.reject(&:empty?).first
 end
@@ -19,8 +19,8 @@ REDIRECTS = [201, 202, (300...400).to_a.flatten]
 
 def auto_find_prg
   # Find URLs that were the "Get" part of a Post-Redirect-Get pattern
-  created_uris = Pacto::ValidationRegistry.instance.validations.map {|validation|
-    validation.response.headers['Location'] if validation.request.method == :post and REDIRECTS.include? validation.response.status
+  created_uris = Pacto::InvestigationRegistry.instance.investigations.map {|investigation|
+    investigation.response.headers['Location'] if investigation.request.method == :post and REDIRECTS.include? investigation.response.status
   }.compact
 
   created_uris.map do | created_uri |
