@@ -4,7 +4,7 @@ require 'polytrix'
 require 'polytrix/rspec'
 require 'helpers/pacto_helper'
 require 'pacto/extensions/matchers'
-require 'pacto/extensions/loaders/simple_loader'
+require 'pacto/extensions/hint_loader'
 
 Dir['spec/polytrix/runners/middleware/*.rb'].each do |middleware|
   file = middleware.gsub('spec/', '').gsub('.rb','')
@@ -13,13 +13,13 @@ end
 
 Polytrix.configure do |c|
   c.test_manifest = 'polytrix_tests.yml'
-  c.implementor 'sdks/fog'
-  c.implementor 'sdks/gophercloud/acceptance'
-  c.implementor 'sdks/jclouds/rackspace'
-  c.implementor 'sdks/openstack.net'
-  c.implementor 'sdks/php-opencloud/samples'
-  c.implementor 'sdks/pkgcloud/lib/providers/rackspace/'
-  c.implementor 'sdks/pyrax/samples'
+  c.implementor name: 'fog', basedir: 'sdks/fog', git: { repo: 'https://github.com/maxlinc/fog-samples', to: 'sdks/fog' }
+  c.implementor name: 'gophercloud', basedir: 'sdks/gophercloud/acceptance', git: { repo: 'https://github.com/maxlinc/gophercloud', branch: 'polytrix', to: 'sdks/gophercloud' }
+  c.implementor name: 'jclouds', basedir: 'sdks/jclouds/rackspace', git: { repo: 'https://github.com/maxlinc/jclouds-examples', branch: 'polytrix', to: 'sdks/jclouds' }
+  c.implementor name: 'openstack.net', basedir: 'sdks/openstack.net' # Need git repo w/ samples
+  c.implementor name: 'php-opencloud', basedir: 'sdks/php-opencloud/samples', git: { repo: 'https://github.com/maxlinc/php-opencloud', branch: 'polytrix', to: 'sdks/php-opencloud' }
+  c.implementor name: 'pkgcloud', basedir: 'sdks/pkgcloud/lib/providers/rackspace/', git: { repo: 'https://github.com/maxlinc/pkgcloud-integration-tests/', branch: 'polytrix', to: 'sdks/pkgcloud' }
+  c.implementor name: 'pyrax', basedir: 'sdks/pyrax/samples', git: { repo: 'https://github.com/maxlinc/pyrax', branch: 'local_config_file', to: 'sdks/pyrax' }
 
   # Mimic isn't really ready
   # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
