@@ -1,0 +1,155 @@
+---
+# Provides a simple map of request patterns to service names,
+# so Pacto can do basic validation that services are called
+# and testing of services before a complete contract is available.
+hints:
+  Identity:
+    server: identity.api.rackspacecloud.com
+    services:
+      Authenticate:
+        http_method: post
+        path: /v2.0/tokens
+      Create User:
+        http_method: post
+        path: /v2.0/users
+      Delete User:
+        http_method: delete
+        path: /v2.0/users/​{userId}​
+  Cloud Servers:
+    server: "{region}.servers.api.rackspacecloud.com"
+    services:
+      List Servers:
+        http_method: get
+        path: /v2/{tenant_id}/servers/detail{?limit}
+      Create Server:
+        http_method: post
+        path: /v2/{tenant_id}/servers{?limit}
+      Delete Server:
+        http_method: delete
+        path: /v2/{tenant_id}/servers/{id}
+      Get Server Details:
+        http_method: get
+        path: /v2/{tenant_id}/servers/{id}
+      Attach Volume:
+        http_method: post
+        path: /v2/{tenant_id}/servers/{server_id}/os-volume_attachments{?limit}
+      Get Volume Attachments:
+        http_method: post
+        path: /v2/​{tenant_id}​/servers/​{server_id}​/os-volume_attachments
+      List Extensions:
+        http_method: get
+        path: /v2/{tenant_id}/extensions{?limit}
+      Get Image Details:
+        http_method: get
+        path: /v2/{tenant_id}/images/{image_id}
+      Get Flavor Details:
+        http_method: get
+        path: /v2/{tenant_id}/flavors/{flavor_id}
+      Get OS Keypairs:
+        http_method: get
+        path: /v2/​{tenant_id}​/os-keypairs
+  Cloud Files:
+    server: "{server}.{region}.clouddrive.com"
+    services:
+      List Containers:
+        http_method: get
+        path: /v1/{account}{?format,limit}
+      Get Object Metadata:
+        http_method: head
+        path: /v1/{account}/{container}/{object}{?format}
+  CDN:
+    server: cdn{cdn_num}.clouddrive.com
+    services:
+  Load Balancers:
+    server: "{region}.loadbalancers.api.rackspacecloud.com"
+    services:
+      Create:
+        http_method: post
+        path: /v1.0/​{tenant_id}​/loadbalancers
+      Add Node:
+        http_method: post
+        path: /v1.0/​{tenant_id}/loadbalancers/{loadBalancerId}/nodes
+      List Load Balancers:
+        http_method: get
+        path: /v1.0/{tenant_id}/loadbalancers{.format}{?limit}
+  Block Storage:
+    # Note that OpenStack docs currently have v2, Rackspace is v1
+    server: "{region}.blockstorage.api.rackspacecloud.com"
+    services:
+      Create Volume:
+        http_method: post
+        path: /v2/{tenant_id}/volumes
+      List Volumes:
+        http_method: get
+        path: /v2/{tenant_id}/volumes{?limit}
+  Cloud Database:
+    server: "{region}.databases.api.rackspacecloud.com"
+    services:
+      Create Instance:
+        http_method: post
+        path: /instances
+      Create Database:
+        http_method: post
+        path: /instances/{instanceId}/databases
+      List Instances:
+        http_method: get
+        path: /v1.0/{tenant_id}/instances{?limit}
+  DNS:
+    server: dns.api.rackspacecloud.com
+    services:
+      Create Domain:
+        http_method: post
+        path: /domains
+      Add Records:
+        http_method: post
+        path: /domains/{domainId}/records
+      List Domains:
+        http_method: get
+        path: /v1.0/{tenant_id}/domains{?limit}
+  Monitoring:
+    server: monitoring.api.rackspacecloud.com
+    services:
+  Backups:
+    # I wanted `{.region*}backup.api.rackspacecloud.com`, but Addressable/Template didn't
+    # handle it how I expected. `{region}{.product}.api.rackspacecloud.com` almost works,
+    # but if the region is omitted then backup is captured as "region", rather than "product".
+    # This works, but server will be "syd." instead of "syd".
+    server: "{server}backup.api.rackspacecloud.com"
+    services:
+      Create Backup Configuration:
+        http_method: post
+        path: /backup-configuration
+      Start or Stop a Backup Manually:
+        http_method: post
+        path: /backup/action-requested
+  Autoscale:
+    server: "{region}.autoscale.api.rackspacecloud.com"
+    services:
+      List Groups:
+        http_method: get
+        path: /v1.0/{tenant_id}/groups{?limit}
+  Cloud Queues:
+    server: "{server}.queues.api.rackspacecloud.com"
+    services:
+      List Queues:
+        http_method: get
+        path: /v1/{tenant_id}/queues{?limit}
+        responseStatusCode: 204
+  Cloud Networks:
+    server: "{region}.servers.api.rackspacecloud.com"
+    services:
+      List Networks:
+        http_method: get
+        path: /v2/{tenant_id}/os-networksv2{?limit}
+  Cloud Monitoring:
+    server: monitoring.api.rackspacecloud.com
+    services:
+      Get Account:
+        http_method: get
+        path: /v1.0/{tenant_id}/account
+# Need
+# Cloud Networks / List Networks
+# Load Balancers / List Load Balancers
+
+# Did not List Containers
+

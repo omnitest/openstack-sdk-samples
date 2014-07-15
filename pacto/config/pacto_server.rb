@@ -23,6 +23,7 @@ end
 
 if options[:generate]
   Pacto.generate!
+  Pacto::Extensions::HintLoader.new.hints_from_file 'pacto/hints.yaml'
   logger.info 'Pacto generation mode enabled'
 end
 
@@ -32,7 +33,7 @@ if options[:validate]
   #   host = File.basename host_dir
   #   Pacto.load_contracts(host_dir, "https://#{host}")
   # end
-  contracts = Pacto.load_contracts File.absolute_path('pacto/rackspace_uri_map.yaml'), nil, :uri_map
+  contracts = Pacto.load_contracts 'pacto/contracts', nil
 end
 
 if options[:live]
