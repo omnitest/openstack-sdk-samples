@@ -1,155 +1,1283 @@
 ---
-# Provides a simple map of request patterns to service names,
-# so Pacto can do basic validation that services are called
-# and testing of services before a complete contract is available.
 hints:
-  Identity:
-    server: identity.api.rackspacecloud.com
+  Auto Scale:
+    server: "{server}api.rackspacecloud.com"
     services:
-      Authenticate:
-        http_method: post
-        path: /v2.0/tokens
-      Create User:
-        http_method: post
-        path: /v2.0/users
-      Delete User:
-        http_method: delete
-        path: /v2.0/users/​{userId}​
-  Cloud Servers:
-    server: "{region}.servers.api.rackspacecloud.com"
+      List scaling groups:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups"
+      Create scaling group:
+        http_method: POST
+        path: "/v1.0/{tenantId}/groups"
+      Show scaling group details:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}"
+      Delete scaling group:
+        http_method: DELETE
+        path: "/v1.0/{tenantId}/groups/{groupId}"
+      Get scaling group state:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/state"
+      Pause group policy execution:
+        http_method: POST
+        path: "/v1.0/{tenantId}/groups/{groupId}/pause"
+      Resume group policy execution:
+        http_method: POST
+        path: "/v1.0/{tenantId}/groups/{groupId}/resume"
+      Show scaling group configuration:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/config"
+      Update scaling group configuration:
+        http_method: PUT
+        path: "/v1.0/{tenantId}/groups/{groupId}/config"
+      Show launch configuration:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/launch"
+      Update launch configuration:
+        http_method: PUT
+        path: "/v1.0/{tenantId}/groups/{groupId}/launch"
+      List policies:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies"
+      Create policy:
+        http_method: POST
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies"
+      Delete policy:
+        http_method: DELETE
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}"
+      Show policy details:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}"
+      Update policy:
+        http_method: PUT
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}"
+      Execute policy:
+        http_method: POST
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}/execute"
+      Execute anonymous webhook:
+        http_method: POST
+        path: "/v1.0/execute/{capability_version}/{capability_hash}"
+      List webhooks for the policy:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}/webhooks"
+      Create webhook:
+        http_method: POST
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}/webhooks"
+      Show webhook details:
+        http_method: GET
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}/webhooks/{webhookId}"
+      Update webhook:
+        http_method: PUT
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}/webhooks/{webhookId}"
+      Delete webhook:
+        http_method: DELETE
+        path: "/v1.0/{tenantId}/groups/{groupId}/policies/{policyId}/webhooks/{webhookId}"
+  Cloud Backup:
+    server: "{server}api.rackspacecloud.com"
     services:
-      List Servers:
-        http_method: get
-        path: /v2/{tenant_id}/servers/detail{?limit}
-      Create Server:
-        http_method: post
-        path: /v2/{tenant_id}/servers{?limit}
-      Delete Server:
-        http_method: delete
-        path: /v2/{tenant_id}/servers/{id}
-      Get Server Details:
-        http_method: get
-        path: /v2/{tenant_id}/servers/{id}
-      Attach Volume:
-        http_method: post
-        path: /v2/{tenant_id}/servers/{server_id}/os-volume_attachments{?limit}
-      Get Volume Attachments:
-        http_method: post
-        path: /v2/​{tenant_id}​/servers/​{server_id}​/os-volume_attachments
-      List Extensions:
-        http_method: get
-        path: /v2/{tenant_id}/extensions{?limit}
-      Get Image Details:
-        http_method: get
-        path: /v2/{tenant_id}/images/{image_id}
-      Get Flavor Details:
-        http_method: get
-        path: /v2/{tenant_id}/flavors/{flavor_id}
-      Get OS Keypairs:
-        http_method: get
-        path: /v2/​{tenant_id}​/os-keypairs
-  Cloud Files:
-    server: "{server}.{region}.clouddrive.com"
+      List agent details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/agent/{machineAgentId}"
+      Update agent backup behavior:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/agent/{machineAgentId}"
+      Enable or disable an agent:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/agent/enable"
+      Enable volume encryption:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/agent/encrypt"
+      Change encryption password:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/agent/changeencryption"
+      Delete agent:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/agent/delete"
+      Migrate vault:
+        http_method: PUT
+        path: "/v1.0/{tenant_id}/agent/migratevault"
+      List all agents for this user:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/user/agents"
+      Wake up agents:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/user/wakeupagents"
+      Create backup configuration:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/backup-configuration"
+      List all backup configurations for a user:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup-configuration"
+      Update backup configuration:
+        http_method: PUT
+        path: "/v1.0/{tenant_id}/backup-configuration/{backupConfigurationId}"
+      List backup configuration details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup-configuration/{backupConfigurationId}"
+      Delete a backup configuration:
+        http_method: DELETE
+        path: "/v1.0/{tenant_id}/backup-configuration/{backupConfigurationId}"
+      List all backup configurations for an agent:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup-configuration/system/{machineAgentId}"
+      Enable or disable a backup configuration:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/backup-configuration/enable/{backupConfigurationId}"
+      Start or stop a backup manually:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/backup/action-requested"
+      List backup details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup/{backupId}"
+      List completed backups:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup/completed/{backupConfigurationId}"
+      Get a backup report:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup/report/{backupId}"
+      Create a restore configuration:
+        http_method: PUT
+        path: "/v1.0/{tenant_id}/restore"
+      Update a restore configuration:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/restore"
+      Include or exclude a file in a restore configuration:
+        http_method: PUT
+        path: "/v1.0/{tenant_id}/restore/files"
+      List included or excluded files in a restore configuration:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/restore/files/{restoreId}"
+      Delete a restore configuration:
+        http_method: DELETE
+        path: "/v1.0/{tenant_id}/restore/files/{restoreId}"
+      List backups available for a restore:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/backup/availableforrestore"
+      Start or stop a restore manually:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/restore/action-requested"
+      List details about a restore:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/restore/{restoreId}"
+      Get restore report:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/restore/report/{restoreId}"
+      List activity for an agent:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/system/activity/{agentId}"
+      List activity for a user:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/activity"
+  Cloud Big Data:
+    server: "{server}api.rackspacecloud.com"
     services:
-      List Containers:
-        http_method: get
-        path: /v1/{account}{?format,limit}
-      Get Object Metadata:
-        http_method: head
-        path: /v1/{account}/{container}/{object}{?format}
-  CDN:
-    server: cdn{cdn_num}.clouddrive.com
+      Create or update profile:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/profile"
+      View profile information:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/profile"
+      Create cluster:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/clusters"
+      List all clusters:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/clusters"
+      Show cluster details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/clusters/{clusterId}"
+      Delete cluster:
+        http_method: DELETE
+        path: "/v1.0/{tenant_id}/clusters/{clusterId}"
+      Resize cluster:
+        http_method: POST
+        path: "/v1.0/{tenant_id}/clusters/{clusterId}/action"
+      List cluster nodes:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/clusters/{clusterId}/nodes"
+      Show node details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/clusters/{clusterId}/nodes/{nodeId}"
+      List available flavors:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/flavors"
+      Show flavor details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/flavors/{flavorId}"
+      List supported cluster types for a flavor:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/flavors/{flavorId}/types"
+      List cluster types:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/types"
+      Show cluster type details:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/types/{typeId}"
+      List supported flavors for a type:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/types/{typeId}/flavors"
+      Show resource limits:
+        http_method: GET
+        path: "/v1.0/{tenant_id}/limits"
+  Cloud Block Storage:
+    server: "{server}api.rackspacecloud.com"
     services:
-  Load Balancers:
-    server: "{region}.loadbalancers.api.rackspacecloud.com"
+      Create volume:
+        http_method: POST
+        path: "/v1/{tenant_id}/volumes"
+      List volumes:
+        http_method: GET
+        path: "/v1/{tenant_id}/volumes"
+      List volumes (detailed):
+        http_method: GET
+        path: "/v1/{tenant_id}/volumes/detail"
+      Show volume:
+        http_method: GET
+        path: "/v1/{tenant_id}/volumes/{volume_id}"
+      Update volume:
+        http_method: PUT
+        path: "/v1/{tenant_id}/volumes/{volume_id}"
+      Delete volume:
+        http_method: DELETE
+        path: "/v1/{tenant_id}/volumes/{volume_id}"
+      List volume types:
+        http_method: GET
+        path: "/v1/{tenant_id}/types"
+      Show volume type details:
+        http_method: GET
+        path: "/v1/{tenant_id}/types/{volume_type_id}"
+      Create snapshot:
+        http_method: POST
+        path: "/v1/{tenant_id}/snapshots"
+      List snapshots:
+        http_method: GET
+        path: "/v1/{tenant_id}/snapshots"
+      List snapshots (detailed):
+        http_method: GET
+        path: "/v1/{tenant_id}/snapshots/detail"
+      Show snapshot details:
+        http_method: GET
+        path: "/v1/{tenant_id}/snapshots/{snapshot_id}"
+      Update snapshot:
+        http_method: PUT
+        path: "/v1/{tenant_id}/snapshots/{snapshot_id}"
+      Delete snapshot:
+        http_method: DELETE
+        path: "/v1/{tenant_id}/snapshots/{snapshot_id}"
+  Cloud Databases:
+    server: "{server}api.rackspacecloud.com"
     services:
-      Create:
-        http_method: post
-        path: /v1.0/​{tenant_id}​/loadbalancers
-      Add Node:
-        http_method: post
-        path: /v1.0/​{tenant_id}/loadbalancers/{loadBalancerId}/nodes
-      List Load Balancers:
-        http_method: get
-        path: /v1.0/{tenant_id}/loadbalancers{.format}{?limit}
-  Block Storage:
-    # Note that OpenStack docs currently have v2, Rackspace is v1
-    server: "{region}.blockstorage.api.rackspacecloud.com"
-    services:
-      Create Volume:
-        http_method: post
-        path: /v2/{tenant_id}/volumes
-      List Volumes:
-        http_method: get
-        path: /v2/{tenant_id}/volumes{?limit}
-  Cloud Database:
-    server: "{region}.databases.api.rackspacecloud.com"
-    services:
-      Create Instance:
-        http_method: post
-        path: /instances
+      List Versions:
+        http_method: GET
+        path: "/"
+      List Version Details:
+        http_method: GET
+        path: "/{version}"
+      Create Database Instance:
+        http_method: POST
+        path: "/{version}/{accountId}/instances"
+      List All Database Instances:
+        http_method: GET
+        path: "/{version}/{accountId}/instances"
+      Restore Backup:
+        http_method: POST
+        path: "/{version}/{accountId}/instances"
+      Update Database Instance:
+        http_method: PUT
+        path: "/{version}/{accountId}/instances/{instanceId}"
+      List Database Instance Status and Details:
+        http_method: GET
+        path: "/mgmt/instances/{instanceId}"
+      Delete Database Instance:
+        http_method: DELETE
+        path: "/{version}/{accountId}/instances/{instanceId}"
+      Enable Root User:
+        http_method: POST
+        path: "/{version}/{accountId}/instances/{instanceId}/root"
+      List Root-Enabled Status:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/root"
+      Resize the Instance:
+        http_method: POST
+        path: "/{version}/{accountId}/instances/{instanceId}/action"
+      Resize the Instance Volume:
+        http_method: POST
+        path: "/{version}/{accountId}/instances/{instanceId}/action"
+      Restart Instance:
+        http_method: POST
+        path: "/{version}/{accountId}/instances/{instanceId}/action"
       Create Database:
-        http_method: post
-        path: /instances/{instanceId}/databases
-      List Instances:
-        http_method: get
-        path: /v1.0/{tenant_id}/instances{?limit}
-  DNS:
-    server: dns.api.rackspacecloud.com
+        http_method: POST
+        path: "/{version}/{accountId}/instances/{instanceId}/databases"
+      List Databases for Instance:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/databases"
+      Delete Database:
+        http_method: DELETE
+        path: "/{version}/{accountId}/instances/{instanceId}/databases/{databaseName}"
+      Create User:
+        http_method: POST
+        path: "/{version}/{accountId}/instances/{instanceId}/users"
+      List Users in Database Instance:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/users"
+      Change User(s) Password:
+        http_method: PUT
+        path: "/{version}/{accountId}/instances/{instanceId}/users"
+      Delete User:
+        http_method: DELETE
+        path: "/{version}/{accountId}/instances/{instanceId}/users/{name}"
+      List User:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/users/{name}"
+      Modify User Attributes:
+        http_method: PUT
+        path: "/{version}/{accountId}/instances/{instanceId}/users/{name}"
+      List User Access:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/users/{name}/databases"
+      Grant User Access:
+        http_method: PUT
+        path: "/{version}/{accountId}/instances/{instanceId}/users/{name}/databases"
+      Revoke User Access:
+        http_method: DELETE
+        path: "/{version}/{accountId}/instances/{instanceId}/users/{name}/databases/{databaseName}"
+      Get Default Configuration:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/configuration"
+      List Configurations:
+        http_method: GET
+        path: "/{version}/{accountId}/configurations"
+      Create Configuration:
+        http_method: POST
+        path: "/{version}/{accountId}/configurations"
+      List Configuration Details:
+        http_method: GET
+        path: "/{version}/{accountId}/configurations/{configId}"
+      Update Some Configuration Parameters:
+        http_method: PATCH
+        path: "/{version}/{accountId}/configurations/{configId}"
+      Replace All Configuration Parameters:
+        http_method: PUT
+        path: "/{version}/{accountId}/configurations/{configId}"
+      Delete Configuration Group:
+        http_method: DELETE
+        path: "/{version}/{accountId}/configurations/{configId}"
+      List Instances for Configuration:
+        http_method: GET
+        path: "/{version}/{accountId}/configurations/{configId}/instances"
+      List Flavors:
+        http_method: GET
+        path: "/{version}/{accountId}/flavors"
+      List Flavor By ID:
+        http_method: GET
+        path: "/{version}/{accountId}/flavors/{flavorId}"
+      Create Backup:
+        http_method: POST
+        path: "/{version}/{accountId}/backups"
+      List Backups:
+        http_method: GET
+        path: "/{version}/{accountId}/backups"
+      List Backup By ID:
+        http_method: GET
+        path: "/{version}/{accountId}/backups/{backupId}"
+      Delete Backup:
+        http_method: DELETE
+        path: "/{version}/{accountId}/backups/{backupId}"
+      List Backups for Instance:
+        http_method: GET
+        path: "/{version}/{accountId}/instances/{instanceId}/backups"
+      List All Datastore Types:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores"
+      List Configuration Parameters Without Datastore:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/versions/{versionId}/parameters"
+      List Configuration Parameter Details Without Datastore:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/versions/{versionId}/parameters/{parameterId}"
+      List Datastore Type:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/{datastoreId}"
+      List Datastore Versions For Datastore:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/{datastoreId}/versions"
+      List Datastore Version:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/{datastoreId}/versions/{versionId}"
+      List Configuration Parameters:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/{datastoreId}/versions/{versionId}/parameters"
+      List Configuration Parameter Details:
+        http_method: GET
+        path: "/{version}/{accountId}/datastores/{datastoreId}/versions/{versionId}/parameters/{parameterId}"
+      List Management Index of Instances:
+        http_method: GET
+        path: "/mgmt/instances"
+      Get Diagnostics Info:
+        http_method: GET
+        path: "/mgmt/instances/{instanceId}/diagnostics"
+      Get Root Details:
+        http_method: GET
+        path: "/mgmt/instances/{instanceId}/root"
+      Get Hardware Info:
+        http_method: GET
+        path: "/mgmt/instances/{instanceId}/hwinfo"
+      List All Compute Hosts:
+        http_method: GET
+        path: "/mgmt/hosts"
+      List All Instances for a Host:
+        http_method: GET
+        path: "/mgmt/hosts/{hostId}"
+      Update All Instances on Host:
+        http_method: POST
+        path: "/mgmt/hosts/{hostId}/instances/action"
+      Reboot the Instance:
+        http_method: POST
+        path: "/mgmt/instances/{instanceId}/action"
+      List Storage Device Details:
+        http_method: GET
+        path: "/mgmt/storage"
+      List All Active Accounts:
+        http_method: GET
+        path: "/mgmt/accounts"
+      List Account Details:
+        http_method: GET
+        path: "/mgmt/accounts/{accountId}"
+  Cloud DNS:
+    server: "{server}api.rackspacecloud.com"
     services:
-      Create Domain:
-        http_method: post
-        path: /domains
-      Add Records:
-        http_method: post
-        path: /domains/{domainId}/records
-      List Domains:
-        http_method: get
-        path: /v1.0/{tenant_id}/domains{?limit}
-  Monitoring:
-    server: monitoring.api.rackspacecloud.com
+      List limits:
+        http_method: GET
+        path: "/v1.0/{account}/limits"
+      Show limits:
+        http_method: GET
+        path: "/v1.0/{account}/limits/{type}"
+      List limit types:
+        http_method: GET
+        path: "/v1.0/{account}/limits/types"
+      List domains:
+        http_method: GET
+        path: "/v1.0/{account}/domains"
+      List domains by name:
+        http_method: GET
+        path: "/v1.0/{account}/domains"
+      Create domain:
+        http_method: POST
+        path: "/v1.0/{account}/domains"
+      Update domains:
+        http_method: PUT
+        path: "/v1.0/{account}/domains"
+      Delete domains:
+        http_method: DELETE
+        path: "/v1.0/{account}/domains"
+      Delete domains and subdomains:
+        http_method: DELETE
+        path: "/v1.0/{account}/domains"
+      List domain details without subdomains:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}"
+      Show domain:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}"
+      Update domain:
+        http_method: PUT
+        path: "/v1.0/{account}/domains/{domainId}"
+      Delete domain:
+        http_method: DELETE
+        path: "/v1.0/{account}/domains/{domainId}"
+      Delete domain and its subdomains:
+        http_method: DELETE
+        path: "/v1.0/{account}/domains/{domainId}"
+      Show domain changes:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}/changes"
+      Export domain:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}/export"
+      Clone domain:
+        http_method: POST
+        path: "/v1.0/{account}/domains/{domainId}/clone"
+      Import domain:
+        http_method: POST
+        path: "/v1.0/{account}/domains/import"
+      List subdomains:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}/subdomains"
+      List records:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}/records"
+      Search records:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}/records"
+      Add records:
+        http_method: POST
+        path: "/v1.0/{account}/domains/{domainId}/records"
+      Update records:
+        http_method: PUT
+        path: "/v1.0/{account}/domains/{domainId}/records"
+      Delete records:
+        http_method: DELETE
+        path: "/v1.0/{account}/domains/{domainId}/records"
+      Show record details:
+        http_method: GET
+        path: "/v1.0/{account}/domains/{domainId}/records/{recordId}"
+      Update record:
+        http_method: PUT
+        path: "/v1.0/{account}/domains/{domainId}/records/{recordId}"
+      Delete record:
+        http_method: DELETE
+        path: "/v1.0/{account}/domains/{domainId}/records/{recordId}"
+      Update PTR records:
+        http_method: PUT
+        path: "/v1.0/{account}/rdns"
+      Add PTR records:
+        http_method: POST
+        path: "/v1.0/{account}/rdns"
+      List PTR records:
+        http_method: GET
+        path: "/v1.0/{account}/rdns/{service-name}"
+      Delete PTR records:
+        http_method: DELETE
+        path: "/v1.0/{account}/rdns/{service-name}"
+      Show PTR record:
+        http_method: GET
+        path: "/v1.0/{account}/rdns/{service-name}/{recordId}"
+  Cloud Files:
+    server: "{server}api.rackspacecloud.com"
     services:
-  Backups:
-    # I wanted `{.region*}backup.api.rackspacecloud.com`, but Addressable/Template didn't
-    # handle it how I expected. `{region}{.product}.api.rackspacecloud.com` almost works,
-    # but if the region is omitted then backup is captured as "region", rather than "product".
-    # This works, but server will be "syd." instead of "syd".
-    server: "{server}backup.api.rackspacecloud.com"
+      Show account details and list containers:
+        http_method: GET
+        path: "/v1/{account}"
+      Create or update account metadata:
+        http_method: POST
+        path: "/v1/{account}"
+      Get account metadata:
+        http_method: HEAD
+        path: "/v1/{account}"
+      Delete account metadata:
+        http_method: POST
+        path: "/v1/{account}"
+      Show container details and list objects:
+        http_method: GET
+        path: "/v1/{account}/{container}"
+      Create container:
+        http_method: PUT
+        path: "/v1/{account}/{container}"
+      Delete container:
+        http_method: DELETE
+        path: "/v1/{account}/{container}"
+      Create or update container metadata:
+        http_method: POST
+        path: "/v1/{account}/{container}"
+      Show container metadata:
+        http_method: HEAD
+        path: "/v1/{account}/{container}"
+      Delete container metadata:
+        http_method: POST
+        path: "/v1/{account}/{container}"
+      Get object content and metadata:
+        http_method: GET
+        path: "/v1/{account}/{container}/{object}"
+      Create or update object:
+        http_method: PUT
+        path: "/v1/{account}/{container}/{object}"
+      Delete object:
+        http_method: DELETE
+        path: "/v1/{account}/{container}/{object}"
+      Copy object:
+        http_method: COPY
+        path: "/v1/{account}/{container}/{object}"
+      Show object metadata:
+        http_method: HEAD
+        path: "/v1/{account}/{container}/{object}"
+      Create or update object metadata:
+        http_method: POST
+        path: "/v1/{account}/{container}/{object}"
+      CDN-enable and CDN-disable a container:
+        http_method: PUT
+        path: "/v1/{account}/{container}"
+      List metadata for CDN-enabled container:
+        http_method: HEAD
+        path: "/v1/{account}/{container}"
+      Update CDN-enabled container metadata:
+        http_method: POST
+        path: "/v1/{account}/{container}"
+      Delete CDN-enabled object:
+        http_method: DELETE
+        path: "/v1/{account}/{object}"
+  Cloud Identity:
+    server: "{server}api.rackspacecloud.com"
     services:
-      Create Backup Configuration:
-        http_method: post
-        path: /backup-configuration
-      Start or Stop a Backup Manually:
-        http_method: post
-        path: /backup/action-requested
-  Autoscale:
-    server: "{region}.autoscale.api.rackspacecloud.com"
+      List Users:
+        http_method: GET
+        path: "/v2.0/users"
+      Get user information by ID:
+        http_method: GET
+        path: "/v2.0/users/{user_id}"
+      Add User:
+        http_method: POST
+        path: "/v2.0/users"
+      Update User:
+        http_method: PUT
+        path: "/v2.0/users/{userId}"
+      Delete User:
+        http_method: DELETE
+        path: "/v2.0/users/{userId}"
+      Get user credentials:
+        http_method: GET
+        path: "/v2.0/users/{userId}/OS-RAX-KSKEY/credentials/RAX-KSKEY:apiKeyCredentials"
+      Reset user API key:
+        http_method: POST
+        path: "/v2.0/users/{userId}/OS-KSADM/credentials/RAX-KSKEY:apiKeyCredentials/RAX-AUTH/reset"
+      Get role information by name:
+        http_method: GET
+        path: "/v2.0/OS-KSADM/roles"
+      List Roles:
+        http_method: GET
+        path: "/v2.0/OS-KSADM/roles/"
+      Get role information:
+        http_method: GET
+        path: "/v2.0/OS-KSADM/roles/{roleId}"
+      Delete Role:
+        http_method: DELETE
+        path: "/v2.0/OS-KSADM/roles/{roleId}"
+      Authenticate for Admin API:
+        http_method: POST
+        path: "/v2.0/tokens"
+      List tenants:
+        http_method: GET
+        path: "/v2.0/tenants"
+  Cloud Images:
+    server: "{server}api.rackspacecloud.com"
     services:
-      List Groups:
-        http_method: get
-        path: /v1.0/{tenant_id}/groups{?limit}
-  Cloud Queues:
-    server: "{server}.queues.api.rackspacecloud.com"
+      List images:
+        http_method: GET
+        path: "/images"
+      Get image details:
+        http_method: GET
+        path: "/images/{image_id}"
+      Update image:
+        http_method: PATCH
+        path: "/images/{image_id}"
+      Delete image:
+        http_method: DELETE
+        path: "/images/{image_id}"
+      Add image tag:
+        http_method: PUT
+        path: "/images/{image_id}/tags/{tag}"
+      Delete image tag:
+        http_method: DELETE
+        path: "/images/{image_id}/tags/{tag}"
+      Create image member:
+        http_method: POST
+        path: "/images/{image_id}/members"
+      List image members:
+        http_method: GET
+        path: "/images/{image_id}/members"
+      Task to import image:
+        http_method: POST
+        path: "/tasks"
+      Task to export image:
+        http_method: POST
+        path: "/tasks"
+      List tasks:
+        http_method: GET
+        path: "/tasks"
+      Get images schema:
+        http_method: GET
+        path: "/schemas/images"
+      Get image schema:
+        http_method: GET
+        path: "/schemas/image"
+      Get image members schema:
+        http_method: GET
+        path: "/schemas/members"
+      Get image member schema:
+        http_method: GET
+        path: "/schemas/member"
+      Get tasks schema:
+        http_method: GET
+        path: "/schemas/tasks"
+      Get task schema:
+        http_method: GET
+        path: "/schemas/task"
+  Cloud Load Balancers:
+    server: "{server}api.rackspacecloud.com"
     services:
-      List Queues:
-        http_method: get
-        path: /v1/{tenant_id}/queues{?limit}
-        responseStatusCode: 204
+      List load balancers:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers"
+      Create load balancer:
+        http_method: POST
+        path: "/v1.0/{account}/loadbalancers"
+      Bulk-delete load balancers:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers"
+      Show load balancer details:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}"
+      Update load balancer properties:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}"
+      Delete load balancer:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}"
+      Show custom error page:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/errorpage"
+      Set custom error page:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/errorpage"
+      Delete custom error page:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/errorpage"
+      Show load balancer statistics:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/stats"
+      List nodes:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes"
+      Add node:
+        http_method: POST
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes"
+      Bulk-delete nodes:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes"
+      Show node details:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes/{nodeId}"
+      Update node:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes/{nodeId}"
+      Delete node:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes/{nodeId}"
+      List node service events:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/nodes/events"
+      List virtual IPs:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/virtualips"
+      Add virtual IP version 6:
+        http_method: POST
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/virtualips"
+      Bulk-delete virtual IPs:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/virtualips"
+      Delete virtual IP:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/virtualips/{virtualIpId}"
+      Show account-level usage:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/usage"
+      Show current usage:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/usage/current"
+      List billable load balancers:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/billable"
+      Show access list:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/accesslist"
+      Create or update access list:
+        http_method: POST
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/accesslist"
+      Delete access list:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/accesslist"
+      Bulk-delete networks from access list:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/accesslist"
+      Show health monitor configuration:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/healthmonitor"
+      Update health monitor:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/healthmonitor"
+      Delete health monitor:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/healthmonitor"
+      Show session persistence configuration:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/sessionpersistence"
+      Enable session persistence:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/sessionpersistence"
+      Disable session persistence:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/sessionpersistence"
+      Show connection logging configuration:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/connectionlogging"
+      Enable or disable connection logging:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/connectionlogging"
+      Show connection throttling configuration:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/connectionthrottle"
+      Create or update connection throttling configuration:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/connectionthrottle"
+      Delete connection throttling configuration:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/connectionthrottle"
+      Show content caching configuration:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/contentcaching"
+      Enable content caching:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/contentcaching"
+      Show SSL termination configuration:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/ssltermination"
+      Update SSL termination configuration:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/ssltermination"
+      Delete SSL termination:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/ssltermination"
+      Add load balancer metadata:
+        http_method: POST
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/metadata"
+      Show load balancer metadata:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/metadata"
+      Bulk-delete load balancer metadata items:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/metadata"
+      Show load balancer metadata item:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/metadata/{metaId}"
+      Update load balancer metadata item:
+        http_method: PUT
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/metadata/{metaId}"
+      Delete load balancer metadata item:
+        http_method: DELETE
+        path: "/v1.0/{account}/loadbalancers/{loadBalancerId}/metadata/{metaId}"
+      List load balancing protocols:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/protocols"
+      List load balancing algorithms:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/algorithms"
+      List allowed domains:
+        http_method: GET
+        path: "/v1.0/{account}/loadbalancers/alloweddomains"
+  Cloud Monitoring:
+    server: "{server}api.rackspacecloud.com"
+    services: {}
   Cloud Networks:
-    server: "{region}.servers.api.rackspacecloud.com"
+    server: "{server}api.rackspacecloud.com"
+    services:
+      Create Network:
+        http_method: POST
+        path: "/v2.0/networks"
+      List Networks:
+        http_method: GET
+        path: "/v2.0/networks"
+      Bulk Create Networks:
+        http_method: POST
+        path: "/v2.0/networks"
+      List Subnets:
+        http_method: GET
+        path: "/v2/{tenant_id}/subnets"
+      Create Subnet:
+        http_method: POST
+        path: "/v2/{tenant_id}/subnets"
+      Bulk Create Subnet:
+        http_method: POST
+        path: "/v2/{tenant_id}/subnets"
+      Show Subnet:
+        http_method: GET
+        path: "/v2/{tenant_id}/subnets/{subnet_id}"
+      Update Subnet:
+        http_method: PUT
+        path: "/v2/{tenant_id}/subnets/{subnet_id}"
+      Delete Subnet:
+        http_method: DELETE
+        path: "/v2/{tenant_id}/subnets/{subnet_id}"
+      List Ports:
+        http_method: GET
+        path: "/v2.0/ports"
+      Create Port:
+        http_method: POST
+        path: "/v2.0/ports"
+      Bulk Create Ports:
+        http_method: POST
+        path: "/v2.0/ports"
+      Show Port:
+        http_method: GET
+        path: "/v2.0/ports/{port_id}"
+      Update Port:
+        http_method: PUT
+        path: "/v2.0/ports/{port_id}"
+      Delete Port:
+        http_method: DELETE
+        path: "/v2.0/ports/{port_id}"
+      List Routers:
+        http_method: GET
+        path: "/v2.0/routers"
+      Create Router:
+        http_method: POST
+        path: "/v2.0/routers"
+      Show Router Details:
+        http_method: GET
+        path: "/v2.0/routers/{router_id}"
+      Update Router:
+        http_method: PUT
+        path: "/v2.0/routers/{router_id}"
+      Delete Router:
+        http_method: DELETE
+        path: "/v2.0/routers/{router_id}"
+      Add Interface to Router:
+        http_method: PUT
+        path: "/v2.0/routers/{router_id}/add_router_interface"
+      Remove Interface from Router:
+        http_method: PUT
+        path: "/v2.0/routers/{router_id}/remove_router_interface"
+      List Security Groups:
+        http_method: GET
+        path: "/v2.0/security-groups"
+      Create Security Group:
+        http_method: POST
+        path: "/v2.0/security-groups"
+      Show Security Group:
+        http_method: GET
+        path: "/v2.0/security-groups/{security_group_id}"
+      Delete Security Group:
+        http_method: DELETE
+        path: "/v2.0/security-groups/{security_group_id}"
+      List Security Group Rules:
+        http_method: GET
+        path: "/v2.0/security-group-rules"
+      Create Security Group Rule:
+        http_method: POST
+        path: "/v2.0/security-group-rules"
+      Show Security Group Rule:
+        http_method: GET
+        path: "/v2.0/security-group-rules/{rules-security-groups-id}"
+      Delete Security Group Rule:
+        http_method: DELETE
+        path: "/v2.0/security-group-rules/{rules-security-groups-id}"
+      List Virtual Interfaces:
+        http_method: GET
+        path: "/servers/{instance_id}/os-virtual-interfacesv2"
+      Create Virtual Interface:
+        http_method: POST
+        path: "/servers/{instance_id}/os-virtual-interfacesv2"
+      Delete Virtual Interface:
+        http_method: DELETE
+        path: "/servers/{instance_id}/os-virtual-interfacesv2/{interface_id}"
+  Nova-network:
+    server: "{server}api.rackspacecloud.com"
     services:
       List Networks:
-        http_method: get
-        path: /v2/{tenant_id}/os-networksv2{?limit}
-  Cloud Monitoring:
-    server: monitoring.api.rackspacecloud.com
+        http_method: GET
+        path: "/os-networksv2"
+      Create Networks:
+        http_method: POST
+        path: "/os-networksv2"
+      Provision Servers and Attach Networks:
+        http_method: POST
+        path: "/servers"
+      Show Network:
+        http_method: GET
+        path: "/os-networksv2/{id}"
+      Delete Network:
+        http_method: DELETE
+        path: "/os-networksv2/{id}"
+  Orchestration:
+    server: "{server}api.rackspacecloud.com"
     services:
-      Get Account:
-        http_method: get
-        path: /v1.0/{tenant_id}/account
-# Need
-# Cloud Networks / List Networks
-# Load Balancers / List Load Balancers
-
-# Did not List Containers
-
+      Create stack:
+        http_method: POST
+        path: "/v1/{tenant_id}/stacks"
+      List stack data:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks"
+      Find stack:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}"
+      Get stack data:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}"
+      Update stack:
+        http_method: PUT
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}"
+      Delete stack:
+        http_method: DELETE
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}"
+      Stack action suspend:
+        http_method: POST
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/actions"
+      Stack action resume:
+        http_method: POST
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/actions"
+      Find stack resources:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/resources"
+      List resources:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources"
+      Get resource data:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}"
+      Get resource metadata:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/metadata"
+      List resource types:
+        http_method: GET
+        path: "/v1/{tenant_id}/resource_types"
+      Get resource schema:
+        http_method: GET
+        path: "/v1/{tenant_id}/resource_types/{type_name}"
+      Get resource template:
+        http_method: GET
+        path: "/v1/{tenant_id}/resource_types/{type_name}/template"
+      Find stack events:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/events"
+      List stack events:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/events"
+      List resource events:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/events"
+      Show event:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/events/{event_id}"
+      Get stack template:
+        http_method: GET
+        path: "/v1/{tenant_id}/stacks/{stack_name}/{stack_id}/template"
+      Validate template:
+        http_method: POST
+        path: "/v1/{tenant_id}/validate"
+  Cloud Queues:
+    server: "{server}api.rackspacecloud.com"
+    services:
+      Get home document:
+        http_method: GET
+        path: "/v1"
+      List queues:
+        http_method: GET
+        path: "/v1/queues"
+      Create queue:
+        http_method: PUT
+        path: "/v1/queues/{queue_name}"
+      Delete queue:
+        http_method: DELETE
+        path: "/v1/queues/{queue_name}"
+      Check queue existence:
+        http_method: GET
+        path: "/v1/queues/{queue_name}"
+      Set queue metadata:
+        http_method: PUT
+        path: "/v1/queues/{queue_name}/metadata"
+      Show queue metadata:
+        http_method: GET
+        path: "/v1/queues/{queue_name}/metadata"
+      Show queue stats:
+        http_method: GET
+        path: "/v1/queues/{queue_name}/stats"
+      Post message:
+        http_method: POST
+        path: "/v1/queues/{queue_name}/messages"
+      Get messages:
+        http_method: GET
+        path: "/v1/queues/{queue_name}/messages"
+      Get messages by ID:
+        http_method: GET
+        path: "/v1/queues/{queue_name}/messages"
+      Bulk-delete messages by ID:
+        http_method: DELETE
+        path: "/v1/queues/{queue_name}/messages"
+      Show message details:
+        http_method: GET
+        path: "/v1/queues/{queue_name}/messages/{messageId}"
+      Delete message:
+        http_method: DELETE
+        path: "/v1/queues/{queue_name}/messages/{messageId}"
+      Claim messages:
+        http_method: POST
+        path: "/v1/queues/{queue_name}/claims"
+      Query claim:
+        http_method: GET
+        path: "/v1/queues/{queue_name}/claims/{claimId}"
+      Update claim:
+        http_method: PATCH
+        path: "/v1/queues/{queue_name}/claims/{claimId}"
+      Release claim:
+        http_method: DELETE
+        path: "/v1/queues/{queue_name}/claims/{claimId}"
+  Cloud Servers:
+    server: "{server}api.rackspacecloud.com"
+    services:
+      Create server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers"
+      Show server information:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}"
+      Update server:
+        http_method: PUT
+        path: "/v2/{tenant_id}/servers/{server_id}"
+      Resize server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Rebuild server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      List servers:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers"
+      Get image information:
+        http_method: GET
+        path: "/v2/{tenant_id}/images/{image_id}"
+      List images:
+        http_method: GET
+        path: "/v2/{tenant_id}/images"
+      Show server extended status:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}"
+      List extended status for servers:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/detail"
+      Rescue server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Unrescue server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Get limits:
+        http_method: GET
+        path: "/v2/{tenant_id}/limits"
+      Get customer limits:
+        http_method: GET
+        path: "/v2/{tenant_id}/limits/{tenant_id}"
+      List flavor extra specs:
+        http_method: GET
+        path: "/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs"
+      Create flavor extra specs:
+        http_method: POST
+        path: "/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs"
+      Get flavor extra spec details:
+        http_method: GET
+        path: "/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs/{key_id}"
+      Delete flavor extra specs:
+        http_method: DELETE
+        path: "/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs/{key_id}"
+      List server actions:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/os-instance-actions"
+      Get action details:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/os-instance-actions/{action_id}"
+      Create server with configuration drive:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers"
+      Get server information with configuration drive:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}"
+      Get server details with configuration drive:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/detail"
+      List API versions:
+        http_method: GET
+        path: "/"
+      Show API version details:
+        http_method: GET
+        path: "/v2"
+      List extensions:
+        http_method: GET
+        path: "/v2/{tenant_id}/extensions"
+      Get extension:
+        http_method: GET
+        path: "/v2/{tenant_id}/extensions/{alias}"
+      List limits:
+        http_method: GET
+        path: "/v2/{tenant_id}/limits"
+      List details for servers:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/detail"
+      Get server details:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}"
+      Delete server:
+        http_method: DELETE
+        path: "/v2/{tenant_id}/servers/{server_id}"
+      Show server metadata:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/metadata"
+      Create or replace server metadata:
+        http_method: PUT
+        path: "/v2/{tenant_id}/servers/{server_id}/metadata"
+      Update server metadata items:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/metadata"
+      Show server metadata item details:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/metadata/{key}"
+      Create or update server metadata item:
+        http_method: PUT
+        path: "/v2/{tenant_id}/servers/{server_id}/metadata/{key}"
+      Delete server metadata item:
+        http_method: DELETE
+        path: "/v2/{tenant_id}/servers/{server_id}/metadata/{key}"
+      List addresses:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/ips"
+      List addresses by network:
+        http_method: GET
+        path: "/v2/{tenant_id}/servers/{server_id}/ips/{network_label}"
+      Change password:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Reboot server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Confirm resized server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Revert resized server:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      Create image:
+        http_method: POST
+        path: "/v2/{tenant_id}/servers/{server_id}/action"
+      List flavors:
+        http_method: GET
+        path: "/v2/{tenant_id}/flavors"
+      List details for flavors:
+        http_method: GET
+        path: "/v2/{tenant_id}/flavors/detail"
+      Get flavor details:
+        http_method: GET
+        path: "/v2/{tenant_id}/flavors/{flavor_id}"
+      List images details:
+        http_method: GET
+        path: "/v2/{tenant_id}/images/detail"
+      Get image details:
+        http_method: GET
+        path: "/v2/{tenant_id}/images/{image_id}"
+      Delete image:
+        http_method: DELETE
+        path: "/v2/{tenant_id}/images/{image_id}"
+      Show image metadata:
+        http_method: GET
+        path: "/v2/{tenant_id}/images/{image_id}/metadata"
+      Create or replace image metadata:
+        http_method: PUT
+        path: "/v2/{tenant_id}/images/{image_id}/metadata"
+      Update image metadata items:
+        http_method: POST
+        path: "/v2/{tenant_id}/images/{image_id}/metadata"
+      Show image metadata item details:
+        http_method: GET
+        path: "/v2/{tenant_id}/images/{image_id}/metadata/{key}"
+      Create or update image metadata item:
+        http_method: PUT
+        path: "/v2/{tenant_id}/images/{image_id}/metadata/{key}"
+      Delete image metadata item:
+        http_method: DELETE
+        path: "/v2/{tenant_id}/images/{image_id}/metadata/{key}"

@@ -35,13 +35,8 @@ class Pacto::Extensions::HintLoader
     Pacto::Generator.configuration.hint "#{group_name} :: #{service_name}", {
       host: host,
       http_method: hint_data['http_method'],
-      path: convert_template(hint_data['path']),
+      path: hint_data['path'],
       target_file: target_file
     }
-  end
-
-  def convert_template path
-    Addressable::Template.new(path) if path
-    # path.gsub(/{(\w+)}/, ':\1') if path
   end
 end
