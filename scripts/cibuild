@@ -1,3 +1,4 @@
 #!/bin/bash
 set -e
+bundle exec polytrix clone
 bundle exec rake clean bootstrap spec documentation:generate:dashboard
