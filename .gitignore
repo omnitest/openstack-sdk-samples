@@ -1,5 +1,7 @@
 Gemfile.lock
-/polytrix/
+sdks/
+.polytrix/
+polytrix_venv/
 docs/
 reports/
 pacto.log

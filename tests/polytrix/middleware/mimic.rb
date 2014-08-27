@@ -1,4 +1,4 @@
-require 'pacto_server'
+require 'pacto/pacto_server'
 require 'goliath/test_helper'
 
 module Polytrix

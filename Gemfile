@@ -11,5 +11,6 @@ gem "goliath"
 gem "em-http-request"
 #gem "pacto-server"
 gem 'pry'
-gem "matrix_formatter", :git => 'https://github.com/maxlinc/matrix_formatter', :branch => 'html5'
+# gem "matrix_formatter", :git => 'https://github.com/maxlinc/matrix_formatter', :branch => 'html5'
 gem "rspec_junit_formatter"
+gem "hashie", :git => "https://github.com/intridea/hashie"

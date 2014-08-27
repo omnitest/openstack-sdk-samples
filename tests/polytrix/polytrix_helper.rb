@@ -1,9 +1,25 @@
-require_relative File.expand_path('../../polytrix.rb', __FILE__)
-require 'matrix_formatter'
+$:.unshift File.expand_path('../../', File.dirname(__FILE__))
+require 'yaml'
+require 'polytrix'
+require 'helpers/pacto_helper'
+require 'pacto/extensions/matchers'
+require 'pacto/extensions/hint_loader'
 
-RSpec.configure do |c|
-  c.matrix_implementors = Polytrix.implementors.map(&:name)
-  c.expose_current_running_example_as :example
+Dir['tests/polytrix/middleware/*.rb'].each do |middleware|
+  file = middleware.gsub('tests/polytrix/', '').gsub('.rb','')
+  require file
+end
+
+Polytrix.configure do |c|
+  # Mimic isn't really ready
+  # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
+  c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}
+  c.default_doc_template = 'doc-src/_scenario.rst'
+end
+
+Polytrix.validate suite: 'Compute', sample: 'create server' do |challenge|
+  detected_services = challenge.plugin_data[:pacto][:detected_services]
+  expect(detected_services).to include 'Create Server'
 end
 
 # Will have a better system for this in the future

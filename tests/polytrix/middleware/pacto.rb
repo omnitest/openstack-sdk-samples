@@ -1,4 +1,4 @@
-require 'pacto_server'
+require 'pacto/pacto_server'
 require 'goliath/test_helper'
 
 module Polytrix
@@ -16,7 +16,7 @@ module Polytrix
 
         def call(env)
           # FIXME: Ideal (continued) and clear the Pacto investigation results before each test...
-          with_pacto stenographer_log_file: File.expand_path('pacto_stenographer.log', env['basedir']) do
+          with_pacto stenographer_log_file: File.expand_path('pacto_stenographer.log', env.basedir) do
             @app.call(env)
           end
           # Hacky - need better Pacto API

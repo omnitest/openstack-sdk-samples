@@ -1,6 +1,7 @@
+require 'polytrix_helper'
 require 'pacto'
 require 'pacto/rspec'
-require 'pacto_server'
+require 'pacto/pacto_server'
 require 'goliath/test_helper'
 
 def test_env_number
