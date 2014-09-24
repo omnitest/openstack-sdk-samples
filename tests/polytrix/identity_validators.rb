@@ -1,25 +1,8 @@
-$:.unshift File.expand_path('../../', File.dirname(__FILE__))
-require 'yaml'
 require 'polytrix'
-require 'helpers/pacto_helper'
-require 'pacto/extensions/matchers'
-require 'pacto/extensions/hint_loader'
 
-Dir['tests/polytrix/middleware/*.rb'].each do |middleware|
-  file = middleware.gsub('tests/polytrix/', '').gsub('.rb','')
-  require file
-end
-
-Polytrix.configure do |c|
-  # Mimic isn't really ready
-  # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
-  c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}
-  c.default_doc_template = 'doc-src/_scenario.rst'
-end
-
-Polytrix.validate 'Compute creates a server', suite: 'Compute', sample: 'create server' do |challenge|
+Polytrix.validate 'Identity Authenticate Token', suite: 'Identity', sample: 'authenticate token' do |challenge|
   detected_services = challenge.plugin_data[:pacto][:detected_services]
-  expect(detected_services).to include 'Create Server'
+  expect(detected_services).to include 'Cloud Identity :: Authenticate for Admin API'
 end
 
 # Will have a better system for this in the future
