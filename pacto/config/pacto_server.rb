@@ -33,7 +33,7 @@ if options[:validate]
   #   host = File.basename host_dir
   #   Pacto.load_contracts(host_dir, "https://#{host}")
   # end
-  contracts = Pacto.load_contracts 'pacto/contracts', nil
+  contracts = Pacto.load_contracts('pacto/swagger', nil, :swagger)
 end
 
 if options[:live]
