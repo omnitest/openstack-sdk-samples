@@ -39,4 +39,6 @@ end
 if options[:live]
 #  WebMock.reset!
   WebMock.allow_net_connect!
+else
+  contracts.stub_providers
 end
