@@ -1,3 +1,4 @@
+*.log
 Gemfile.lock
 sdks/
 .polytrix/
@@ -6,5 +7,7 @@ docs/
 reports/
 pacto.log
 tmp/
+wadls/
+pacto/swagger/
 matrix.csv
 matrix.html
