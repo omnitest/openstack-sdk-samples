@@ -3,22 +3,21 @@ require 'yaml'
 require 'polytrix'
 require 'helpers/pacto_helper'
 require 'pacto/extensions/matchers'
-require 'pacto/extensions/hint_loader'
 
-Dir['tests/polytrix/middleware/*.rb'].each do |middleware|
+Dir['tests/polytrix/spies/*.rb'].each do |middleware|
   file = middleware.gsub('tests/polytrix/', '').gsub('.rb','')
   require file
 end
 
 Polytrix.configure do |c|
   # Mimic isn't really ready
-  # c.middleware.insert 0, Polytrix::Runners::Middleware::Mimic, {}
-  c.middleware.insert 0, Polytrix::Runners::Middleware::Pacto, {}
+  # c.register_spy Polytrix::Spies::Mimic
+  c.register_spy Polytrix::Spies::Pacto
   c.default_doc_template = 'doc-src/_scenario.rst'
 end
 
 Polytrix.validate 'Compute creates a server', suite: 'Compute', sample: 'create server' do |challenge|
-  detected_services = challenge.plugin_data[:pacto][:detected_services]
+  detected_services = challenge.spy_data[:pacto][:detected_services]
   expect(detected_services).to include 'Create Server'
 end
 
@@ -31,14 +30,14 @@ Polytrix.configuration.default_validator_callback = proc{ |challenge|
   expect(result.execution_result.exitstatus).to eq(0)
 
   # expected_services = begin
-  #   challenge[:plugin_data]['pacto']['expected_services'] || []
+  #   challenge[:spy_data]['pacto']['expected_services'] || []
   # rescue
   #   []
   # end
   expected_services = pacto_expectations[challenge.name] || []
 
   detected_services = begin
-    challenge[:plugin_data]['pacto']['detected_services'] || []
+    challenge[:spy_data]['pacto']['detected_services'] || []
   rescue
     []
   end
