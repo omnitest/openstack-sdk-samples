@@ -1,3 +1,4 @@
+$: << Dir.pwd
 require_relative 'pacto/summary_report'
 require 'pacto/pacto_server'
 require 'goliath/test_helper'
