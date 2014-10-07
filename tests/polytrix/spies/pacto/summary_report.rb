@@ -40,7 +40,7 @@ module Polytrix
         end
       end
 
-      class SummaryReport < Thor::Group
+      class DashboardReport < Thor::Group
         include Polytrix::Core::FileSystemHelper
         include Thor::Actions
         include Reports::Helpers

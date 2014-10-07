@@ -7,7 +7,7 @@ module Polytrix
     class Pacto < Polytrix::Spy
       include Goliath::TestHelper
 
-      report :summary, SummaryReport
+      report :dashboard, DashboardReport
 
       def initialize(app, server_options)
         @app   = app
