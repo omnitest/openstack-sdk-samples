@@ -1,4 +1,5 @@
 #!/bin/bash
-set -e
+# set -e
 bundle exec polytrix test
-#bundle exec rake clean bootstrap spec documentation:generate:dashboard
+bundle exec polytrix report dashboard
+
