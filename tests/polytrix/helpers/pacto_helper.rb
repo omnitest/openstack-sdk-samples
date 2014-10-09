@@ -5,11 +5,11 @@ require 'pacto/pacto_server'
 require 'goliath/test_helper'
 
 def test_env_number
-  ENV['TEST_ENV_NUMBER'].to_i
+  (Thread.current[:test_env_number] || ENV['TEST_ENV_NUMBER']).to_i
 end
 
 def pacto_port
-  @pacto_port ||= 9900 + test_env_number
+  9900 + test_env_number
 end
 
 COVERAGE_FILE = "reports/api_coverage#{test_env_number}.yaml"

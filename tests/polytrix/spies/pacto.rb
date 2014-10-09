@@ -19,6 +19,7 @@ module Polytrix
         @time_to_stop = Celluloid::Condition.new
         @started = Celluloid::Condition.new
         @stopped = Celluloid::Condition.new
+        @server_options = server_options
         start_server
       end
 
@@ -30,7 +31,7 @@ module Polytrix
       def run_server
         Celluloid::Future.new {
           info "Server is starting..."
-          with_pacto do |uri| # stenographer_log_file: File.expand_path('pacto_stenographer.log', env.basedir) do
+          with_pacto(@server_options) do |uri| # stenographer_log_file: File.expand_path('pacto_stenographer.log', env.basedir) do
             info "Server started on #{uri}"
             @started.signal
             @time_to_stop.wait
@@ -55,7 +56,7 @@ module Polytrix
       def with_pacto(extra_opts = {})
         opts = default_opts.merge(extra_opts)
         result = nil
-        puts "Starting Pacto on port #{pacto_port}"
+        puts "Starting Pacto on port #{opts[:port]}"
         with_api(PactoServer, opts) do
           EM::Synchrony.defer do
             yield
@@ -84,18 +85,11 @@ module Polytrix
 
       def initialize(app, server_options)
         @app   = app
-        @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, server_options)
-
-        # FIXME: Ideal would be to start a Pacto server once
-        # @pacto_server = server(PactoServer, server_options.delete(:port) || 9901, server_options)
-        # puts "Started Pacto middleware on port #{@pacto_server.port}"
+        @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, {port: pacto_port})
       end
 
       def call(env)
-        # FIXME: Ideal (continued) and clear the Pacto investigation results before each test...
-        # with_pacto stenographer_log_file: File.expand_path('pacto_stenographer.log', env.basedir) do
-          @app.call(env)
-        # end
+        @app.call(env)
         # Hacky - need better Pacto API
         contracts = ::Pacto::InvestigationRegistry.instance.investigations.map(&:contract)
         ::Pacto::InvestigationRegistry.instance.investigations.clear
