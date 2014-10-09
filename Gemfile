@@ -15,3 +15,4 @@ gem "em-http-request"
 gem 'pry'
 gem "rspec_junit_formatter"
 gem "hashie", :git => "https://github.com/intridea/hashie"
+gem 'celluloid'
