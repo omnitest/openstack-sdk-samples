@@ -43,7 +43,7 @@
   global_env:
     RAX_USERNAME: <%= ENV['RAX_USERNAME'] %>
     RAX_API_KEY: <%= ENV['RAX_API_KEY'] %>
-    RAX_REGION: ORD
+    RAX_REGION: <%= ENV['RAX_REGION'] %>
     # Enables Pacto integration
     OS_AUTH_URL: http://identity.api.rackspacecloud.dev:9900
     # Enables Mimic integration
