@@ -19,8 +19,23 @@ module Polytrix
           end
 
           def results
+            rows = []
             contracts = ::Pacto.load_contracts('pacto/swagger', nil, :swagger)
-            results = []
+            services = {}
+            grouped_challenges = Polytrix.manifest.challenges.values.group_by(&:implementor)
+            Polytrix.implementors.each do |implementor|
+              services[implementor.name] = {}
+              grouped_challenges[implementor].each do |c|
+                begin
+                  c[:spy_data][:pacto][:detected_services].each do |s|
+                    services[implementor.name][s] ||= 0
+                    services[implementor.name][s] += 1
+                  end
+                rescue KeyError, NoMethodError
+                end
+              end
+            end
+
             # grouped_challenges = contracts.group_by { |contract| [challenge.suite, challenge.name] }
             # grouped_challenges.each do |(suite, name), challenges|
             contracts.each do |contract|
@@ -29,13 +44,12 @@ module Polytrix
                 product: product,
                 service: service
               }
-              # Polytrix.implementors.each do |implementor|
-              #   challenge = challenges.find { |c| c.implementor == implementor }
-              #   row[slug(implementor.name)] = status(challenge)
-              # end
-              results << row
+              Polytrix.implementors.each do |implementor|
+                row[slugify(implementor.name)] = services[implementor.name][contract.name]
+              end
+              rows << row
             end
-            results
+            rows
           end
         end
       end

@@ -31,8 +31,9 @@
 
         $scope.tableParams = new ngTableParams({
             page: 1,            // show first page
-            count: -1           // count per page
+            count: data.length  // count per page
         }, {
+            counts: [],
             groupBy: 'product',
             total: data.length,
             getData: function($defer, params) {
@@ -57,7 +58,7 @@
           {{results.service}}
         </td>
         <% implementors.each do |implementor| %>
-        <td data-title="'<%= implementor %>'" sortable="<%= implementor %>">
+        <td data-title="'<%= implementor %>'" ng-class="{'passed': results.<%= implementor %> > 0 }" sortable="<%= implementor %>">
           {{results.<%= implementor %>}}
         </td>
         <% end %>
@@ -65,19 +66,4 @@
     </tbody>
   </table>
 </body>
-<script type="text/javascript">
-  // var cells = document.getElementsByTagName('td');
-
-  // for (var i=0, len=cells.length; i<len; i++){
-  //     if (cells[i].innerText === 'failed'){
-  //         cells[i].className = 'failed';
-  //     }
-  //     else if (cells[i].innerText === 'verify'){
-  //         cells[i].className = 'passed';
-  //     }
-  //     else if (cells[i].innerText === 'pending'){
-  //         cells[i].className = 'pending';
-  //     }
-  // }
-</script>
 </html>
