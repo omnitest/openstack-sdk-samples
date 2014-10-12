@@ -83,7 +83,7 @@ module Polytrix
     class Pacto < Polytrix::Spy
       report :dashboard, DashboardReport
 
-      def initialize(app, server_options)
+      def initialize(app, server_options = {})
         @app   = app
         @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, {port: pacto_port})
       end
