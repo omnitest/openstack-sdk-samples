@@ -55,7 +55,7 @@ module Polytrix
       end
 
       class DashboardReport < Thor::Group
-        include Polytrix::Core::FileSystemHelper
+        include Polytrix::Util::FileSystem
         include Thor::Actions
         include Reports::Helpers
 
