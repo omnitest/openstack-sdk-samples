@@ -1,6 +1,7 @@
-RSpec.configure do |c|
-  c.after(:each) { auto_teardown }
-end
+# TODO: Polytrix teardown hooks
+# RSpec.configure do |c|
+#   c.after(:each) { auto_teardown }
+# end
 
 def auth_token
   @auth_token ||= Pacto::InvestigationRegistry.instance.investigations.map do | val |

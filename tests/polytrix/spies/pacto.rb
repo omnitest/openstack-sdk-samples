@@ -1,14 +1,14 @@
 $: << Dir.pwd
 require_relative 'pacto/dashboard_report'
-require 'pacto/pacto_server'
-require 'goliath/test_helper'
+require 'pacto/server'
+require 'pacto/test_helper'
 require 'celluloid/autostart'
 
 module Polytrix
   module Spies
     class PactoActor
       include Singleton
-      include Goliath::TestHelper
+      include ::Pacto::TestHelper
       include Celluloid
       include Celluloid::Logger
       include Celluloid::Notifications
@@ -31,51 +31,36 @@ module Polytrix
       def run_server
         Celluloid::Future.new {
           info "Server is starting..."
-          with_pacto(@server_options) do |uri| # stenographer_log_file: File.expand_path('pacto_stenographer.log', env.basedir) do
+          opts = default_opts.merge(@server_options)
+          with_pacto(opts) do |uri|
             info "Server started on #{uri}"
             @started.signal
             @time_to_stop.wait
             info "Stopping..."
           end
         }
-
-        # value = future.value
-        # @stopped.signal
-        # value
       end
 
       def stop_server
         info "Server is stopping..."
         @time_to_stop.signal
-        # @stopped.wait
-        # info "Server stopped"
       end
 
       private
-
-      def with_pacto(extra_opts = {})
-        opts = default_opts.merge(extra_opts)
-        result = nil
-        puts "Starting Pacto on port #{opts[:port]}"
-        with_api(PactoServer, opts) do
-          EM::Synchrony.defer do
-            yield
-          end
-        end
-        result
-      end
 
       def default_opts
         {
           stdout: true,
           log_file: 'pacto.log',
-          config: 'pacto/config/pacto_server.rb',
           live: true,
-          generate: generate?,
+          generlessate: generate?,
           verbose: true,
           validate: true,
-          directory: File.join(Dir.pwd, 'pacto', 'contracts'),
-          port: pacto_port
+          directory: File.join(Dir.pwd, 'pacto', 'swagger'),
+          format: 'swagger',
+          port: pacto_port,
+          strip_dev: true,
+          strip_port: true
         }
      end
     end
