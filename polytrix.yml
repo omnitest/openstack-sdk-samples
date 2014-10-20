@@ -7,7 +7,7 @@
       to: 'sdks/fog'
    gophercloud:
     basedir: 'sdks/gophercloud/acceptance'
-    git: 
+    git:
       repo: 'https://github.com/maxlinc/gophercloud'
       branch: 'polytrix'
       to: 'sdks/gophercloud'
@@ -45,7 +45,7 @@
     RAX_API_KEY: <%= ENV['RAX_API_KEY'] %>
     RAX_REGION: <%= ENV['RAX_REGION'] %>
     # Enables Pacto integration
-    OS_AUTH_URL: http://identity.api.rackspacecloud.dev:9900
+    OS_AUTH_URL: http://identity.api.rackspacecloud.dev:9900/v2.0
     # Enables Mimic integration
     # OS_AUTH_URL: http://localhost:8901
   suites:
