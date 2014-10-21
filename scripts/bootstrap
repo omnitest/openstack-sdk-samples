@@ -1,15 +1,30 @@
 #!/bin/bash
+
+# Make sure we have bundler, which is used to install the Ruby dependencies of the test framework
 gem install bundler --no-ri --no-rdoc
+
+# If using rbenv make sure the shims are update so `which bundle` is successful
 rbenv rehash
+
+# Install the test framework dependencies
 bundle update
+
+# Install wadl2swagger
 virtualenv polytrix_venv
 source polytrix_venv/bin/activate
 pip install --upgrade wadl2swagger
+
+# Fetch Swagger definition for all services
+# Fetch WADL files
 wadlcrawler http://api.rackspace.com/wadls/
-# Unfortunately cloud_monitoring.wadl isn't usable yet
-rm wadls/cloud_monitoring.wadl
+# Remove the WADL files we don't need
+rm wadls/email-apps-*.wadl # We're not testing mailgun
+rm wadls/cloud_monitoring.wadl # Unfortunately cloud_monitoring.wadl isn't usable yet
+# Convert the WADL files to Swagger
 wadl2swagger --autofix wadls/*.wadl --swagger-dir pacto/swagger/
-export PATH="$PATH:`pwd`/node_modules/.bin"
+
+# Fetch the code samples for each SDK
 bundle exec polytrix clone
+# Install the dependencies for each SDK
 bundle exec rake bootstrap
 cp -r doc-src docs/
