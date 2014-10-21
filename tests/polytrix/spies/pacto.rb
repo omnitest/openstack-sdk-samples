@@ -52,15 +52,18 @@ module Polytrix
         {
           stdout: true,
           log_file: 'pacto.log',
+          stub: false,
           live: true,
-          generlessate: generate?,
+          generate: generate?,
           verbose: true,
           validate: true,
           directory: File.join(Dir.pwd, 'pacto', 'swagger'),
           format: 'swagger',
           port: pacto_port,
           strip_dev: true,
-          strip_port: true
+          strip_port: true,
+          pacto_logger: Polytrix.logger,
+          pacto_log_level: :debug
         }
      end
     end
