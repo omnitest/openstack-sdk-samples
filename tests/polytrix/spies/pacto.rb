@@ -63,9 +63,13 @@ module Polytrix
           strip_dev: true,
           strip_port: true,
           pacto_logger: Polytrix.logger,
-          pacto_log_level: :debug
+          pacto_log_level: log_level
         }
      end
+
+      def log_level
+        ENV.fetch('PACTO_LOG_LEVEL', 'debug').downcase.to_sym
+      end
     end
 
     class Pacto < Polytrix::Spy

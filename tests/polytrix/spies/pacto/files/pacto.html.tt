@@ -29,12 +29,13 @@
     controller('DemoCtrl', function($scope, $filter, ngTableParams) {
         var data = <%= as_json(results) %>;
 
+        $scope.groupby = 'product'; // default
         $scope.tableParams = new ngTableParams({
-            page: 1,            // show first page
-            count: data.length  // count per page
+            page: 1,            // show one page
+            count: data.length  // show all data
         }, {
             counts: [],
-            groupBy: 'product',
+            groupBy: $scope.groupby,
             total: data.length,
             getData: function($defer, params) {
                 var orderedData = params.sorting() ?
@@ -44,8 +45,23 @@
                 $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }
         });
+
+        $scope.$watch('groupby', function(value){
+            $scope.tableParams.settings().groupBy = value;
+            $scope.tableParams.reload();
+        });
     })
   </script>
+  Group by:
+  <select ng-model="groupby">
+      <option value="product">Product</option>
+      <option value="service">Service</option>
+      <% implementors.each do |implementor| %>
+      <option value="<%= implementor%>"><%= implementor %></option>
+      <% end %>
+  </select>
+  <br>
+  Grouped by: <b>{{groupby}}</b>
   <table class="table" ng-table="tableParams">
     <tbody ng-repeat="group in $groups">
       <tr class="ng-table-group">
