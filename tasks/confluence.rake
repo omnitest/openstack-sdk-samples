@@ -1,6 +1,7 @@
 autoload :Nokogiri, 'nokogiri'
 autoload :CSV, 'csv'
 autoload :FileUtils, 'fileutils'
+require 'pacto'
 
 namespace :confluence do
   desc 'Generate a CSV file from the confluence wiki'
@@ -29,14 +30,11 @@ namespace :confluence do
     CSV.foreach("matrix.csv", headers: :first_row, return_headers: true) do |row|
       product = row['Product'].strip
       feature = row['Feature'].strip
+      product = product.empty? ? last_product : product
+      row['Product'] = last_product = product
       next if feature.empty?
       unless row.header_row?
         row.each do |header, value|
-          if header == 'Product'
-            product = product.empty? ? last_product : product
-            row['Product'] = last_product = product
-          end
-
           unless %w(Product Feature).include? header
             done = value.strip =~ /\Adone\Z/i
             value = done ? 'done' : ''
@@ -55,26 +53,32 @@ namespace :confluence do
 
   desc 'Convert to polytrix test results'
   task :csv2polytrix do
-    manifest = Polytrix::Manifest.new
-
+    supported = {}
+    contracts = Pacto.load_contracts('pacto/swagger', nil, :swagger)
     CSV.foreach("matrix.csv", headers: :first_row) do |row|
       # WIP
       product = row['Product']
       feature = row['Feature']
-      print "Searching test manifest for product: #{product}, feature: #{feature}"
-      challenge = Polytrix.manifest.find_challenge(product, feature)
+      next if feature.match(/\*|\^/) # these aren't services
+      print "Searching Pacto contracts for: #{product}, feature: #{feature}"
+      slugified_name = "#{product} - #{feature}"
+      contract = contracts.find { |c| c.name.downcase == slugified_name.downcase }
+      puts contract.nil? ? ' - not found...' : " - found!"
 
-      puts challenge.nil? ? '' : " - found!"
-      if challenge
+      if contract
         row.each do |header, value|
           next if %w(Product Feature).include? header
 
           if value == 'done'
-            validation = Polytrix::Validation.new(validated_by: 'csv', result: 'passed')
-            puts "Adding validation for #{header}: #{validation.inspect}"
+            supported[header] ||= {}
+            supported[header][contract.name] = 'Supported'
+            # supported[header][product] ||= {}
+            # supported[header][product][feature] = 'Supported'
           end
         end
       end
+
+      File.write('supported.yaml', YAML.dump(supported))
     end
   end
 end

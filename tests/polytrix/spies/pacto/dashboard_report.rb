@@ -20,16 +20,18 @@ module Polytrix
 
           def results
             rows = []
+            supported = YAML.load(File.read('supported.yaml'))
             contracts = ::Pacto.load_contracts('pacto/swagger', nil, :swagger)
-            services = {}
+            services = supported # start w/ claims of supported services
             grouped_challenges = Polytrix.manifest.challenges.values.group_by(&:implementor)
             Polytrix.implementors.each do |implementor|
-              services[implementor.name] = {}
+              services[implementor.name] ||= {}
               grouped_challenges[implementor].each do |c|
                 begin
                   c[:spy_data][:pacto][:detected_services].each do |s|
-                    services[implementor.name][s] ||= 0
-                    services[implementor.name][s] += 1
+                    services[implementor.name][s] = 'Tested'
+                    # services[implementor.name][s] ||= 0
+                    # services[implementor.name][s] += 1
                   end
                 rescue KeyError, NoMethodError
                 end

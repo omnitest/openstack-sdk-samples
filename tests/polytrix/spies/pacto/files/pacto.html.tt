@@ -1,24 +1,7 @@
 <html>
 <head>
   <link data-require="bootstrap-css@*" data-semver="3.0.0" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-        <!-- <link href="style.css" rel="stylesheet"> -->
-<style type="text/css">
-  td {
-    padding: 7px 10px;
-    vertical-align: top;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  .passed {
-      background-color: green;
-  }
-  .failed {
-      background-color: red;
-  }
-  .pending {
-      background-color: LightGrey;
-  }
-</style>
+  <link href="assets/style.css" rel="stylesheet" type="text/css">
 </head>
 <body ng-app="main" ng-controller="DemoCtrl">
   <script data-require="angular.js@*" data-semver="1.2.0-rc3-nonmin" src="http://code.angularjs.org/1.2.0-rc.3/angular.js"></script>
@@ -37,32 +20,28 @@
             counts: [],
             groupBy: $scope.groupby,
             total: data.length,
+            filter: {
+              service: ''       // initial filter
+            },
             getData: function($defer, params) {
+                var filteredData = params.filter() ?
+                    $filter('filter')(data, params.filter()) :
+                    data;
                 var orderedData = params.sorting() ?
-                        $filter('orderBy')(data, $scope.tableParams.orderBy()) :
-                        data;
+                    $filter('orderBy')(filteredData, params.orderBy()) :
+                    data;
 
+                params.total(orderedData.length);
                 $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }
         });
-
-        $scope.$watch('groupby', function(value){
-            $scope.tableParams.settings().groupBy = value;
-            $scope.tableParams.reload();
-        });
     })
   </script>
-  Group by:
-  <select ng-model="groupby">
-      <option value="product">Product</option>
-      <option value="service">Service</option>
-      <% implementors.each do |implementor| %>
-      <option value="<%= implementor%>"><%= implementor %></option>
-      <% end %>
-  </select>
-  <br>
-  Grouped by: <b>{{groupby}}</b>
-  <table class="table" ng-table="tableParams">
+  <button ng-click="tableParams.sorting({})" class="btn btn-default pull-right">Clear sorting</button>
+  <button ng-click="tableParams.filter({})" class="btn btn-default pull-right">Clear filter</button>
+  <p><strong>Sorting:</strong> {{tableParams.sorting()|json}}
+  <p><strong>Filter:</strong> {{tableParams.filter()|json}}
+  <table class="table" ng-table="tableParams" show-filter="true">
     <tbody ng-repeat="group in $groups">
       <tr class="ng-table-group">
         <td colspan="{{$columns.length}}">
@@ -70,16 +49,23 @@
         </td>
       </tr>
       <tr ng-hide="group.$hideRows" ng-repeat="results in group.data">
-        <td data-title="'Service'" sortable="service">
+        <td data-title="'Service'" sortable="service" filter="{ 'service': 'text' }">
           {{results.service}}
         </td>
         <% implementors.each do |implementor| %>
-        <td data-title="'<%= implementor %>'" ng-class="{'passed': results.<%= implementor %> > 0 }" sortable="<%= implementor %>">
+        <td data-title="'<%= implementor %>'" ng-class="{'passed': results.<%= implementor %>.length > 0 && results.<%= implementor %>.indexOf('Tested') != -1, 'partial': results.<%= implementor %>.length > 0 && results.<%= implementor %>.indexOf('Supported') != -1, 'failed': results.<%= implementor %>.length > 0 && results.<%= implementor %>.indexOf('Unsupported') != -1 }" sortable="<%= implementor %>" filter="{ '<%= implementor %>': 'implementor' }">
           {{results.<%= implementor %>}}
         </td>
         <% end %>
       </tr>
     </tbody>
   </table>
+  <script type="text/ng-template" id="ng-table/filters/implementor.html">
+    <select ng-model="params.filter()[name]" name="filter-implementor">
+      <option value="">None</option>
+      <option value="Supported">Supported</option>
+      <option value="Tested">Tested</option>
+    </select>
+  </script>
 </body>
 </html>
