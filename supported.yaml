@@ -1,0 +1,438 @@
+---
+fog:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - Unrescue server: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
+  Cloud Servers - Get flavor details: Supported
+  Cloud Servers - Show server metadata: Supported
+  Cloud Servers - Create or replace server metadata items: Supported
+  Cloud Servers - Update server metadata items: Supported
+  Cloud Servers - Delete server metadata item: Supported
+  Cloud Networks - Delete Network: Supported
+  Cloud Networks - List Networks: Supported
+  Cloud Files - Show account details and list containers: Supported
+  Cloud Files - Get account metadata: Supported
+  Cloud Files - Show container details and list objects: Supported
+  Cloud Files - Create container: Supported
+  Cloud Files - Delete container: Supported
+  Cloud Files - Get object content and metadata: Supported
+  Cloud Files - Copy object: Supported
+  Cloud Files - Delete object: Supported
+  Cloud Files - Show object metadata: Supported
+  Cloud Files - List CDN-enabled containers: Supported
+  Cloud Files - CDN-enable and CDN-disable a container: Supported
+  Cloud Files - List metadata for CDN-enabled container: Supported
+  Cloud Files - Update CDN-enabled container metadata: Supported
+  Cloud Files - Delete CDN-enabled object: Supported
+  Cloud Load Balancers - List load balancers: Supported
+  Cloud Load Balancers - Create load balancer: Supported
+  Cloud Load Balancers - Update load balancer properties: Supported
+  Cloud Load Balancers - Delete load balancer: Supported
+  Cloud Load Balancers - Show load balancer statistics: Supported
+  Cloud Load Balancers - List nodes: Supported
+  Cloud Load Balancers - Add node: Supported
+  Cloud Load Balancers - Update node: Supported
+  Cloud Load Balancers - Delete node: Supported
+  Cloud Load Balancers - List virtual IPs: Supported
+  Cloud Load Balancers - Delete virtual IP: Supported
+  Cloud Load Balancers - Show historical usage: Supported
+  Cloud Load Balancers - Create or update access list: Supported
+  Cloud Load Balancers - List load balancing protocols: Supported
+  Cloud Load Balancers - List load balancing algorithms: Supported
+  Cloud Load Balancers - Update SSL termination configuration: Supported
+  Cloud Databases - List all database instances: Supported
+  Cloud Databases - List database instance status and details: Supported
+  Cloud Databases - Delete database instance: Supported
+  Cloud Databases - Enable root user: Supported
+  Cloud Databases - List root-enabled status: Supported
+  Cloud Databases - Restart instance: Supported
+  Cloud Databases - Create database: Supported
+  Cloud Databases - List databases for instance: Supported
+  Cloud Databases - Delete database: Supported
+  Cloud Databases - Create user: Supported
+  Cloud Databases - List users in database instance: Supported
+  Cloud Databases - Delete user: Supported
+  Cloud Databases - List flavors: Supported
+  Cloud Databases - List flavor by ID: Supported
+  Cloud DNS - Show domain: Supported
+  Cloud DNS - Show domain changes: Supported
+  Cloud DNS - Export domain: Supported
+  Cloud DNS - Create domain: Supported
+  Cloud DNS - Import domain: Supported
+  Cloud DNS - List subdomains: Supported
+  Cloud DNS - Search records: Supported
+  Cloud DNS - Show record details: Supported
+  Cloud DNS - Add records: Supported
+  Cloud DNS - Update record: Supported
+  Cloud DNS - Delete records: Supported
+  Cloud Queues - List queues: Supported
+  Cloud Queues - Create queue: Supported
+  Cloud Queues - Delete queue: Supported
+  Cloud Queues - Check queue existence: Supported
+  Cloud Queues - Post message: Supported
+  Cloud Queues - Delete message: Supported
+  Cloud Queues - Claim messages: Supported
+  Cloud Queues - Query claim: Supported
+  Cloud Queues - Update claim: Supported
+  Cloud Queues - Release claim: Supported
+php-opencloud:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - Unrescue server: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
+  Cloud Servers - Get flavor details: Supported
+  Cloud Servers - Show server metadata: Supported
+  Cloud Servers - Create or replace server metadata items: Supported
+  Cloud Servers - Update server metadata items: Supported
+  Cloud Servers - Delete server metadata item: Supported
+  Cloud Networks - Delete Network: Supported
+  Cloud Networks - List Networks: Supported
+  Cloud Files - Show account details and list containers: Supported
+  Cloud Files - Get account metadata: Supported
+  Cloud Files - Show container details and list objects: Supported
+  Cloud Files - Create container: Supported
+  Cloud Files - Delete container: Supported
+  Cloud Files - Get object content and metadata: Supported
+  Cloud Files - Copy object: Supported
+  Cloud Files - Delete object: Supported
+  Cloud Files - Show object metadata: Supported
+  Cloud Files - List CDN-enabled containers: Supported
+  Cloud Files - CDN-enable and CDN-disable a container: Supported
+  Cloud Files - List metadata for CDN-enabled container: Supported
+  Cloud Files - Update CDN-enabled container metadata: Supported
+  Cloud Files - Delete CDN-enabled object: Supported
+  Cloud Load Balancers - List load balancers: Supported
+  Cloud Load Balancers - Create load balancer: Supported
+  Cloud Load Balancers - Update load balancer properties: Supported
+  Cloud Load Balancers - Delete load balancer: Supported
+  Cloud Load Balancers - Show load balancer statistics: Supported
+  Cloud Load Balancers - List nodes: Supported
+  Cloud Load Balancers - Add node: Supported
+  Cloud Load Balancers - Update node: Supported
+  Cloud Load Balancers - Delete node: Supported
+  Cloud Load Balancers - List virtual IPs: Supported
+  Cloud Load Balancers - List allowed domains: Supported
+  Cloud Load Balancers - Delete virtual IP: Supported
+  Cloud Load Balancers - Show historical usage: Supported
+  Cloud Load Balancers - Create or update access list: Supported
+  Cloud Load Balancers - List load balancing protocols: Supported
+  Cloud Load Balancers - List load balancing algorithms: Supported
+  Cloud Load Balancers - Update SSL termination configuration: Supported
+  Cloud Load Balancers - Show load balancer metadata: Supported
+  Cloud Load Balancers - Add load balancer metadata: Supported
+  Cloud Load Balancers - Update load balancer metadata item: Supported
+  Cloud Load Balancers - Delete load balancer metadata item: Supported
+  Cloud Databases - List all database instances: Supported
+  Cloud Databases - List database instance status and details: Supported
+  Cloud Databases - Delete database instance: Supported
+  Cloud Databases - Enable root user: Supported
+  Cloud Databases - List root-enabled status: Supported
+  Cloud Databases - Restart instance: Supported
+  Cloud Databases - Create database: Supported
+  Cloud Databases - List databases for instance: Supported
+  Cloud Databases - Delete database: Supported
+  Cloud Databases - Create user: Supported
+  Cloud Databases - List users in database instance: Supported
+  Cloud Databases - Delete user: Supported
+  Cloud Databases - List flavors: Supported
+  Cloud Databases - List flavor by ID: Supported
+  Cloud DNS - List limits: Supported
+  Cloud DNS - List limit types: Supported
+  Cloud DNS - Show limits: Supported
+  Cloud DNS - Show domain: Supported
+  Cloud DNS - Show domain changes: Supported
+  Cloud DNS - Export domain: Supported
+  Cloud DNS - Create domain: Supported
+  Cloud DNS - List subdomains: Supported
+  Cloud DNS - Search records: Supported
+  Cloud DNS - Show record details: Supported
+  Cloud DNS - Add records: Supported
+  Cloud DNS - Update record: Supported
+  Cloud DNS - Delete records: Supported
+  Cloud DNS - List PTR records: Supported
+  Cloud DNS - Add PTR records: Supported
+  Cloud DNS - Update PTR records: Supported
+  Cloud DNS - Delete PTR records: Supported
+jclouds:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
+  Cloud Servers - Get flavor details: Supported
+  Cloud Servers - Show server metadata: Supported
+  Cloud Servers - Create or replace server metadata items: Supported
+  Cloud Servers - Update server metadata items: Supported
+  Cloud Servers - Delete server metadata item: Supported
+  Cloud Files - Show account details and list containers: Supported
+  Cloud Files - Get account metadata: Supported
+  Cloud Files - Show container details and list objects: Supported
+  Cloud Files - Create container: Supported
+  Cloud Files - Delete container: Supported
+  Cloud Files - Get object content and metadata: Supported
+  Cloud Files - Copy object: Supported
+  Cloud Files - Delete object: Supported
+  Cloud Files - Show object metadata: Supported
+  Cloud Files - List CDN-enabled containers: Supported
+  Cloud Files - CDN-enable and CDN-disable a container: Supported
+  Cloud Files - List metadata for CDN-enabled container: Supported
+  Cloud Files - Update CDN-enabled container metadata: Supported
+  Cloud Files - Delete CDN-enabled object: Supported
+pyrax:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - Unrescue server: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
+  Cloud Servers - Get flavor details: Supported
+  Cloud Servers - Show server metadata: Supported
+  Cloud Servers - Create or replace server metadata items: Supported
+  Cloud Servers - Update server metadata items: Supported
+  Cloud Servers - Delete server metadata item: Supported
+  Cloud Networks - Delete Network: Supported
+  Cloud Networks - List Networks: Supported
+  Cloud Files - Show account details and list containers: Supported
+  Cloud Files - Get account metadata: Supported
+  Cloud Files - Show container details and list objects: Supported
+  Cloud Files - Create container: Supported
+  Cloud Files - Delete container: Supported
+  Cloud Files - Get object content and metadata: Supported
+  Cloud Files - Copy object: Supported
+  Cloud Files - Delete object: Supported
+  Cloud Files - Show object metadata: Supported
+  Cloud Files - List CDN-enabled containers: Supported
+  Cloud Files - CDN-enable and CDN-disable a container: Supported
+  Cloud Files - List metadata for CDN-enabled container: Supported
+  Cloud Files - Update CDN-enabled container metadata: Supported
+  Cloud Files - Delete CDN-enabled object: Supported
+  Cloud Load Balancers - List load balancers: Supported
+  Cloud Load Balancers - Create load balancer: Supported
+  Cloud Load Balancers - Update load balancer properties: Supported
+  Cloud Load Balancers - Delete load balancer: Supported
+  Cloud Load Balancers - Show load balancer statistics: Supported
+  Cloud Load Balancers - List nodes: Supported
+  Cloud Load Balancers - Add node: Supported
+  Cloud Load Balancers - Update node: Supported
+  Cloud Load Balancers - Delete node: Supported
+  Cloud Load Balancers - List virtual IPs: Supported
+  Cloud Load Balancers - List allowed domains: Supported
+  Cloud Load Balancers - Delete virtual IP: Supported
+  Cloud Load Balancers - Show historical usage: Supported
+  Cloud Load Balancers - Create or update access list: Supported
+  Cloud Load Balancers - List load balancing protocols: Supported
+  Cloud Load Balancers - List load balancing algorithms: Supported
+  Cloud Load Balancers - Update SSL termination configuration: Supported
+  Cloud Load Balancers - Show load balancer metadata: Supported
+  Cloud Load Balancers - Add load balancer metadata: Supported
+  Cloud Load Balancers - Update load balancer metadata item: Supported
+  Cloud Load Balancers - Delete load balancer metadata item: Supported
+  Cloud Databases - List all database instances: Supported
+  Cloud Databases - List database instance status and details: Supported
+  Cloud Databases - Delete database instance: Supported
+  Cloud Databases - Enable root user: Supported
+  Cloud Databases - Restart instance: Supported
+  Cloud Databases - Create database: Supported
+  Cloud Databases - List databases for instance: Supported
+  Cloud Databases - Delete database: Supported
+  Cloud Databases - Create user: Supported
+  Cloud Databases - List users in database instance: Supported
+  Cloud Databases - Delete user: Supported
+  Cloud Databases - Change user(s) password: Supported
+  Cloud Databases - List user access: Supported
+  Cloud Databases - Grant user access: Supported
+  Cloud Databases - Revoke user access: Supported
+  Cloud Databases - List flavors: Supported
+  Cloud Databases - List flavor by ID: Supported
+  Cloud Databases - Create backup: Supported
+  Cloud Databases - List backups: Supported
+  Cloud Databases - List backup by ID: Supported
+  Cloud Databases - Delete backup: Supported
+  Cloud Databases - List backups for instance: Supported
+  Cloud Databases - Restore backup: Supported
+  Cloud DNS - List limits: Supported
+  Cloud DNS - List limit types: Supported
+  Cloud DNS - Show limits: Supported
+  Cloud DNS - Show domain: Supported
+  Cloud DNS - Show domain changes: Supported
+  Cloud DNS - Export domain: Supported
+  Cloud DNS - Create domain: Supported
+  Cloud DNS - Import domain: Supported
+  Cloud DNS - List subdomains: Supported
+  Cloud DNS - Search records: Supported
+  Cloud DNS - Show record details: Supported
+  Cloud DNS - Add records: Supported
+  Cloud DNS - Update record: Supported
+  Cloud DNS - Delete records: Supported
+  Cloud DNS - List PTR records: Supported
+  Cloud DNS - Add PTR records: Supported
+  Cloud DNS - Update PTR records: Supported
+  Cloud DNS - Delete PTR records: Supported
+  Cloud Queues - Get home document: Supported
+  Cloud Queues - List queues: Supported
+  Cloud Queues - Create queue: Supported
+  Cloud Queues - Delete queue: Supported
+  Cloud Queues - Check queue existence: Supported
+  Cloud Queues - Set queue metadata: Supported
+  Cloud Queues - Post message: Supported
+  Cloud Queues - Delete message: Supported
+  Cloud Queues - Claim messages: Supported
+  Cloud Queues - Query claim: Supported
+  Cloud Queues - Update claim: Supported
+  Cloud Queues - Release claim: Supported
+pkgcloud:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
+  Cloud Servers - Get flavor details: Supported
+  Cloud Networks - Delete Network: Supported
+  Cloud Networks - List Networks: Supported
+  Cloud Files - Show account details and list containers: Supported
+  Cloud Files - Show container details and list objects: Supported
+  Cloud Files - Create container: Supported
+  Cloud Files - Delete container: Supported
+  Cloud Files - Get object content and metadata: Supported
+  Cloud Files - Delete object: Supported
+  Cloud Files - Show object metadata: Supported
+  Cloud Files - List CDN-enabled containers: Supported
+  Cloud Files - CDN-enable and CDN-disable a container: Supported
+  Cloud Files - List metadata for CDN-enabled container: Supported
+  Cloud Files - Update CDN-enabled container metadata: Supported
+  Cloud Files - Delete CDN-enabled object: Supported
+  Cloud Load Balancers - List load balancers: Supported
+  Cloud Load Balancers - Create load balancer: Supported
+  Cloud Load Balancers - Update load balancer properties: Supported
+  Cloud Load Balancers - Delete load balancer: Supported
+  Cloud Load Balancers - Show load balancer statistics: Supported
+  Cloud Load Balancers - List nodes: Supported
+  Cloud Load Balancers - Add node: Supported
+  Cloud Load Balancers - Update node: Supported
+  Cloud Load Balancers - Delete node: Supported
+  Cloud Load Balancers - List virtual IPs: Supported
+  Cloud Load Balancers - List allowed domains: Supported
+  Cloud Load Balancers - Delete virtual IP: Supported
+  Cloud Load Balancers - Show historical usage: Supported
+  Cloud Load Balancers - Create or update access list: Supported
+  Cloud Load Balancers - List load balancing protocols: Supported
+  Cloud Load Balancers - List load balancing algorithms: Supported
+  Cloud Load Balancers - Update SSL termination configuration: Supported
+  Cloud Databases - List all database instances: Supported
+  Cloud Databases - List database instance status and details: Supported
+  Cloud Databases - Delete database instance: Supported
+  Cloud DNS - Export domain: Supported
+  Cloud DNS - Create domain: Supported
+  Cloud DNS - Import domain: Supported
+  Cloud DNS - List subdomains: Supported
+  Cloud DNS - Search records: Supported
+  Cloud DNS - Show record details: Supported
+  Cloud DNS - Add records: Supported
+  Cloud DNS - Update record: Supported
+  Cloud DNS - Delete records: Supported
+openstack.net:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - Unrescue server: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
+  Cloud Servers - Get flavor details: Supported
+  Cloud Servers - Show server metadata: Supported
+  Cloud Servers - Create or replace server metadata items: Supported
+  Cloud Servers - Update server metadata items: Supported
+  Cloud Servers - Delete server metadata item: Supported
+  Cloud Networks - Delete Network: Supported
+  Cloud Networks - List Networks: Supported
+  Cloud Files - Show account details and list containers: Supported
+  Cloud Files - Get account metadata: Supported
+  Cloud Files - Show container details and list objects: Supported
+  Cloud Files - Create container: Supported
+  Cloud Files - Delete container: Supported
+  Cloud Files - Get object content and metadata: Supported
+  Cloud Files - Copy object: Supported
+  Cloud Files - Delete object: Supported
+  Cloud Files - Show object metadata: Supported
+  Cloud Files - List CDN-enabled containers: Supported
+  Cloud Files - CDN-enable and CDN-disable a container: Supported
+  Cloud Files - List metadata for CDN-enabled container: Supported
+  Cloud Files - Update CDN-enabled container metadata: Supported
+  Cloud Files - Delete CDN-enabled object: Supported
+gorax:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Unrescue server: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - List flavors: Supported
+gophercloud:
+  Cloud Servers - List servers: Supported
+  Cloud Servers - Create server: Supported
+  Cloud Servers - Get server details: Supported
+  Cloud Servers - Delete server: Supported
+  Cloud Servers - Update server: Supported
+  Cloud Servers - List addresses: Supported
+  Cloud Servers - List addresses by network: Supported
+  Cloud Servers - Rebuild server: Supported
+  Cloud Servers - Create image: Supported
+  Cloud Servers - Unrescue server: Supported
+  Cloud Servers - List images: Supported
+  Cloud Servers - Get image details: Supported
+  Cloud Servers - Delete image: Supported
+  Cloud Servers - List flavors: Supported
