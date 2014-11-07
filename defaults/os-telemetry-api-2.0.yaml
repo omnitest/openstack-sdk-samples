@@ -1,0 +1,8 @@
+---
+info:
+  title: Cloud Monitoring
+  version: unknown
+schemes:
+  - http
+  - https
+host: monitoring.api.rackspacecloud.com
