@@ -12,7 +12,6 @@ Polytrix.configure do |c|
   # Mimic isn't really ready
   # c.register_spy Polytrix::Spies::Mimic
   c.register_spy Polytrix::Spies::Pacto
-  c.default_doc_template = 'doc-src/_scenario.rst'
 end
 
 Polytrix.configuration.default_validator_callback = proc{ |challenge|
