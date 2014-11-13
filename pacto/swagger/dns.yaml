@@ -1,0 +1,1317 @@
+swagger: 2
+info:
+  title: Cloud DNS
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v1.0/{account}/rdns:
+    put:
+      operationId: updatePTRRecords
+      summary: Update PTR records
+      description: "Updates one or more PTR records\n            associated with a\
+        \ Rackspace Cloud device."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "recordsList" : {
+                  "records" : [ {
+                    "name" : "bar.example.com",
+                    "id" : "PTR-000000",
+                    "type" : "PTR",
+                    "data" : "192.0.2.6",
+                    "updated" : "2011-09-22T01:12:51.000+0000",
+                    "ttl" : 86500,
+                    "created" : "2011-06-24T01:12:51.000+0000"
+                  }, {
+                    "name" : "bar.example.com",
+                    "id" : "PTR-000001",
+                    "type" : "PTR",
+                    "data" : "2001:db8::6",
+                    "updated" : "2011-09-22T01:12:51.000+0000",
+                    "ttl" : 86500,
+                    "created" : "2011-06-24T01:12:51.000+0000"
+                  } ]
+                },
+                "link" : {
+                  "content" : "",
+                  "href" : "https://dfw.servers.api.rackspacecloud.com/v2/1234/servers/0987654321",
+                  "rel" : "cloudServersOpenStack"
+                }
+              }
+      parameters:
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name for the domain or
+                               subdomain. Must be a valid domain name. Can be
+                               modified.</p>
+                               </p>
+      - name: id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The unique ID of the
+                               record.</p>
+                               </p>
+      - name: type
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The record type as
+                            PTR.</p>
+                               </p>
+      - name: data
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The data field is required for
+                               PTR and TXT records only. For PTR records, the data
+          field must be a valid IPv4 or IPv6 IP
+                               address.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300. Defaults to 3600 if no TTL is
+                               specified.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+    post:
+      operationId: addPTRRecords
+      summary: Add PTR records
+      description: "Adds one or more PTR record records\n            for a specified\
+        \ Cloud device."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "recordsList" : {
+                  "records" : [ {
+                    "name" : "example.com",
+                    "id" : "PTR-000002",
+                    "type" : "PTR",
+                    "data" : "192.0.2.7",
+                    "updated" : "2011-09-24T01:12:51.000+0000",
+                    "ttl" : 56000,
+                    "created" : "2011-09-24T01:12:51.000+0000"
+                  }, {
+                    "name" : "example.com",
+                    "id" : "PTR-000003",
+                    "type" : "PTR",
+                    "data" : "2001:db8::7",
+                    "updated" : "2011-09-24T01:12:51.000+0000",
+                    "ttl" : 56000,
+                    "created" : "2011-09-24T01:12:51.000+0000"
+                  } ]
+                },
+                "link" : {
+                  "content" : "",
+                  "href" : "https://dfw.servers.api.rackspacecloud.com/v2/1234/servers/0987654321",
+                  "rel" : "cloudServersOpenStack"
+                }
+              }
+      parameters:
+      - name: type
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The record type as
+                                  <p>PTR</p>.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name for the domain or
+                               subdomain. Must be a valid domain
+                            name.</p>
+                               </p>
+      - name: data
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The data field for PTR records
+                               must be a valid IPv4 or IPv6 IP
+                            address.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300. Defaults to 3600 if no TTL is
+                               specified.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+  /v1.0/{account}/rdns/{service-name}:
+    get:
+      operationId: listPTRRecords
+      summary: List PTR records
+      description: "Lists all PTR records configured for a\n            specified\
+        \ Cloud device."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "recordsList" : {
+                  "records" : [ {
+                    "name" : "example.com",
+                    "id" : "PTR-000000",
+                    "type" : "PTR",
+                    "data" : "192.0.2.6",
+                    "updated" : "2011-06-24T01:12:51.000+0000",
+                    "ttl" : 56000,
+                    "created" : "2011-06-24T01:12:51.000+0000"
+                  }, {
+                    "name" : "example.com",
+                    "id" : "PTR-000001",
+                    "type" : "PTR",
+                    "data" : "2001:db8::6",
+                    "updated" : "2011-06-24T01:12:51.000+0000",
+                    "ttl" : 56000,
+                    "created" : "2011-06-24T01:12:51.000+0000"
+                  } ]
+                },
+                "link" : {
+                  "content" : "",
+                  "href" : "https://dfw.servers.api.rackspacecloud.com/v2/1234/servers/0987654321",
+                  "rel" : "cloudServersOpenStack"
+                }
+              }
+    delete:
+      operationId: deletePTRRecords
+      summary: Delete PTR records
+      description: "Deletes one or all PTR records\n            associated with a\
+        \ Rackspace Cloud device. Use the optional\n               "
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "status": "RUNNING",
+                "verb": "DELETE",
+                "jobId": "aad311e0-a465-4323-8d53-3d2f8ce5c372",
+                "callbackUrl": "https://dns.api.rackspacecloud.com/v1.0/440370/status/aad311e0-a465-4323-8d53-3d2f8ce5c372",
+                "requestUrl": "https://dns.api.rackspacecloud.com/v1.0/440370/rdns/cloudServers?href=https://dfw.servers.api.rackspacecloud.com/v1.0/440370/servers/264111"
+              }
+  /v1.0/{account}/rdns/{service-name}/{recordId}:
+    get:
+      operationId: showPTRRecord
+      summary: Show PTR record
+      description: "Shows details for a specified PTR\n            record associated\
+        \ with a specified Cloud device."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "recordsList" : {
+                  "records" : [ {
+                    "name" : "example.com",
+                    "id" : "PTR-000000",
+                    "type" : "PTR",
+                    "data" : "192.0.2.6",
+                    "updated" : "2011-06-24T01:12:51.000+0000",
+                    "ttl" : 56000,
+                    "created" : "2011-06-24T01:12:51.000+0000"
+                  } ]
+                },
+                "link" : {
+                  "content" : "",
+                  "href" : "https://dfw.servers.api.rackspacecloud.com/v2/1234/servers/0987654321",
+                  "rel" : "cloudServersOpenStack"
+                }
+              }
+  /v1.0/{account}/limits:
+    get:
+      operationId: listLimits
+      summary: List limits
+      description: Lists all applicable limits.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "rates" : {
+                  "rate" : [ {
+                    "uri" : "*/status/*",
+                    "limit" : [ {
+                      "value" : 5,
+                      "verb" : "GET",
+                      "unit" : "SECOND"
+                    } ],
+                    "regex" : ".*/v\\d+\\.\\d+/(\\d+/status).*"
+                  }, {
+                    "uri" : "*/domains*",
+                    "limit" : [ {
+                      "value" : 100,
+                      "verb" : "GET",
+                      "unit" : "MINUTE"
+                    }, {
+                      "value" : 25,
+                      "verb" : "POST",
+                      "unit" : "MINUTE"
+                    }, {
+                      "value" : 50,
+                      "verb" : "PUT",
+                      "unit" : "MINUTE"
+                    }, {
+                      "value" : 50,
+                      "verb" : "DELETE",
+                      "unit" : "MINUTE"
+                    } ],
+                    "regex" : ".*/v\\d+\\.\\d+/(\\d+/domains).*"
+                  } ]
+                },
+                "absolute" : {
+                  "limit" : [ {
+                    "name" : "domains",
+                    "value" : 500
+                  }, {
+                    "name" : "records per domain",
+                    "value" : 500
+                  } ]
+                }
+              }
+  /v1.0/{account}/limits/{type}:
+    get:
+      operationId: showLimits
+      summary: Show limits
+      description: "Shows assigned limits for a specified\n            type."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "rates" : {
+                  "rate" : [ {
+                    "uri" : "*/status/*",
+                    "limit" : [ {
+                      "value" : 5,
+                      "verb" : "GET",
+                      "unit" : "SECOND"
+                    } ],
+                    "regex" : ".*/v\\d+\\.\\d+/(\\d+/status).*"
+                  }, {
+                    "uri" : "*/domains*",
+                    "limit" : [ {
+                      "value" : 100,
+                      "verb" : "GET",
+                      "unit" : "MINUTE"
+                    }, {
+                      "value" : 25,
+                      "verb" : "POST",
+                      "unit" : "MINUTE"
+                    }, {
+                      "value" : 50,
+                      "verb" : "PUT",
+                      "unit" : "MINUTE"
+                    }, {
+                      "value" : 50,
+                      "verb" : "DELETE",
+                      "unit" : "MINUTE"
+                    } ],
+                    "regex" : ".*/v\\d+\\.\\d+/(\\d+/domains).*"
+                  } ]
+                }
+              }
+  /v1.0/{account}/limits/types:
+    get:
+      operationId: listLimitTypes
+      summary: List limit types
+      description: Lists the types of limits.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "limitTypes" : [ "RATE_LIMIT", "DOMAIN_LIMIT", "DOMAIN_RECORD_LIMIT" ]
+              }
+  /v1.0/{account}/domains:
+    get:
+      operationId: listDomainsbyName
+      summary: List domains by name
+      description: "Filters domains by domain name: list\n            all domains\
+        \ manageable by the account specified that "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "domains" : [ {
+                  "name" : "sub1.example.com",
+                  "id" : 2725257,
+                  "comment" : "1st sample subdomain",
+                  "updated" : "2011-06-23T03:09:34.000+0000",
+                  "emailAddress" : "sample@rackspace.com",
+                  "created" : "2011-06-23T03:09:33.000+0000"
+                } ],
+                "totalEntries" : 114
+              }
+    post:
+      operationId: createDomain
+      summary: Create domain
+      description: "Creates a domain with the\n            configuration defined by\
+        \ the request."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "domains" : [ {
+                  "name" : "example.com",
+                  "comment" : "Optional domain comment...",
+                  "nameservers" : [ {
+                    "name" : "dns1.stabletransit.com"
+                  }, {
+                    "name" : "dns2.stabletransit.com"
+                  } ],
+                  "recordsList" : {
+                    "records" : [ {
+                      "name" : "ftp.example.com",
+                      "type" : "A",
+                      "data" : "192.0.2.8",
+                      "ttl" : 5771
+                    }, {
+                      "name" : "example.com",
+                      "type" : "A",
+                      "data" : "192.0.2.17",
+                      "ttl" : 86400
+                    }, {
+                      "name" : "example.com",
+                      "type" : "NS",
+                      "data" : "dns1.stabletransit.com",
+                      "ttl" : 3600
+                    }, {
+                      "name" : "example.com",
+                      "type" : "NS",
+                      "data" : "dns2.stabletransit.com",
+                      "ttl" : 3600
+                    }, {
+                      "name" : "example.com",
+                      "priority" : 5,
+                      "type" : "MX",
+                      "data" : "mail.example.com",
+                      "ttl" : 3600
+                    }, {
+                      "name" : "www.example.com",
+                      "type" : "CNAME",
+                      "comment" : "This is a comment on the CNAME record",
+                      "data" : "example.com",
+                      "ttl" : 5400
+                    } ]
+                  },
+                  "subdomains" : {
+                    "domains" : [ {
+                      "name" : "sub1.example.com",
+                      "comment" : "1st sample subdomain",
+                      "emailAddress" : "sample@rackspace.com"
+                    }, {
+                      "name" : "sub2.example.com",
+                      "comment" : "1st sample subdomain",
+                      "emailAddress" : "sample@rackspace.com"
+                    }, {
+                      "name" : "north.example.com",
+                      "emailAddress" : "sample@rackspace.com"
+                    }, {
+                      "name" : "south.example.com",
+                      "comment" : "Final sample subdomain",
+                      "emailAddress" : "sample@rackspace.com"
+                    } ]
+                  },
+                  "ttl" : 3600,
+                  "emailAddress" : "sample@rackspace.com"
+                } ],
+                "totalEntries" : 114
+              }
+      parameters:
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name for the domain or
+                               subdomain. Must be a valid domain
+                            name.</p>
+                               </p>
+      - name: emailAddress
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>Email address to use for
+                               contacting the domain
+                            administrator.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300. The default value, if not specified,
+          is
+                                  <code>3600</code>.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+    put:
+      operationId: updateDomains
+      summary: Update domains
+      description: "Updates the configurations of multiple\n            domains."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+      parameters:
+      - name: id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>For modifying <strong>multiple</strong> domains,
+          the id for each
+                               domain must be specified as an attribute. Note
+                               that for modifying a single domain, the id is a
+                               required parameter at the end of the API call
+                               URI.</p>
+                               </p>
+      - name: emailAddress
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Email address to use for
+                               contacting the domain
+                            administrator.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+    delete:
+      operationId: deleteDomainsAndSubdomains
+      summary: Delete domains and subdomains
+      description: "Deletes multiple domains and their\n            subdomains from\
+        \ an account."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+  /v1.0/{account}/domains/{domainId}:
+    get:
+      operationId: showDomain
+      summary: Show domain
+      description: "Shows details for a specified domain.\n            Displays details,\
+        \ as specified by the "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "name" : "example.com",
+                "id" : 2725233,
+                "comment" : "Optional domain comment...",
+                "updated" : "2011-06-24T01:23:15.000+0000",
+                "nameservers" : [ {
+                  "name" : "dns1.stabletransit.com"
+                }, {
+                  "name" : "dns2.stabletransit.com"
+                } ],
+                "accountId" : 1234,
+                "ttl" : 3600,
+                "emailAddress" : "sample@rackspace.com",
+                "created" : "2011-06-24T01:12:51.000+0000"
+              }
+    put:
+      operationId: updateDomain
+      summary: Update domain
+      description: "Updates the configuration of a\n            domain."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+      parameters:
+      - name: id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>For modifying <strong>multiple</strong> domains,
+          the id for each
+                               domain must be specified as an attribute. Note
+                               that for modifying a single domain, the id is a
+                               required parameter at the end of the API call
+                               URI.</p>
+                               </p>
+      - name: emailAddress
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Email address to use for
+                               contacting the domain
+                            administrator.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+    delete:
+      operationId: deleteDomainAndSubdomains
+      summary: Delete domain and its subdomains
+      description: "Deletes a domain and its subdomains\n            from an account."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+  /v1.0/{account}/domains/{domainId}/changes:
+    get:
+      operationId: showDomainChanges
+      summary: Show domain changes
+      description: "Shows all changes to a specified\n            domain "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "from" : "2011-09-13T05:00:00.000+0000",
+                "to" : "2011-09-19T21:36:01.000+0000",
+                "totalEntries" : 4,
+                "changes" : [ {
+                  "domain" : "rs.example.com",
+                  "targetType" : "Domain",
+                  "action" : "update",
+                  "changeDetails" : [ {
+                    "field" : "serial_number",
+                    "newValue" : "1315930302",
+                    "originalValue" : "1315927395"
+                  }, {
+                    "field" : "updated_at",
+                    "newValue" : "Tue Sep 13 16:11:42 UTC 2011",
+                    "originalValue" : "Tue Sep 13 15:23:15 UTC 2011"
+                  } ],
+                  "accountId" : 1234,
+                  "targetId" : 45678
+                }, {
+                  "domain" : "rs.example.com",
+                  "targetType" : "MX Record",
+                  "action" : "create",
+                  "changeDetails" : [ {
+                    "field" : "created_at",
+                    "newValue" : "Tue Sep 13 16:11:42 UTC 2011",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "ttl",
+                    "newValue" : "3600",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "fqdn",
+                    "newValue" : "rs.example.com",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "updated_at",
+                    "newValue" : "Tue Sep 13 16:11:42 UTC 2011",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "destination",
+                    "newValue" : "mail.rs.example.com",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "priority",
+                    "newValue" : "1",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "id",
+                    "newValue" : "222222",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "zone_id",
+                    "newValue" : "45678",
+                    "originalValue" : ""
+                  } ],
+                  "targetId" : 222222
+                }, {
+                  "domain" : "rs.example.com",
+                  "targetType" : "Domain",
+                  "action" : "update",
+                  "changeDetails" : [ {
+                    "field" : "serial_number",
+                    "newValue" : "1315927395",
+                    "originalValue" : "1310656481"
+                  }, {
+                    "field" : "updated_at",
+                    "newValue" : "Tue Sep 13 15:23:15 UTC 2011",
+                    "originalValue" : "Thu Jul 14 15:14:41 UTC 2011"
+                  } ],
+                  "accountId" : 1234,
+                  "targetId" : 45678
+                }, {
+                  "domain" : "rs.example.com",
+                  "targetType" : "CNAME Record",
+                  "action" : "create",
+                  "changeDetails" : [ {
+                    "field" : "created_at",
+                    "newValue" : "Tue Sep 13 15:23:15 UTC 2011",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "ttl",
+                    "newValue" : "3600",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "fqdn",
+                    "newValue" : "*.rs.example.com",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "updated_at",
+                    "newValue" : "Tue Sep 13 15:23:15 UTC 2011",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "destination",
+                    "newValue" : "rs.example.com",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "id",
+                    "newValue" : "87654",
+                    "originalValue" : ""
+                  }, {
+                    "field" : "zone_id",
+                    "newValue" : "45678",
+                    "originalValue" : ""
+                  } ],
+                  "targetId" : 87654
+                } ]
+              }
+  /v1.0/{account}/domains/{domainId}/export:
+    get:
+      operationId: exportDomain
+      summary: Export domain
+      description: "Exports details for a specified\n            domain."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "id" : 2725339,
+                "contentType" : "BIND_9",
+                "contents" : "\n    \t\texample.net. 3600 IN SOA dns1.stabletransit.com.\n\t\t\tsample@rackspace.com. 1308874739 3600 3600 3600 3600\n\t\t\texample.net. 86400 IN A 110.11.12.16\n\t\t\texample.net. 3600 IN MX 5 mail2.example.net.\n\t\t\twww.example.net. 5400 IN CNAME example.net.\n\t\t\texample.net. 5600 IN NS dns1.stabletransit.com.\n\t\t\texample.net. 5600 IN NS dns2.stabletransit.com.\t\t\t\n\t\t",
+                "accountId" : 1234
+              }
+  /v1.0/{account}/domains/{domainId}/clone:
+    post:
+      operationId: cloneDomain
+      summary: Clone domain
+      description: Clones a domain.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "status" : "RUNNING",
+                "verb" : "POST",
+                "jobId" : "52179628-6df6-46a0-bdb3-078769cd0e9d",
+                "callbackUrl" : "https://dns.api.rackspacecloud.com/v1.0/1234/status/52179628-6df6-46a0-bdb3-078769cd0e9d",
+                "requestUrl" : "https://dns.api.rackspacecloud.com/v1.0/1234/domains/3586209/clone?cloneName=clone1.com"
+              }
+  /v1.0/{account}/domains/{domainId}/subdomains:
+    get:
+      operationId: listSubdomains
+      summary: List subdomains
+      description: 'Lists '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "domains" : [ {
+                  "name" : "sub1.example.com",
+                  "id" : 2725257,
+                  "comment" : "1st sample subdomain",
+                  "updated" : "2011-06-23T03:09:34.000+0000",
+                  "emailAddress" : "sample@rackspace.com",
+                  "created" : "2011-06-23T03:09:33.000+0000"
+                }, {
+                  "name" : "sub2.example.com",
+                  "id" : 2725258,
+                  "comment" : "1st sample subdomain",
+                  "updated" : "2011-06-23T03:52:55.000+0000",
+                  "emailAddress" : "sample@rackspace.com",
+                  "created" : "2011-06-23T03:52:55.000+0000"
+                }, {
+                  "name" : "north.example.com",
+                  "id" : 2725260,
+                  "updated" : "2011-06-23T03:53:10.000+0000",
+                  "emailAddress" : "sample@rackspace.com",
+                  "created" : "2011-06-23T03:53:09.000+0000"
+                }, {
+                  "name" : "south.example.com",
+                  "id" : 2725261,
+                  "comment" : "Final sample subdomain",
+                  "updated" : "2011-06-23T03:53:14.000+0000",
+                  "emailAddress" : "sample@rackspace.com",
+                  "created" : "2011-06-23T03:53:14.000+0000"
+                } ],
+                "totalEntries" : 4
+              }
+  /v1.0/{account}/domains/{domainId}/records:
+    get:
+      operationId: searchRecords
+      summary: Search records
+      description: "Searches all records for a specified\n            domain for a\
+        \ specified type that match a specified\n               "
+      produces: []
+      responses:
+        200:
+          description: |-
+            200 response
+    post:
+      operationId: addRecords
+      summary: Add records
+      description: "Adds one or more records to a\n            specified domain."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "totalEntries" : 6,
+                "records" : [ {
+                  "name" : "ftp.example.com",
+                  "id" : "A-6817754",
+                  "type" : "A",
+                  "data" : "192.0.2.8",
+                  "updated" : "2011-05-19T13:07:08.000+0000",
+                  "ttl" : 5771,
+                  "created" : "2011-05-18T19:53:09.000+0000"
+                }, {
+                  "name" : "example.com",
+                  "id" : "A-6822994",
+                  "type" : "A",
+                  "data" : "192.0.2.17",
+                  "updated" : "2011-06-24T01:12:52.000+0000",
+                  "ttl" : 86400,
+                  "created" : "2011-06-24T01:12:52.000+0000"
+                }, {
+                  "name" : "example.com",
+                  "id" : "NS-6251982",
+                  "type" : "NS",
+                  "data" : "dns1.stabletransit.com",
+                  "updated" : "2011-06-24T01:12:51.000+0000",
+                  "ttl" : 3600,
+                  "created" : "2011-06-24T01:12:51.000+0000"
+                }, {
+                  "name" : "example.com",
+                  "id" : "NS-6251983",
+                  "type" : "NS",
+                  "data" : "dns2.stabletransit.com",
+                  "updated" : "2011-06-24T01:12:51.000+0000",
+                  "ttl" : 3600,
+                  "created" : "2011-06-24T01:12:51.000+0000"
+                }, {
+                  "name" : "example.com",
+                  "priority" : 5,
+                  "id" : "MX-3151218",
+                  "type" : "MX",
+                  "data" : "mail.example.com",
+                  "updated" : "2011-06-24T01:12:53.000+0000",
+                  "ttl" : 3600,
+                  "created" : "2011-06-24T01:12:53.000+0000"
+                }, {
+                  "name" : "www.example.com",
+                  "id" : "CNAME-9778009",
+                  "type" : "CNAME",
+                  "comment" : "This is a comment on the CNAME record",
+                  "data" : "example.com",
+                  "updated" : "2011-06-24T01:12:54.000+0000",
+                  "ttl" : 5400,
+                  "created" : "2011-06-24T01:12:54.000+0000"
+                } ]
+              }
+      parameters:
+      - name: type
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The record type to
+                            add.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name for the domain or
+                               subdomain. Must be a valid domain
+                            name.</p>
+                               </p>
+      - name: data
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The data field for PTR, A, and
+                               AAAA records must be a valid IPv4 or IPv6 IP
+                               address.</p>
+                               </p>
+      - name: priority
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Required for MX and SRV records,
+                               but forbidden for other record types. If
+                               specified, must be an integer from 0 to
+                               65535.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300. Defaults to the domain TTL if
+                               available, or 3600 if no TTL is
+                            specified.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+    put:
+      operationId: updateRecords
+      summary: Update records
+      description: "Updates the configuration of records\n            in the domain."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+      parameters:
+      - name: id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>For modifying <strong>multiple</strong> records,
+          the id for each
+                               record must be specified as an attribute. Note
+                               that for modifying a single record, the record id
+                               is a required parameter at the end of the API
+                               call URI.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>For record types other than SRV
+                               records, this specifies the name for the domain
+                               or subdomain and must be a valid domain name. If
+                               the record name attribute is not specified, it is
+                               assumed that the record name is the same as the
+                               domain name to which the record belongs. The name
+                               attribute cannot be modified.</p>
+                                  <p>For SRV records, this specifies the entire
+                               service name, which is made up of the service,
+                               protocol, and domain name to which the record
+                               belongs. The service and protocol fields of the
+                               service name can be modified but not the domain
+                               name field. The record name attribute must be
+                               specified for SRV records.</p>
+                               </p>
+      - name: data
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The data field is required for
+                               PTR and TXT records only. For PTR records, the data
+          field must be a valid IPv4 or IPv6 IP
+                               address.</p>
+                               </p>
+      - name: priority
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Can be included for MX and SRV
+                               records, but forbidden for other record types. If
+                               specified, must be an integer from 0 to
+                               65535.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300. Defaults to the domain TTL if
+                               available, or 3600 if no TTL is
+                            specified.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+    delete:
+      operationId: deleteRecords
+      summary: Delete records
+      description: "Deletes multiple records from the\n            domain."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+  /v1.0/{account}/domains/{domainId}/records/{recordId}:
+    get:
+      operationId: showRecord
+      summary: Show record details
+      description: "Shows details for a specified record\n            in a specified\
+        \ domain."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "name" : "example.com",
+                "id" : "A-6822994",
+                "type" : "A",
+                "data" : "192.0.2.17",
+                "updated" : "2011-06-24T01:12:52.000+0000",
+                "ttl" : 86400,
+                "created" : "2011-06-24T01:12:52.000+0000"
+              }
+    delete:
+      operationId: deleteRecord
+      summary: Delete record
+      description: "Deletes a record from the\n            domain."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+    put:
+      operationId: updateRecord
+      summary: Update record
+      description: "Updates the configuration of a record\n            in the domain."
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+      parameters:
+      - name: id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>For modifying <strong>multiple</strong> records,
+          the id for each
+                               record must be specified as an attribute. Note
+                               that for modifying a single record, the record id
+                               is a required parameter at the end of the API
+                               call URI.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>For record types other than SRV records, this
+                               specifies the name for the domain or subdomain
+                               and must be a valid domain name. If the record
+                               name attribute is not specified, it is assumed
+                               that the record name is the same as the domain
+                               name to which the record belongs. The name
+                               attribute cannot be modified.</p>
+                                  <p>For SRV records, this specifies the entire
+                               service name, which is made up of the service,
+                               protocol, and domain name to which the record
+                               belongs. The service and protocol fields of the
+                               service name can be modified but not the domain
+                               name field. The record name attribute must be
+                               specified for SRV records.</p>
+                               </p>
+      - name: data
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The data field is required for
+                               PTR and TXT records only. For PTR records, the data
+          field must be a valid IPv4 or IPv6 IP
+                               address.</p>
+                               </p>
+      - name: priority
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Can be included for MX and SRV
+                               records, but forbidden for other record types. If
+                               specified, must be an integer from 0 to
+                               65535.</p>
+                               </p>
+      - name: ttl
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If specified, must be greater
+                               than or equal to 300. Defaults to the domain TTL if
+                               available, or 3600 if no TTL is
+                            specified.</p>
+                               </p>
+      - name: comment
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>If included, its length must be
+                               less than or equal to 160
+                            characters.</p>
+                               </p>
+  /v1.0/{account}/domains/import:
+    post:
+      operationId: importDomain
+      summary: Import domain
+      description: "Imports a new domain with the\n            configuration specified\
+        \ by the request."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                "domains" : [ {
+                  "name" : "example.net",
+                  "comment" : "Optional domain comment...",
+                  "nameservers" : [ {
+                    "name" : "dns1.stabletransit.com"
+                  }, {
+                    "name" : "dns2.stabletransit.com"
+                  } ],
+                  "recordsList" : {
+                    "totalEntries" : 3,
+                    "records" : [ {
+                      "name" : "example.net",
+                      "type" : "A",
+                      "data" : "110.11.12.16",
+                      "ttl" : 86400
+                    }, {
+                      "name" : "example.net",
+                      "priority" : 5,
+                      "type" : "MX",
+                      "data" : "mail2.example.net",
+                      "ttl" : 3600
+                    }, {
+                      "name" : "www.example.net",
+                      "type" : "CNAME",
+                      "data" : "example.net",
+                      "ttl" : 5400
+                    } ]
+                  },
+                  "ttl" : 3600,
+                  "emailAddress" : "sample@rackspace.com"
+                } ]
+              }
+      parameters:
+      - name: contentType
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The content type for the bind
+                               file. Must be specified as
+                            "BIND_9".</p>
+                               </p>
+      - name: contents
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The valid configuration contents
+                               for the domain to be imported.</p>
+                               </p>
+  /v1.0/{account}/domains/search:
+    get:
+      operationId: searchDomains
+      summary: Search domains
+      description: "Searches domains by domain name: lists all names manageable by\
+        \ the specified account \n            that have the value of the "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                "domains" : [ {
+                  "name" : "sub1.example.com",
+                  "id" : 2725257,
+                  "comment" : "1st sample subdomain",
+                  "updated" : "2011-06-23T03:09:34.000+0000",
+                  "emailAddress" : "sample@rackspace.com",
+                  "created" : "2011-06-23T03:09:33.000+0000"
+                } ],
+                "totalEntries" : 114
+              }
+host: dns.api.rackspacecloud.com
+schemes:
+- http
+- https

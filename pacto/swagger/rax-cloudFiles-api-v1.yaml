@@ -1,0 +1,189 @@
+swagger: 2
+info:
+  title: Cloud Files
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v1/{account}:
+    get:
+      operationId: listcontainers
+      summary: Show account details and list containers
+      description: "\n                Shows details for a specified account and lists\
+        \ containers, sorted by name, in the account.\n            "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            The request succeeded. The information returned with the response is dependent on the method used in the request.
+          examples:
+            application/json: |-
+              [
+                 {
+                   "count": 0,
+                   "bytes": 0,
+                   "name": "janeausten"
+                 },
+                 {
+                   "count": 1,
+                   "bytes": 14,
+                   "name": "marktwain"
+                 }
+              ]
+    post:
+      operationId: deleteaccountmeta
+      summary: Delete account metadata
+      description: "\n                Deletes account metadata."
+      produces: []
+      responses:
+        204:
+          description: |-
+            The request succeeded. The server fulfilled the request but does not need to return a body.
+    head:
+      operationId: retrieveaccountmeta
+      summary: Get account metadata
+      description: "\n                Gets account metadata."
+      produces: []
+      responses:
+        204:
+          description: |-
+            The request succeeded. The server fulfilled the request but does not need to return a body.
+  /v1/{account}/{container}:
+    get:
+      operationId: listcontainerobjects
+      summary: Show container details and list objects
+      description: Shows details for a specified container and lists objects, sorted
+        by name, in the container.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            The request succeeded. The information returned with the response is dependent on the method used in the request.
+          examples:
+            application/json: |-
+              [
+               {
+               "hash":"451e372e48e0f6b1114fa0724aa79fa1",
+               "last_modified":"2014-01-15T16:41:49.390270",
+               "bytes":14,
+               "name":"goodbye",
+               "content_type":"application/octet-stream"
+               },
+               {
+               "hash":"ed076287532e86365e841e92bfc50d8c",
+               "last_modified":"2014-01-15T16:37:43.427570",
+               "bytes":12,
+               "name":"helloworld",
+               "content_type":"application/octet-stream"
+               }
+              ]
+    put:
+      operationId: createcontainer
+      summary: Create container
+      description: "\n                Creates a container.\n            "
+      produces: []
+      responses:
+        201:
+          description: |-
+            The request has been fulfilled. For 201 Created, the new container has been created. For 202 Accepted, the request has been accepted for processing.
+        202:
+          description: |-
+            The request has been fulfilled. For 201 Created, the new container has been created. For 202 Accepted, the request has been accepted for processing.
+    delete:
+      operationId: deletecontainer
+      summary: Delete container
+      description: Deletes an empty container.
+      produces: []
+      responses:
+        204:
+          description: |-
+            The request succeeded. The server fulfilled the request but does not need to return a body.
+    post:
+      operationId: deletecontainermeta
+      summary: Delete container metadata
+      description: Deletes container metadata.
+      produces: []
+      responses:
+        204:
+          description: |-
+            The request succeeded. The server fulfilled the request but does not need to return a body.
+    head:
+      operationId: retrievecontainermeta
+      summary: Show container metadata
+      description: "Shows container metadata, including\n                the number\
+        \ of objects in the container and the total bytes for all\n              \
+        \  objects stored in the container."
+      produces: []
+      responses:
+        204:
+          description: |-
+            The request succeeded. The server fulfilled the request but does not need to return a body.
+  /v1/{account}/{container}/{object}:
+    get:
+      operationId: getobjectdata
+      summary: Get object content and metadata
+      description: Gets the content and metadata for the object.
+      produces: []
+      responses:
+        200:
+          description: |-
+            The request has succeeded. The information returned with the response is dependent on the method used in the request.
+    put:
+      operationId: copyobject
+      summary: Copy object
+      description: 'Using the '
+      produces: []
+      responses:
+        201:
+          description: |-
+            The request has been fulfilled.
+    delete:
+      operationId: deleteobject
+      summary: Delete object
+      description: "Permanently deletes an object from\n                the Cloud\
+        \ Files storage system. (You can use "
+      produces: []
+      responses:
+        204:
+          description: |-
+            The request succeeded. The server fulfilled the request but does not need to return a body.
+    head:
+      operationId: retrieveobjectmeta
+      summary: Show object metadata
+      description: Shows object metadata.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            The request has succeeded. The information returned with the response is dependent on the method used in the request.
+          examples:
+            application/json: |-
+              HTTP/1.1 200 OK
+              Date: Thu, 10 Jun 2010 20:59:39 GMT
+              Last-Modified: Fri, 11 Jun 2010 13:40:18 GMT
+              ETag: 8a964ee2a5e88be344f36c22562a6486
+              Content-Length: 512000
+              Content-Type: text/plain; charset=UTF-8
+              X-Object-Meta-Meat: Bacon
+              X-Object-Meta-Fruit: Apple
+              X-Object-Meta-Veggie: Beans
+              X-Object-Meta-Dairy: Cheese
+    post:
+      operationId: updateaobjmeta
+      summary: Create or update object metadata
+      description: "Sets or updates your object \n                metadata. Metadata\
+        \ must be in the format\n                "
+      produces: []
+      responses:
+        202:
+          description: |-
+            The request was accepted for processing.
+host: '{server}.clouddrive.com'
+schemes:
+- http
+- https

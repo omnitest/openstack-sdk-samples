@@ -1,0 +1,2001 @@
+swagger: 2
+info:
+  title: Cloud Orchestration
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /:
+    get:
+      operationId: getVersions-heat-v1
+      summary: List versions
+      description: "Lists information about all\n                Orchestration API\
+        \ versions."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "versions": [
+                      {
+                          "status": "CURRENT",
+                          "id": "v1.0",
+                          "links": [
+                              {
+                                  "href": "http://23.253.228.211:8000/v1/",
+                                  "rel": "self"
+                              }
+                          ]
+                      }
+                  ]
+              }
+  /v1/{tenant_id}/stacks:
+    post:
+      operationId: stack_adopt
+      summary: Adopt stack
+      description: "Creates a stack from existing\n                resources."
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: "{\n  \"status\": \"COMPLETE\",\n  \"name\": \"trove\"\
+              ,\n  \"template\": {\n    \"heat-template-version\": \"2013-05-23\"\
+              ,\n    \"resources\": {\n      \"MySqlCloudDatabaseServer\": {\n   \
+              \     \"type\": \"OS::Trove::Instance\",\n        \"properties\": {\n\
+              \          \"flavor\": \"1GB Instance\",\n          \"databases\": [\n\
+              \            {\n              \"name\": \"testdbonetwo\"\n         \
+              \   }\n          ],\n          \"users\": [\n            {\n       \
+              \       \"password\": \"testpass123\",\n              \"name\": \"testuser\"\
+              ,\n              \"databases\": [\n                \"testdbonetwo\"\n\
+              \              ]\n            }\n          ],\n          \"name\": \"\
+              test-trove-db\",\n          \"size\": 30\n        }\n      }\n    },\n\
+              \    \"description\": \"MYSQL server cloud database instance running\
+              \ on Rackspace cloud\",\n    \"parameters\": {\n      \"instance_name\"\
+              : {\n        \"type\": \"String\",\n        \"description\": \"The database\
+              \ instance name\"\n      }\n    }\n  },\n  \"action\": \"CREATE\",\n\
+              \  \"id\": \"46c927bb-671a-43db-a29c-16a2610865ca\",\n  \"resources\"\
+              : {\n    \"MySqlCloudDatabaseServer\": {\n      \"status\": \"COMPLETE\"\
+              ,\n      \"name\": \"MySqlCloudDatabaseServer\",\n      \"resource_data\"\
+              : {\n        \n      },\n      \"resource_id\": \"74c5be7e-3e62-41e7-b455-93d1c32d56e3\"\
+              ,\n      \"action\": \"CREATE\",\n      \"type\": \"OS::Trove::Instance\"\
+              ,\n      \"metadata\": {\n        \n      }\n    }\n  }\n}\n"
+      parameters:
+      - name: stack_name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name of the
+                                      stack. The name must satisfy both of the following
+          requirements:
+                                      1) It must start with an alphabetic character.
+                                      2) It must contain only alphanumeric characters
+          or '_', '-', or '.' characters.</p>
+                              </p>
+      - name: template_url
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>URL of the template to
+                                      instantiate. This value is ignored if the
+                                      template is supplied
+                                  inline.</p>
+                               </p>
+      - name: template
+        required: true
+        in: body
+        description: "<p>\n                        <p>The <code>template</code> parameter\
+          \ is a string. The contents of the string is the template \n           \
+          \                 itself as either JSON or YAML. So while the template format\
+          \ matters to Heat, the data structure for this \n                      \
+          \      parameter is a string, for example:</p>\n\n                     \
+          \   <p>\n                           <code>{ ... template: \"heat_template_version:\
+          \ 2013-05-23\\nresources (...)\" }</code>.</p>\n                       \
+          \ <p>This parameter takes precedence over the\n                        \
+          \    <code>template_URL</code> parameter if both are\n                 \
+          \           supplied.</p>\n                        <p>For a description\
+          \ of template syntax, refer to the <p>Orchestration Templates Developer\
+          \ Guide</p>.</p>\n                    </p>\n"
+      - name: environment
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>A JSON environment for the
+                                      stack.</p>
+                               </p>
+      - name: files
+        required: false
+        in: body
+        description: "<p>\n                        <p>A map of file names to file\n\
+          \                            contents. It can also be used to pass provider\n\
+          \                            template contents.</p>\n                  \
+          \      <p>The <code>files</code> parameter maps logical file names to file\
+          \ contents. These are used by the <code>get_file</code> \n             \
+          \               intrinsic function as well as the provider template functionality.\
+          \ When you want to use a provider template, for example, \n            \
+          \                Heat will actually add an entry to the <code>files</code>\
+          \ map using the URL of the provider template as the \"name\" and \n    \
+          \                        the contents of that file as the value. Additionally,\
+          \ some template authors will encode their user-data in a local file. \n\
+          \                            The Heat client will examine the template for\
+          \ the <code>get_file</code> intrinsic function and add an entry to the \n\
+          \                            <code>files</code> map with the \"path\" to\
+          \ the file as the name and the file contents as the value. \n          \
+          \                  So, a simple example might look like the following:</p>\n\
+          \n                        <p>\n                           <code>\"template\"\
+          : \"(...) resources:\\n my_server:\\n type: OS::Nova::Server\\n properties:\\\
+          n user_data:\n                            { get_file: myfile }</code>\n\
+          \                        </p>\n\n                        <p>\n         \
+          \                  <code>\"files\":\n                            { \"myfile\"\
+          : \"#!/bin/bash\\necho 'Hello world' &gt; /root/testfile.txt\" }</code>\n\
+          \                        </p>\n                     </p>\n"
+      - name: param_name-n
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameter
+                                      names to pass to the
+                                  template.</p>
+                               </p>
+      - name: param_value-n
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameter
+                                      values to pass to the
+                                  template.</p>
+                               </p>
+      - name: timeout_mins
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The timeout for stack
+                                      creation in minutes.</p>
+                               </p>
+      - name: adopt_stack_data
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>Existing resources data to
+                                      adopt a stack. Data returned by abandon
+                                      stack could be provided as
+                                      adopt_stack_data.</p>
+                               </p>
+      - name: disable_rollback
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Enables or disables
+                                      deletion of all stack resources when a
+                                      stack creation fails. Default is True; all
+                                      resources are not deleted when stack
+                                      creation fails.</p>
+                               </p>
+    get:
+      operationId: stack_list
+      summary: List stack data
+      description: Lists active stacks.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |+
+              {
+                "stacks": [
+                  {
+                    "description": "HEAT template for deploying a multi-node wordpress deployment on Rackspace Cloud\nusing Cloud Servers, Cloud Load Balancers and Cloud Databases. This version uses\na user-defined template resource to specify the implementation of the web-heads\n",
+                    "links": [
+                      {
+                        "href": "http:\/\/xxxxx\/v1\/xxxx\/stacks\/xxxx\/11cd9b5e-c7ff-43b5-bff8-b0e7429cd87e",
+                        "rel": "self"
+                      }
+                    ],
+                    "stack_status_reason": "Resource suspend failed: Error: State (u'SUSPEND', u'FAILED') invalid for suspend",
+                    "stack_name": "timswp6",
+                    "creation_time": "2014-01-30T20:47:57Z",
+                    "updated_time": "2014-02-03T18:04:39Z",
+                    "stack_status": "SUSPEND_FAILED",
+                    "id": "11cd9b5e-c7ff-43b5-bff8-b0e7429cd87e"
+                  },
+                  {
+                    "description": "HEAT template for deploying a multi-node wordpress deployment on Rackspace Cloud\nusing Cloud Servers, Cloud Load Balancers and Cloud Databases. This version uses\na user-defined template resource to specify the implementation of the web-heads\n",
+                    "links": [
+                      {
+                        "href": "http:\/\/xxxx\/v1\/xxxx\/stacks\/xxxx\/1b2ed5de-9b8c-43fa-9392-1da17b5dee7c",
+                        "rel": "self"
+                      }
+                    ],
+                    "stack_status_reason": "Stack create completed successfully",
+                    "stack_name": "timswp5",
+                    "creation_time": "2014-01-30T18:18:12Z",
+                    "updated_time": "2014-01-30T18:42:07Z",
+                    "stack_status": "CREATE_COMPLETE",
+                    "id": "1b2ed5de-9b8c-43fa-9392-1da17b5dee7c"
+                  }
+                ]
+              }
+
+      parameters:
+      - name: status
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the stack list by the specified
+                                      status. You can use this filter multiple
+                                      times to filter by multiple
+                                      statuses.</p>
+                              </p>
+      - name: name
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the stack list by the specified
+                                      name.</p>
+                              </p>
+      - name: limit
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Limits the number of stacks that appear
+                                      on a page to this value. The typical
+                                      pattern of limit and marker is to make an
+                                      initial limited request and then to use
+                                      the ID of the last stack from the response
+                                      as the marker parameter in a subsequent
+                                      limited request.</p>
+                              </p>
+      - name: marker
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Specifies the ID of the last-seen stack.
+                                      The typical pattern of limit and marker is
+                                      to make an initial limited request and
+                                      then to use the ID of the last stack from
+                                      the response as the marker parameter in a
+                                      subsequent limited request.</p>
+                              </p>
+      - name: sort_keys
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Sorts the stack list by one of these
+                                      attributes: <code>name</code>,
+                                          <code>status</code>,
+                                          <code>created_at</code>, or
+                                          <code>updated_at</code>.</p>
+                              </p>
+      - name: sort_dir
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>The sort direction of the stack list.
+                                      Either <code>asc</code> (ascending) or
+                                          <code>desc</code> (descending).</p>
+                              </p>
+  /v1/{tenant_id}/stacks/preview:
+    post:
+      operationId: stack_preview
+      summary: Preview stack
+      description: Previews a stack.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                  "stack": {
+                      "id": "None",
+                      "stack_name": "sample_stack",
+                      "description": "Sample template description.",
+                      "template_description": "Sample template description.",
+                      "timeout_mins": 60,
+                      "parent": null,
+                      "disable_rollback": true,
+                      "capabilities": [],
+                      "notification_topics": [],
+                      "creation_time": "2014-02-19T16:04:56Z",
+                      "updated_time": "2014-02-19T16:04:56Z",
+                      "stack_status": "_",
+                      "stack_status_reason": "",
+                      "parameters": {
+                          "OS::stack_id": "None",
+                          "OS::stack_name": "sample_stack",
+                          "db_name": "wordpress",
+                          "db_pass": "******",
+                          "db_root_pass": "******",
+                          "db_user_name": "******",
+                          "flavor": "1 GB Performance",
+                          "key_name": "heat_key",
+                          "image": "Fedora 19 (Schrodinger's Cat) (PVHVM)"
+                      },
+                      "links": [
+                          {
+                              "href": "http://10.0.2.15:8004/v1/2e327e5e7fa94b25a44be66fd9d1ec4d/stacks/sample_stack/None",
+                              "rel": "self"
+                          }
+                      ],
+                      "resources": [
+                          {
+                              "stack_name": "sample_stack",
+                              "resource_name": "WikiDatabase-1",
+                              "resource_type": "OS::Nova::Server",
+                              "description": "",
+                              "resource_action": "INIT",
+                              "resource_status": "COMPLETE",
+                              "resource_status_reason": "",
+                              "physical_resource_id": "",
+                              "required_by": [],
+                              "resource_identity": {
+                                  "path": "/resources/WikiDatabase-1",
+                                  "stack_id": "None",
+                                  "stack_name": "sample_stack",
+                                  "tenant": "2e327e5e7fa94b25a44be66fd9d1ec4d"
+                              },
+                              "stack_identity": {
+                                  "path": "",
+                                  "stack_id": "None",
+                                  "stack_name": "sample_stack",
+                                  "tenant": "2e327e5e7fa94b25a44be66fd9d1ec4d"
+                              },
+                              "updated_time": "2014-02-19T16:04:56Z"
+                          },
+                          {
+                              "other resources...": "other resources..."
+                          }
+                      ]
+                  }
+              }
+      parameters:
+      - name: stack_name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name of the
+                                      stack. The name must satisfy both of the following
+          requirements:
+                                      1) It must start with an alphabetic character.
+                                      2) It must contain only alphanumeric characters
+          or '_', '-', or '.' characters.</p>
+                              </p>
+      - name: template_url
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The URL of the template to instantiate.
+                                      This value is ignored if the template is
+                                      supplied inline.</p>
+                              </p>
+      - name: template
+        required: true
+        in: body
+        description: "<p>\n                        <p>The <code>template</code> parameter\
+          \ is a string. The contents of the string is the template \n           \
+          \                 itself as either JSON or YAML. So while the template format\
+          \ matters to Heat, the data structure for this \n                      \
+          \      parameter is a string, for example:</p>\n\n                     \
+          \   <p>\n                           <code>{ ... template: \"heat_template_version:\
+          \ 2013-05-23\\nresources (...)\" }</code>.</p>\n                       \
+          \ <p>This parameter takes precedence over the\n                        \
+          \    <code>template_URL</code> parameter if both are\n                 \
+          \           supplied.</p>\n                        <p>For a description\
+          \ of template syntax, refer to the <p>Orchestration Templates Developer\
+          \ Guide</p>.</p>\n                    </p>\n"
+      - name: environment
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>A JSON environment for the stack.</p>
+                              </p>
+      - name: files
+        required: false
+        in: body
+        description: "<p>\n                        <p>A map of file names to file\n\
+          \                            contents. It can also be used to pass provider\n\
+          \                            template contents.</p>\n                  \
+          \      <p>The <code>files</code> parameter maps logical file names to file\
+          \ contents. These are used by the <code>get_file</code> \n             \
+          \               intrinsic function as well as the provider template functionality.\
+          \ When you want to use a provider template, for example, \n            \
+          \                Heat will actually add an entry to the <code>files</code>\
+          \ map using the URL of the provider template as the \"name\" and \n    \
+          \                        the contents of that file as the value. Additionally,\
+          \ some template authors will encode their user-data in a local file. \n\
+          \                            The Heat client will examine the template for\
+          \ the <code>get_file</code> intrinsic function and add an entry to the \n\
+          \                            <code>files</code> map with the \"path\" to\
+          \ the file as the name and the file contents as the value. \n          \
+          \                  So, a simple example might look like the following:</p>\n\
+          \n                        <p>\n                           <code>\"template\"\
+          : \"(...) resources:\\n my_server:\\n type: OS::Nova::Server\\n properties:\\\
+          n user_data:\n                            { get_file: myfile }</code>\n\
+          \                        </p>\n\n                        <p>\n         \
+          \                  <code>\"files\":\n                            { \"myfile\"\
+          : \"#!/bin/bash\\necho 'Hello world' &gt; /root/testfile.txt\" }</code>\n\
+          \                        </p>\n                     </p>\n"
+      - name: parameters
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameters to pass to the template.</p>
+                               </p>
+      - name: param_name-n
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameter
+                                      names to pass to the
+                                      template.</p>
+                               </p>
+      - name: param_value-n
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameter
+                                      values to pass to the
+                                      template.</p>
+                               </p>
+      - name: timeout_mins
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The timeout for stack
+                                      creation in minutes.</p>
+                               </p>
+      - name: disable_rollback
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>
+                                      Controls whether a failure during stack
+                                      creation causes deletion of all
+                                      previously-created resources in that
+                                      stack.
+                                      This value is not used during a stack
+                                      preview and only exists for symmetry with
+                                      stack create.
+                                  </p>
+                              </p>
+  /v1/{tenant_id}/stacks/{stack_name}:
+    get:
+      operationId: stack_find
+      summary: Find stack
+      description: "Finds the canonical URL for a\n                specified stack."
+      produces:
+      - application/json
+      responses:
+        302:
+          description: |-
+            302 response
+          examples:
+            application/json: |-
+              {
+                  "stack": {
+                      "capabilities": [],
+                      "creation_time": "2014-06-04T20:36:12Z",
+                      "description": "sample stack",
+                      "disable_rollback": true,
+                      "id": "5333af0c-cc26-47ee-ac3d-8784cefafbd7",
+                      "links": [
+                          {
+                              "href": "http://192.168.123.200:8004/v1/eb1c63a4f77141548385f113a28f0f52/stacks/simple_stack/5333af0c-cc26-47ee-ac3d-8784cefafbd7",
+                              "rel": "self"
+                          }
+                      ],
+                      "notification_topics": [],
+                      "outputs": [],
+                      "parameters": {
+                          "OS::stack_id": "5333af0c-cc26-47ee-ac3d-8784cefafbd7",
+                          "OS::stack_name": "simple_stack"
+                      },
+                      "stack_name": "simple_stack",
+                      "stack_status": "CREATE_COMPLETE",
+                      "stack_status_reason": "Stack CREATE completed successfully",
+                      "template_description": "sample stack",
+                      "timeout_mins": null,
+                      "updated_time": null
+                  }
+              }
+  /v1/{tenant_id}/stacks/{stack_name}/resources:
+    get:
+      operationId: stack_resources_find
+      summary: Find stack resources
+      description: "Finds the canonical URL for the\n                resource list\
+        \ of a specified stack."
+      produces: []
+      responses:
+        302:
+          description: |-
+            302 response
+  /v1/{tenant_id}/stacks/{stack_name}/events:
+    get:
+      operationId: stack_events_find
+      summary: Find stack events
+      description: "Finds the canonical URL for the\n                event list of\
+        \ a specified stack."
+      produces: []
+      responses:
+        302:
+          description: |-
+            302 response
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}:
+    get:
+      operationId: stack_show
+      summary: Show stack details
+      description: "Shows details for a specified\n                stack."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "stack": {
+                      "capabilities": [],
+                      "creation_time": "2014-06-03T20:59:46Z",
+                      "description": "sample stack",
+                      "disable_rollback": "True",
+                      "id": "3095aefc-09fb-4bc7-b1f0-f21a304e864c",
+                      "links": [
+                          {
+                              "href": "http://192.168.123.200:8004/v1/eb1c63a4f77141548385f113a28f0f52/stacks/simple_stack/3095aefc-09fb-4bc7-b1f0-f21a304e864c",
+                              "rel": "self"
+                          }
+                      ],
+                      "notification_topics": [],
+                      "outputs": [],
+                      "parameters": {
+                          "OS::stack_id": "3095aefc-09fb-4bc7-b1f0-f21a304e864c",
+                          "OS::stack_name": "simple_stack"
+                      },
+                      "stack_name": "simple_stack",
+                      "stack_status": "CREATE_COMPLETE",
+                      "stack_status_reason": "Stack CREATE completed successfully",
+                      "template_description": "sample stack",
+                      "timeout_mins": "",
+                      "updated_time": ""
+                  }
+              }
+    put:
+      operationId: stack_update
+      summary: Update stack
+      description: Updates a specified stack.
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+      parameters:
+      - name: template_url
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The URL of the template to
+                                      instantiate. This value is ignored if the
+                                      template is supplied
+                                  inline.</p>
+                               </p>
+      - name: template
+        required: true
+        in: body
+        description: "<p>\n                        <p>The <code>template</code> parameter\
+          \ is a string. The contents of the string is the template \n           \
+          \                 itself as either JSON or YAML. So while the template format\
+          \ matters to Heat, the data structure for this \n                      \
+          \      parameter is a string, for example:</p>\n\n                     \
+          \   <p>\n                           <code>{ ... template: \"heat_template_version:\
+          \ 2013-05-23\\nresources (...)\" }</code>.</p>\n                       \
+          \ <p>This parameter takes precedence over the\n                        \
+          \    <code>template_URL</code> parameter if both are\n                 \
+          \           supplied.</p>\n                        <p>For a description\
+          \ of template syntax, refer to the <p>Orchestration Templates Developer\
+          \ Guide</p>.</p>\n                    </p>\n"
+      - name: environment
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>A JSON environment for the
+                                      stack.</p>
+                               </p>
+      - name: files
+        required: false
+        in: body
+        description: "<p>\n                        <p>A map of file names to file\n\
+          \                            contents. It can also be used to pass provider\n\
+          \                            template contents.</p>\n                  \
+          \      <p>The <code>files</code> parameter maps logical file names to file\
+          \ contents. These are used by the <code>get_file</code> \n             \
+          \               intrinsic function as well as the provider template functionality.\
+          \ When you want to use a provider template, for example, \n            \
+          \                Heat will actually add an entry to the <code>files</code>\
+          \ map using the URL of the provider template as the \"name\" and \n    \
+          \                        the contents of that file as the value. Additionally,\
+          \ some template authors will encode their user-data in a local file. \n\
+          \                            The Heat client will examine the template for\
+          \ the <code>get_file</code> intrinsic function and add an entry to the \n\
+          \                            <code>files</code> map with the \"path\" to\
+          \ the file as the name and the file contents as the value. \n          \
+          \                  So, a simple example might look like the following:</p>\n\
+          \n                        <p>\n                           <code>\"template\"\
+          : \"(...) resources:\\n my_server:\\n type: OS::Nova::Server\\n properties:\\\
+          n user_data:\n                            { get_file: myfile }</code>\n\
+          \                        </p>\n\n                        <p>\n         \
+          \                  <code>\"files\":\n                            { \"myfile\"\
+          : \"#!/bin/bash\\necho 'Hello world' &gt; /root/testfile.txt\" }</code>\n\
+          \                        </p>\n                     </p>\n"
+      - name: parameters
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameters to pass to the template.</p>
+                               </p>
+      - name: param_name-n
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameter
+                                      names to pass to the
+                                  template.</p>
+                               </p>
+      - name: param_value-n
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>User-defined parameter
+                                      values to pass to the
+                                      template.</p>
+                               </p>
+      - name: timeout_mins
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The timeout for stack
+                                      creation in minutes.</p>
+                               </p>
+    delete:
+      operationId: stack_delete
+      summary: Delete stack
+      description: Deletes a specified stack.
+      produces:
+      - application/json
+      responses:
+        204:
+          description: |-
+            204 response
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/abandon:
+    delete:
+      operationId: stack_abandon
+      summary: Abandon stack
+      description: "Deletes a specified stack but\n                leaves its resources\
+        \ intact, and returns data\n                describing the stack and its resources."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "status": "COMPLETE",
+                  "name": "g",
+                  "dry_run": true,
+                  "template": {
+                      "outputs": {
+                          "instance_ip": {
+                              "value": {
+                                  "str_replace": {
+                                      "params": {
+                                          "username": "ec2-user",
+                                          "hostname": {
+                                              "get_attr": [
+                                                  "server",
+                                                  "first_address"
+                                              ]
+                                          }
+                                      },
+                                      "template": "ssh username@hostname"
+                                  }
+                              }
+                          }
+                      },
+                      "heat_template_version": "2013-05-23",
+                      "resources": {
+                          "server": {
+                              "type": "OS::Nova::Server",
+                              "properties": {
+                                  "key_name": {
+                                      "get_param": "key_name"
+                                  },
+                                  "image": {
+                                      "get_param": "image"
+                                  },
+                                  "flavor": {
+                                      "get_param": "flavor"
+                                  }
+                              }
+                          }
+                      },
+                      "parameters": {
+                          "key_name": {
+                              "default": "heat_key",
+                              "type": "string"
+                          },
+                          "image": {
+                              "default": "Ubuntu 12.04 LTS (Precise Pangolin)",
+                              "type": "string"
+                          },
+                          "flavor": {
+                              "default": "1 GB Performance",
+                              "type": "string"
+                          }
+                      }
+                  },
+                  "action": "CREATE",
+                  "id": "16934ca3-40e0-4fb2-a289-a700662ec05a",
+                  "resources": {
+                      "server": {
+                          "status": "COMPLETE",
+                          "name": "server",
+                          "resource_data": {},
+                          "resource_id": "39d5dad7-7d7a-4cc8-bd84-851e9e2ff4ea",
+                          "action": "CREATE",
+                          "type": "OS::Nova::Server",
+                          "metadata": {}
+                      }
+                  }
+              }
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/actions:
+    post:
+      operationId: stack_action_resume
+      summary: Resume stack
+      description: Resumes a suspended stack.
+      produces: []
+      responses:
+        201:
+          description: |-
+            201 response
+      parameters:
+      - name: resume
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>Specify the
+                                          <code>resume</code> action in the
+                                      request body.</p>
+                               </p>
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/events:
+    get:
+      operationId: stack_event_list
+      summary: List stack events
+      description: "Lists events for a specified\n                stack."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "events": [
+                      {
+                          "resource_name": "mysql_server",
+                          "event_time": "2014-07-23T08:14:47Z",
+                          "links": [{
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server/events/474bfdf0-a450-46ec-a78a-0c7faa404073",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server",
+                              "rel": "resource"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5",
+                              "rel": "stack"
+                          }],
+                          "logical_resource_id": "mysql_server",
+                          "resource_status": "CREATE_FAILED",
+                          "resource_status_reason": "NotFound: Subnet f8a699d0-3537-429e-87a5-6b5a8d0c2bf0 could not be found",
+                          "physical_resource_id": null,
+                          "id": "474bfdf0-a450-46ec-a78a-0c7faa404073"
+                      },
+                      {
+                          "resource_name": "mysql_server",
+                          "event_time": "2014-07-23T08:14:47Z",
+                          "links": [{
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server/events/66fa95b6-e6f8-4f05-b1af-e828f5aba04c",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server",
+                              "rel": "resource"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5",
+                              "rel": "stack"
+                          }],
+                          "logical_resource_id": "mysql_server",
+                          "resource_status": "CREATE_IN_PROGRESS",
+                          "resource_status_reason": "state changed",
+                          "physical_resource_id": null,
+                          "id": "66fa95b6-e6f8-4f05-b1af-e828f5aba04c"
+                      }
+                  ]
+              }
+      parameters:
+      - name: resource_action
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_action. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource actions:
+                                      <code>CREATE</code>, <code>DELETE</code>,
+                                      <code>UPDATE</code>, <code>ROLLBACK</code>,
+                                      <code>SUSPEND</code>, <code>RESUME</code> or
+                                      <code>ADOPT</code>.</p>
+                              </p>
+      - name: resource_status
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_status. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource statuses:
+                                      <code>IN_PROGRESS</code>, <code>COMPLETE</code>
+          or
+                                      <code>FAILED</code>.</p>
+                              </p>
+      - name: resource_name
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_name. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource names.</p>
+                              </p>
+      - name: resource_type
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_type. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource types:
+                                      <code>OS::Nova::Server</code>,
+                                      <code>OS::Cinder::Volume</code>, and so on.</p>
+                              </p>
+      - name: limit
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Limits the number of events that appear
+                                      on a page to this value. The typical
+                                      pattern of limit and marker is to make an
+                                      initial limited request and then to use
+                                      the ID of the last event from the response
+                                      as the marker parameter in a subsequent
+                                      limited request.</p>
+                              </p>
+      - name: marker
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Specifies the ID of the last-seen event.
+                                      The typical pattern of limit and marker is
+                                      to make an initial limited request and
+                                      then to use the ID of the last event from
+                                      the response as the marker parameter in a
+                                      subsequent limited request.</p>
+                              </p>
+      - name: sort_keys
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Sorts the event list by:
+                                      <code>resource_type</code> or
+                                      <code>created_at</code>.</p>
+                              </p>
+      - name: sort_dir
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>The sort direction of the event list.
+                                      Which is <code>asc</code> (ascending) or
+                                          <code>desc</code> (descending).</p>
+                              </p>
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources:
+    get:
+      operationId: resource_list
+      summary: List resources
+      description: Lists resources in a stack.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "resources": [
+                      {
+                          "resource_name": "MySqlCloudDatabaseServer",
+                          "links": [
+                              {
+                                  "href": "https://dfw.orchestration.rackspacecloud.com/v1/tenant_id/stacks/trove2/87xxxx1-9xx9-4xxe-bxxf-a7xxxxxd99068/resources/MySqlCloudDatabaseServer",
+                                  "rel": "self"
+                              },
+                              {
+                                  "href": "http:s//dfw.orchestration.rackspacecloud.com/v1/tenant_id/stacks/trove2/87xxxx1-9xx9-4xxe-bxxf-a7xxxxx068",
+                                  "rel": "stack"
+                              }
+                          ],
+                          "logical_resource_id": "MySqlCloudDatabaseServer",
+                          "resource_status_reason": "state changed",
+                          "updated_time": "2014-02-05T19:20:31Z",
+                          "required_by": [],
+                          "resource_status": "CREATE_COMPLETE",
+                          "physical_resource_id": "984xxxxxe0-c7x8-4x6e-be15-3f0xxxxx711",
+                          "resource_type": "OS::Trove::Instance"
+                      }
+                  ]
+              }
+      parameters:
+      - name: nested_depth
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>
+                                      Also includes resources from nested stacks up
+          to
+                                      <code>nested_depth</code> levels of recursion.
+                                  </p>
+                              </p>
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}:
+    get:
+      operationId: resource_show
+      summary: Show resource data
+      description: "Shows data for a specified\n                resource."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "resource": {
+                      "resource_name": "MySqlCloudDatabaseServer",
+                      "description": "",
+                      "links": [
+                          {
+                              "href": "https://dfw.orchestration.rackspacecloud.com/v1/tenant_id/stacks/trove2/87xxxx21-9xx9-4xxxe-bxxf-a7fxxxxx68/resources/MySqlCloudDatabaseServer",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "https://dfw.orchestration.rackspacecloud.com/v1/tenant_id/stacks/trove2/87xxxx1-9xx9-4xxe-bxxf-a7fxxxxxx68",
+                              "rel": "stack"
+                          }
+                      ],
+                      "logical_resource_id": "MySqlCloudDatabaseServer",
+                      "resource_status": "CREATE_COMPLETE",
+                      "updated_time": "2014-02-05T19:20:31Z",
+                      "required_by": [],
+                      "resource_status_reason": "state changed",
+                      "physical_resource_id": "98xxx0-cxx8-4xxe-bxx5-3fxxxx11",
+                      "resource_type": "OS::Trove::Instance"
+                  }
+              }
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/events:
+    get:
+      operationId: resource_event_list
+      summary: List resource events
+      description: "Lists events for a specified stack\n                resource."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "events": [
+                      {
+                          "resource_name": "mysql_server",
+                          "event_time": "2014-07-23T08:14:47Z",
+                          "links": [{
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server/events/474bfdf0-a450-46ec-a78a-0c7faa404073",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server",
+                              "rel": "resource"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5",
+                              "rel": "stack"
+                          }],
+                          "logical_resource_id": "mysql_server",
+                          "resource_status": "CREATE_FAILED",
+                          "resource_status_reason": "NotFound: Subnet f8a699d0-3537-429e-87a5-6b5a8d0c2bf0 could not be found",
+                          "physical_resource_id": null,
+                          "id": "474bfdf0-a450-46ec-a78a-0c7faa404073"
+                      },
+                      {
+                          "resource_name": "mysql_server",
+                          "event_time": "2014-07-23T08:14:47Z",
+                          "links": [{
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server/events/66fa95b6-e6f8-4f05-b1af-e828f5aba04c",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5/resources/mysql_server",
+                              "rel": "resource"
+                          },
+                          {
+                              "href": "http://192.168.123.200:8004/v1/dc4b074874244f7693dd65583733a758/stacks/teststack/db467ed1-50b5-4a3e-aeb1-396ff1d151c5",
+                              "rel": "stack"
+                          }],
+                          "logical_resource_id": "mysql_server",
+                          "resource_status": "CREATE_IN_PROGRESS",
+                          "resource_status_reason": "state changed",
+                          "physical_resource_id": null,
+                          "id": "66fa95b6-e6f8-4f05-b1af-e828f5aba04c"
+                      }
+                  ]
+              }
+      parameters:
+      - name: resource_action
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_action. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource actions:
+                                      <code>CREATE</code>, <code>DELETE</code>,
+                                      <code>UPDATE</code>, <code>ROLLBACK</code> or
+                                      <code>ADOPT</code>.</p>
+                              </p>
+      - name: resource_status
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_status. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource statuses:
+                                      <code>IN_PROGRESS</code>, <code>COMPLETE</code>
+          or
+                                      <code>FAILED</code>.</p>
+                              </p>
+      - name: resource_name
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_name. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource names.</p>
+                              </p>
+      - name: resource_type
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Filters the event list by the specified
+                                      resource_type. You can use this filter multiple
+                                      times to filter by multiple
+                                      resource types:
+                                      <code>OS::Nova::Server</code>,
+                                      <code>OS::Cinder::Volume</code>, and so on.</p>
+                              </p>
+      - name: limit
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Limits the number of events that appear
+                                      on a page to this value. The typical
+                                      pattern of limit and marker is to make an
+                                      initial limited request and then to use
+                                      the ID of the last event from the response
+                                      as the marker parameter in a subsequent
+                                      limited request.</p>
+                              </p>
+      - name: marker
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Specifies the ID of the last-seen event.
+                                      The typical pattern of limit and marker is
+                                      to make an initial limited request and
+                                      then to use the ID of the last event from
+                                      the response as the marker parameter in a
+                                      subsequent limited request.</p>
+                              </p>
+      - name: sort_keys
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>Sorts the event list by:
+                                      <code>resource_type</code> or
+                                      <code>created_at</code>.</p>
+                              </p>
+      - name: sort_dir
+        required: false
+        in: query
+        description: >
+          <p>
+                                  <p>The sort direction of the event list.
+                                      Which is <code>asc</code> (ascending) or
+                                          <code>desc</code> (descending).</p>
+                              </p>
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/metadata:
+    get:
+      operationId: resource_metadata
+      summary: Show resource metadata
+      description: "Shows metadata for a specified\n                resource."
+      produces: []
+      responses:
+        200:
+          description: |-
+            200 response
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/signal:
+    post:
+      operationId: resource_signal
+      summary: Send a signal to a resource
+      description: "Sends a signal to a specified\n                resource."
+      produces: []
+      responses:
+        200:
+          description: |-
+            200 response
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/resources/{resource_name}/events/{event_id}:
+    get:
+      operationId: event_show
+      summary: Show event details
+      description: "Shows details for a specified\n                event."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\r\n    \"event\": {\r\n        \"event_time\": \"\
+              2014-01-31T20:08:15Z\",\r\n        \"id\": \"f4874455-6505-42b4-af84-114bba2483a5\"\
+              ,\r\n        \"links\": [\r\n            {\r\n                \"href\"\
+              : \"http://hostname/v1/1234/stacks/mystack/56789/resources/lb/events/f4874455-6505-42b4-af84-114bba2483a5\"\
+              ,\r\n                \"rel\": \"self\"\r\n            },\r\n       \
+              \     {\r\n                \"href\": \"http://hostname/v1/1234/stacks/mystack/56789/resources/lb\"\
+              ,\r\n                \"rel\": \"resource\"\r\n            },\r\n   \
+              \         {\r\n                \"href\": \"http://hostname/v1/1234/stacks/mystack/56789\"\
+              ,\r\n                \"rel\": \"stack\"\r\n            }\r\n       \
+              \ ],\r\n        \"logical_resource_id\": \"lb\",\r\n        \"physical_resource_id\"\
+              : \"098765\",\r\n        \"resource_name\": \"lb\",\r\n        \"resource_properties\"\
+              : {\r\n            \"accessList\": null,\r\n            \"algorithm\"\
+              : \"LEAST_CONNECTIONS\",\r\n            \"connectionLogging\": null,\r\
+              \n            \"connectionThrottle\": {\r\n                \"maxConnectionRate\"\
+              : 50,\r\n                \"maxConnections\": 50,\r\n               \
+              \ \"minConnections\": 50,\r\n                \"rateInterval\": 50\r\n\
+              \            },\r\n            \"contentCaching\": \"ENABLED\",\r\n\
+              \            \"errorPage\": null,\r\n            \"halfClosed\": false,\r\
+              \n            \"healthMonitor\": {\r\n                \"attemptsBeforeDeactivation\"\
+              : 3,\r\n                \"bodyRegex\": \".\",\r\n                \"\
+              delay\": 10,\r\n                \"hostHeader\": null,\r\n          \
+              \      \"path\": \"/\",\r\n                \"statusRegex\": \".\",\r\
+              \n                \"timeout\": 10,\r\n                \"type\": \"HTTP\"\
+              \r\n            },\r\n            \"metadata\": null,\r\n          \
+              \  \"name\": \"lb-Wordpress Webserver\",\r\n            \"nodes\": [\r\
+              \n                {\r\n                    \"addresses\": [\r\n    \
+              \                    \"1.2.3.4\",\r\n                        \"4.5.6.7\"\
+              \r\n                    ],\r\n                    \"condition\": \"\
+              ENABLED\",\r\n                    \"port\": 80,\r\n                \
+              \    \"type\": null,\r\n                    \"weight\": null\r\n   \
+              \             }\r\n            ],\r\n            \"port\": 80,\r\n \
+              \           \"protocol\": \"HTTP\",\r\n            \"sessionPersistence\"\
+              : \"HTTP_COOKIE\",\r\n            \"sslTermination\": null,\r\n    \
+              \        \"timeout\": 120,\r\n            \"virtualIps\": [\r\n    \
+              \            {\r\n                    \"ipVersion\": \"IPV4\",\r\n \
+              \                   \"type\": \"PUBLIC\"\r\n                }\r\n  \
+              \          ]\r\n        },\r\n        \"resource_status\": \"CREATE_COMPLETE\"\
+              ,\r\n        \"resource_status_reason\": \"state changed\",\r\n    \
+              \    \"resource_type\": \"Rackspace::Cloud::LoadBalancer\"\r\n    }\r\
+              \n}"
+  /v1/{tenant_id}/stacks/{stack_name}/{stack_id}/template:
+    get:
+      operationId: stack_template
+      summary: Get stack template
+      description: "Gets a template for a specified\n                stack."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\r\n    \"description\": \"Heat Orchestration Template\
+              \ that spins up a single server\",\r\n    \"heat_template_version\"\
+              : \"2013-05-23\",\r\n    \"parameters\": {\r\n        \"compute_flavor\"\
+              : {\r\n            \"constraints\": [\r\n                {\r\n     \
+              \               \"allowed_values\": [\r\n                        \"\
+              1 GB Performance\",\r\n                        \"2 GB Performance\"\
+              ,\r\n                        \"4 GB Performance\",\r\n             \
+              \           \"8 GB Performance\",\r\n                        \"16 GB\
+              \ Performance\"\r\n                    ],\r\n                    \"\
+              description\": \"Must be a valid Rackspace Cloud Server flavor.\"\r\n\
+              \                }\r\n            ],\r\n            \"default\": \"\
+              2 GB Performance\",\r\n            \"description\": \"flavor id for\
+              \ the compute instance\",\r\n            \"type\": \"String\"\r\n  \
+              \      },\r\n        \"compute_image\": {\r\n            \"constraints\"\
+              : [\r\n                {\r\n                    \"allowed_values\":\
+              \ [\r\n                        \"Ubuntu 13.10 (Saucy Salamander)\",\r\
+              \n                        \"Ubuntu 12.10 (Quantal Quetzal)\"\r\n   \
+              \                 ],\r\n                    \"description\": \"Must\
+              \ be a valid Rackspace Cloud Server image name.\"\r\n              \
+              \  }\r\n            ],\r\n            \"default\": \"Ubuntu 13.10 (Saucy\
+              \ Salamander)\",\r\n            \"description\": \"The Image to use\
+              \ for the host OS.\",\r\n            \"type\": \"String\"\r\n      \
+              \  }\r\n    },\r\n    \"resources\": {\r\n        \"server_instance\"\
+              : {\r\n            \"type\": \"OS::Nova::Server\",\r\n            \"\
+              properties\": {\r\n                \"flavor\": {\r\n               \
+              \     \"get_param\": \"compute_flavor\"\r\n                },\r\n  \
+              \              \"image\": {\r\n                    \"get_param\": \"\
+              compute_image\"\r\n                },\r\n                \"name\": \"\
+              Single Node Compute Instance\"\r\n            }\r\n        }\r\n   \
+              \ }\r\n}"
+  /v1/{tenant_id}/validate:
+    post:
+      operationId: template_validate
+      summary: Validate template
+      description: "Validates a specified\n                template."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\r\n    \"Description\": \"A template implementation\
+              \ of a resource that provides a single MongoDB server instance\\n\"\
+              ,\r\n    \"Parameters\": {\r\n        \"flavor\": {\r\n            \"\
+              Default\": \"1GB Standard Instance\",\r\n            \"Description\"\
+              : \"Rackspace Cloud Server flavor\",\r\n            \"Type\": \"String\"\
+              ,\r\n            \"constraints\": [\r\n                {\r\n       \
+              \             \"allowed_values\": [\r\n                        \"512MB\
+              \ Standard Instance\",\r\n                        \"1GB Standard Instance\"\
+              ,\r\n                        \"2GB Standard Instance\",\r\n        \
+              \                \"4GB Standard Instance\",\r\n                    \
+              \    \"8GB Standard Instance\",\r\n                        \"15GB Standard\
+              \ Instance\",\r\n                        \"30GB Standard Instance\"\r\
+              \n                    ],\r\n                    \"description\": \"\
+              must be a valid Rackspace Cloud Server flavor.\"\r\n               \
+              \ }\r\n            ]\r\n        },\r\n        \"key_name\": {\r\n  \
+              \          \"Description\": \"Nova keypair name for ssh access to the\
+              \ server\",\r\n            \"Required\": true,\r\n            \"Type\"\
+              : \"String\"\r\n        },\r\n        \"server_name\": {\r\n       \
+              \     \"Default\": \"MongoDB_One\",\r\n            \"Description\":\
+              \ \"the instance name\",\r\n            \"Type\": \"String\"\r\n   \
+              \     }\r\n    }\r\n}"
+      parameters:
+      - name: template_url
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The URL of the template to
+                                      instantiate. This value is ignored if the
+                                      template is supplied
+                                  inline.</p>
+                               </p>
+      - name: template
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>A JSON template to
+                                      instantiate. This value takes precedence
+                                      over the template URL if both are
+                                      supplied.</p>
+                               </p>
+  /v1/{tenant_id}/resource_types:
+    get:
+      operationId: resource_type_list
+      summary: List resource types
+      description: "Lists the supported template\n                resource types."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\r\n    \"resource_types\": [\r\n        \"OS::Nova::Server\"\
+              ,\r\n        \"OS::Heat::RandomString\",\r\n        \"OS::Swift::Container\"\
+              ,\r\n        \"Rackspace::Cloud::Server\",\r\n        \"OS::Heat::ChefSolo\"\
+              ,\r\n        \"Rackspace::AutoScale::WebHook\",\r\n        \"Rackspace::AutoScale::Group\"\
+              ,\r\n        \"Rackspace::Cloud::Network\",\r\n        \"OS::Cinder::Volume\"\
+              ,\r\n        \"Rackspace::Cloud::WinServer\",\r\n        \"Rackspace::Cloud::LoadBalancer\"\
+              ,\r\n        \"OS::Heat::ResourceGroup\",\r\n        \"Rackspace::AutoScale::ScalingPolicy\"\
+              ,\r\n        \"Rackspace::Cloud::DNS\",\r\n        \"OS::Trove::Instance\"\
+              ,\r\n        \"OS::Nova::FloatingIPAssociation\",\r\n        \"OS::Cinder::VolumeAttachment\"\
+              ,\r\n        \"OS::Nova::FloatingIP\",\r\n        \"OS::Nova::KeyPair\"\
+              \r\n    ]\r\n}"
+  /v1/{tenant_id}/resource_types/{type_name}:
+    get:
+      operationId: resource_type_get
+      summary: Show resource schema
+      description: "Shows the interface schema for a\n                specified resource\
+        \ type. This schema describes the\n                properties that can be\
+        \ set on the resource, their types, constraints,\n                descriptions,\
+        \ and default values. Additionally, the resource\n                attributes\
+        \ and their descriptions are provided."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"attributes\": {\n        \"an_attribute\"\
+              : {\n            \"description\": \"A runtime value of the resource\"\
+              \n        }\n    },\n    \"properties\": {\n        \"a_property\":\
+              \ {\n            \"update_allowed\": false,\n            \"required\"\
+              : true,\n            \"type\": \"string\",\n            \"description\"\
+              : \"A resource description.\",\n            \"constraints\": [{\n  \
+              \          \t\"length\": {\n            \t\t\"min\": 1,\n          \
+              \  \t\t\"max\": 255\n            \t},\n            \t\"description\"\
+              : \"Must be between 1 and 255 characters\"\n            }]\n       \
+              \ }\n    },\n    \"resource_type\": \"OS::Heat::AResourceName\"\n}\n"
+  /v1/{tenant_id}/resource_types/{type_name}/template:
+    get:
+      operationId: resource_type_template
+      summary: Show resource template
+      description: "Shows the template representation\n                for a specified\
+        \ resource type. The returned template\n                contains a single\
+        \ resource of the specified type. Each\n                resource property\
+        \ is mapped to a template parameter and\n                each resource attribute\
+        \ is mapped to a template output.\n                These templates can be\
+        \ used as a starting place for\n                created customized template-based\
+        \ resources or as examples\n                of using the particular resource\
+        \ in another template."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\r\n    \"HeatTemplateFormatVersion\": \"2012-12-12\"\
+              ,\r\n    \"Outputs\": {\r\n        \"private_key\": {\r\n          \
+              \  \"Description\": \"The private key if it has been saved.\",\r\n \
+              \           \"Value\": \"{\\\"Fn::GetAtt\\\": [\\\"KeyPair\\\", \\\"\
+              private_key\\\"]}\"\r\n        },\r\n        \"public_key\": {\r\n \
+              \           \"Description\": \"The public key.\",\r\n            \"\
+              Value\": \"{\\\"Fn::GetAtt\\\": [\\\"KeyPair\\\", \\\"public_key\\\"\
+              ]}\"\r\n        }\r\n    },\r\n    \"Parameters\": {\r\n        \"name\"\
+              : {\r\n            \"Description\": \"The name of the key pair.\",\r\
+              \n            \"Type\": \"String\"\r\n        },\r\n        \"public_key\"\
+              : {\r\n            \"Description\": \"The optional public key. This\
+              \ allows users to supply the public key from a pre-existing key pair.\
+              \ If not supplied, a new key pair will be generated.\",\r\n        \
+              \    \"Type\": \"String\"\r\n        },\r\n        \"save_private_key\"\
+              : {\r\n            \"AllowedValues\": [\r\n                \"True\"\
+              ,\r\n                \"true\",\r\n                \"False\",\r\n   \
+              \             \"false\"\r\n            ],\r\n            \"Default\"\
+              : false,\r\n            \"Description\": \"True if the system should\
+              \ remember a generated private key; False otherwise.\",\r\n        \
+              \    \"Type\": \"String\"\r\n        }\r\n    },\r\n    \"Resources\"\
+              : {\r\n        \"KeyPair\": {\r\n            \"Properties\": {\r\n \
+              \               \"name\": {\r\n                    \"Ref\": \"name\"\
+              \r\n                },\r\n                \"public_key\": {\r\n    \
+              \                \"Ref\": \"public_key\"\r\n                },\r\n \
+              \               \"save_private_key\": {\r\n                    \"Ref\"\
+              : \"save_private_key\"\r\n                }\r\n            },\r\n  \
+              \          \"Type\": \"OS::Nova::KeyPair\"\r\n        }\r\n    }\r\n\
+              }"
+  /v1/{tenant_id}/build_info:
+    get:
+      operationId: build_info_show
+      summary: Show build information
+      description: "Shows build information for a heat\n                deployment."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                  "api": {
+                    "revision": "{api_build_revision}"
+                  },
+                  "engine": {
+                    "revision": "{engine_build_revision}"
+                  }
+              }
+  /v1/{tenant_id}/software_configs:
+    post:
+      operationId: software_config_create
+      summary: Create configuration
+      description: "Creates a software\n                configuration."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "software_config": {
+                      "inputs": [
+                          {
+                              "default": null,
+                              "type": "String",
+                              "name": "foo",
+                              "description": null
+                          },
+                          {
+                              "default": null,
+                              "type": "String",
+                              "name": "bar",
+                              "description": null
+                          }
+                      ],
+                      "group": "script",
+                      "name": "a-config-we5zpvyu7b5o",
+                      "outputs": [
+                          {
+                              "type": "String",
+                              "name": "result",
+                              "error_output": false,
+                              "description": null
+                          }
+                      ],
+                      "options": null,
+                      "config": "#!/bin/sh -x\necho \"Writing to /tmp/$bar\"\necho $foo > /tmp/$bar\necho -n \"The file /tmp/$bar contains `cat /tmp/$bar` for server $deploy_server_id during $deploy_action\" > $heat_outputs_path.result\necho \"Written to /tmp/$bar\"\necho \"Output to stderr\" 1>&2",
+                      "id": "ddee7aca-aa32-4335-8265-d436b20db4f1"
+                  }
+              }
+      parameters:
+      - name: config
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Configuration script or manifest that
+                                      defines which configuration is
+                                      performed.</p>
+                              </p>
+      - name: group
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Namespace that groups this software
+                                      configuration by when it is delivered to a
+                                      server. This setting might imply which
+                                      configuration tool performs the
+                                      configuration.</p>
+                              </p>
+      - name: name
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The name of the configuration to
+                                      create.</p>
+                              </p>
+      - name: inputs
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Schema that represents the inputs that
+                                      this software configuration
+                                      expects.</p>
+                              </p>
+      - name: outputs
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Schema that represents the outputs that
+                                      this software configuration
+                                      produces.</p>
+                              </p>
+      - name: options
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Map containing options specific to the
+                                      configuration management tool used by this
+                                      resource.</p>
+                              </p>
+  /v1/{tenant_id}/software_configs/{config_id}:
+    get:
+      operationId: software_config_show
+      summary: Show configuration details
+      description: "Shows details for a software\n                configuration."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "software_config": {
+                      "inputs": [
+                          {
+                              "default": null,
+                              "type": "String",
+                              "name": "foo",
+                              "description": null
+                          },
+                          {
+                              "default": null,
+                              "type": "String",
+                              "name": "bar",
+                              "description": null
+                          }
+                      ],
+                      "group": "script",
+                      "name": "a-config-we5zpvyu7b5o",
+                      "outputs": [
+                          {
+                              "type": "String",
+                              "name": "result",
+                              "error_output": false,
+                              "description": null
+                          }
+                      ],
+                      "options": null,
+                      "config": "#!/bin/sh -x\necho \"Writing to /tmp/$bar\"\necho $foo > /tmp/$bar\necho -n \"The file /tmp/$bar contains `cat /tmp/$bar` for server $deploy_server_id during $deploy_action\" > $heat_outputs_path.result\necho \"Written to /tmp/$bar\"\necho \"Output to stderr\" 1>&2",
+                      "id": "ddee7aca-aa32-4335-8265-d436b20db4f1"
+                  }
+              }
+    delete:
+      operationId: software_config_delete
+      summary: Delete config
+      description: "Deletes a software\n                configuration."
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v1/{tenant_id}/software_deployments:
+    get:
+      operationId: software_deployment_index
+      summary: List deployments
+      description: "Lists all available software\n                deployments."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "software_deployments": [
+                      {
+                          "status": "COMPLETE",
+                          "server_id": "ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5",
+                          "config_id": "8da95794-2ad9-4979-8ae5-739ce314c5cd",
+                          "output_values": {
+                              "deploy_stdout": "Writing to /tmp/barmy\nWritten to /tmp/barmy\n",
+                              "deploy_stderr": "+ echo Writing to /tmp/barmy\n+ echo fu\n+ cat /tmp/barmy\n+ echo -n The file /tmp/barmy contains fu for server ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5 during CREATE\n+ echo Written to /tmp/barmy\n+ echo Output to stderr\nOutput to stderr\n",
+                              "deploy_status_code": 0,
+                              "result": "The file /tmp/barmy contains fu for server ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5 during CREATE"
+                          },
+                          "input_values": null,
+                          "action": "CREATE",
+                          "status_reason": "Outputs received",
+                          "id": "ef422fa5-719a-419e-a10c-72e3a367b0b8"
+                      }
+                  ]
+              }
+    post:
+      operationId: software_deployment_create
+      summary: Create deployment
+      description: "Creates a software\n                deployment."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "software_deployment": {
+                      "status": "IN_PROGRESS",
+                      "server_id": "ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5",
+                      "config_id": "8da95794-2ad9-4979-8ae5-739ce314c5cd",
+                      "output_values": null,
+                      "input_values": null,
+                      "action": "CREATE",
+                      "status_reason": "Deploy data available",
+                      "id": "ef422fa5-719a-419e-a10c-72e3a367b0b8"
+                  }
+              }
+      parameters:
+      - name: config_id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The ID of the software configuration
+                                      resource that runs when applying to the
+                                      server.</p>
+                              </p>
+      - name: server_id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The ID of the compute server to which
+                                      the configuration applies.</p>
+                              </p>
+      - name: action
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The current stack action that triggers
+                                      this deployment resource.</p>
+                              </p>
+      - name: stack_user_project_id
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Authentication project ID which can also
+                                      perform operations on this
+                                      deployment.</p>
+                              </p>
+      - name: status
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Current status of the deployment,
+                                      expected to be one of IN_PROGRESS,
+                                      COMPLETE or FAILED.</p>
+                              </p>
+      - name: status_reason
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Reason for the last status change, which
+                                      will be an error description for status
+                                      FAILED.</p>
+                              </p>
+  /v1/{tenant_id}/software_deployments/{deployment_id}:
+    get:
+      operationId: software_deployment_show
+      summary: Show deployment details
+      description: "Shows details for a specified\n                software deployment."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "software_deployment": {
+                      "status": "IN_PROGRESS",
+                      "server_id": "ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5",
+                      "config_id": "3d5ec2a8-7004-43b6-a7f6-542bdbe9d434",
+                      "output_values": null,
+                      "input_values": null,
+                      "action": "CREATE",
+                      "status_reason": "Deploy data available",
+                      "id": "06e87bcc-33a2-4bce-aebd-533e698282d3"
+                  }
+              }
+    put:
+      operationId: software_deployment_update
+      summary: Update deployment
+      description: "Updates a specified software\n                deployment."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "software_deployment": {
+                      "status": "COMPLETE",
+                      "server_id": "ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5",
+                      "config_id": "3d5ec2a8-7004-43b6-a7f6-542bdbe9d434",
+                      "output_values": {
+                          "deploy_stdout": "Writing to /tmp/baaaaa\nWritten to /tmp/baaaaa\n",
+                          "deploy_stderr": "+ echo Writing to /tmp/baaaaa\n+ echo fooooo\n+ cat /tmp/baaaaa\n+ echo -n The file /tmp/baaaaa contains fooooo for server ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5 during CREATE\n+ echo Written to /tmp/baaaaa\n+ echo Output to stderr\nOutput to stderr\n",
+                          "deploy_status_code": 0,
+                          "result": "The file /tmp/baaaaa contains fooooo for server ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5 during CREATE"
+                      },
+                      "input_values": null,
+                      "action": "CREATE",
+                      "status_reason": "Outputs received",
+                      "id": "06e87bcc-33a2-4bce-aebd-533e698282d3"
+                  }
+              }
+      parameters:
+      - name: config_id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>ID of the software configuration
+                                      resource to run when applying to the
+                                      server. This ID might not be the same
+                                      configuration ID with which the deployment
+                                      was created because ephemeral
+                                      configurations are created throughout the
+                                      life cycle of the deployment.</p>
+                              </p>
+      - name: action
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>Current stack action this deployment
+                                      resource is being triggered in.</p>
+                              </p>
+      - name: status
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Current status of the deployment,
+                                      expected to be one of IN_PROGRESS,
+                                      COMPLETE or FAILED.</p>
+                              </p>
+      - name: status_reason
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Reason for the last status change, which
+                                      will be an error description for status
+                                      FAILED.</p>
+                              </p>
+      - name: output_values
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Map of output values for the deployment,
+                                      as signalled from the server.</p>
+                              </p>
+    delete:
+      operationId: software_deployment_delete
+      summary: Delete deployment
+      description: "Deletes a specified software\n                deployment."
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v1/{tenant_id}/software_deployments/metadata/{server_id}:
+    get:
+      operationId: software_deployment_metadata
+      summary: Show server configuration metadata
+      description: "Shows the deployment configuration\n                metadata for\
+        \ a specified server."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "metadata": [
+                      {
+                          "inputs": [
+                              {
+                                  "default": null,
+                                  "type": "String",
+                                  "name": "foo",
+                                  "value": "fooooo",
+                                  "description": null
+                              },
+                              {
+                                  "default": null,
+                                  "type": "String",
+                                  "name": "bar",
+                                  "value": "baaaaa",
+                                  "description": null
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_server_id",
+                                  "value": "ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5",
+                                  "description": "ID of the server being deployed to"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_action",
+                                  "value": "CREATE",
+                                  "description": "Name of the current action being deployed"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_stack_id",
+                                  "value": "a/9bd57090-8954-48ab-bab9-adf9e1ac70fc",
+                                  "description": "ID of the stack this deployment belongs to"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_resource_name",
+                                  "value": "deployment",
+                                  "description": "Name of this deployment resource in the stack"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_signal_id",
+                                  "value": "http://192.168.20.103:8000/v1/signal/arn%3Aopenstack%3Aheat%3A%3Ae2a84fbdaeb047ae8da4b503f3b69f1f%3Astacks%2Fa%2F9bd57090-8954-48ab-bab9-adf9e1ac70fc%2Fresources%2Fdeployment?Timestamp=2014-03-19T20%3A30%3A59Z&SignatureMethod=HmacSHA256&AWSAccessKeyId=ca3571413e4a49998d580215517b3685&SignatureVersion=2&Signature=w6Iu%2BNbg86mqwSOUf1GLuKPO7KaD82PiGpL4ig9Q1l4%3D",
+                                  "description": "ID of signal to use for signalling output values"
+                              }
+                          ],
+                          "group": "script",
+                          "name": "a-config-we5zpvyu7b5o",
+                          "outputs": [
+                              {
+                                  "type": "String",
+                                  "name": "result",
+                                  "error_output": false,
+                                  "description": null
+                              }
+                          ],
+                          "options": null,
+                          "config": "#!/bin/sh -x\necho \"Writing to /tmp/$bar\"\necho $foo > /tmp/$bar\necho -n \"The file /tmp/$bar contains `cat /tmp/$bar` for server $deploy_server_id during $deploy_action\" > $heat_outputs_path.result\necho \"Written to /tmp/$bar\"\necho \"Output to stderr\" 1>&2",
+                          "id": "3d5ec2a8-7004-43b6-a7f6-542bdbe9d434"
+                      },
+                      {
+                          "inputs": [
+                              {
+                                  "default": null,
+                                  "type": "String",
+                                  "name": "foo",
+                                  "value": "fu",
+                                  "description": null
+                              },
+                              {
+                                  "default": null,
+                                  "type": "String",
+                                  "name": "bar",
+                                  "value": "barmy",
+                                  "description": null
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_server_id",
+                                  "value": "ec14c864-096e-4e27-bb8a-2c2b4dc6f3f5",
+                                  "description": "ID of the server being deployed to"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_action",
+                                  "value": "CREATE",
+                                  "description": "Name of the current action being deployed"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_stack_id",
+                                  "value": "a/9bd57090-8954-48ab-bab9-adf9e1ac70fc",
+                                  "description": "ID of the stack this deployment belongs to"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_resource_name",
+                                  "value": "other_deployment",
+                                  "description": "Name of this deployment resource in the stack"
+                              },
+                              {
+                                  "type": "String",
+                                  "name": "deploy_signal_id",
+                                  "value": "http://192.168.20.103:8000/v1/signal/arn%3Aopenstack%3Aheat%3A%3Ae2a84fbdaeb047ae8da4b503f3b69f1f%3Astacks%2Fa%2F9bd57090-8954-48ab-bab9-adf9e1ac70fc%2Fresources%2Fother_deployment?Timestamp=2014-03-19T20%3A30%3A59Z&SignatureMethod=HmacSHA256&AWSAccessKeyId=7b761482f8254946bcd3d5ccb36fe939&SignatureVersion=2&Signature=giMfv%2BhrAw6y%2FCMKQIQz2IhO5PkAj5%2BfP5YsL6rul3o%3D",
+                                  "description": "ID of signal to use for signalling output values"
+                              }
+                          ],
+                          "group": "script",
+                          "name": "a-config-we5zpvyu7b5o",
+                          "outputs": [
+                              {
+                                  "type": "String",
+                                  "name": "result",
+                                  "error_output": false,
+                                  "description": null
+                              }
+                          ],
+                          "options": null,
+                          "config": "#!/bin/sh -x\necho \"Writing to /tmp/$bar\"\necho $foo > /tmp/$bar\necho -n \"The file /tmp/$bar contains `cat /tmp/$bar` for server $deploy_server_id during $deploy_action\" > $heat_outputs_path.result\necho \"Written to /tmp/$bar\"\necho \"Output to stderr\" 1>&2",
+                          "id": "8da95794-2ad9-4979-8ae5-739ce314c5cd"
+                      }
+                  ]
+              }
+host: '{data_center}.orchestration.api.rackspacecloud.com'
+schemes:
+- http
+- https

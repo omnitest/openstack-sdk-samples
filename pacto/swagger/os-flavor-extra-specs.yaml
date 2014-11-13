@@ -1,0 +1,77 @@
+swagger: 2
+info:
+  title: Cloud Servers
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs:
+    get:
+      operationId: listExtra-specs
+      summary: List flavor extra specs
+      description: "Lists the extra-specs or keys for\n                the specified\
+        \ flavor."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "extra_specs": {
+                      "key1": "value1",
+                      "key2": "value2"
+                  }
+              }
+    post:
+      operationId: createExtra-specs
+      summary: Create flavor extra specs
+      description: "Creates extra-specs or keys for the\n                specified\
+        \ flavor."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "extra_specs": {
+                      "key1": "value1",
+                      "key2": "value2"
+                  }
+              }
+  /v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs/{key_id}:
+    get:
+      operationId: detailExtra-spec
+      summary: Get flavor extra spec details
+      description: "Gets the value of the specified\n                key."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "key1": "value1"
+              }
+    delete:
+      operationId: deleteDetailExtra-spec
+      summary: Delete flavor extra specs
+      description: "Deletes a specified extra-spec by\n                key."
+      produces: []
+      responses:
+        200:
+          description: |-
+            200 response
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

@@ -1,0 +1,33 @@
+swagger: 2
+info:
+  title: Cloud Servers
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2/{tenant_id}/servers/{server_id}/action:
+    post:
+      operationId: unrescue
+      summary: Unrescue server
+      description: Unrescues a server.
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+      parameters:
+      - name: unrescue
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>Specify the <code>unrescue</code>
+                                      action in the request
+                                  body.</p>
+                               </p>
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

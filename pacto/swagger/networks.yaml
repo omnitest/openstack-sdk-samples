@@ -1,0 +1,207 @@
+swagger: 2
+info:
+  title: Cloud Networks
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2.0/networks:
+    post:
+      operationId: bulkCreateNetwork
+      summary: Bulk Create Networks
+      description: Creates multiple networks in a single request.
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                 "networks":[
+                    {
+                       "status":"ACTIVE",
+                       "subnets":[
+
+                       ],
+                       "name":"sample_network3",
+                       "provider:physical_network":null,
+                       "admin_state_up":true,
+                       "tenant_id":"4fd44f30292945e481c7b8a0c8908869",
+                       "provider:network_type":"local",
+                       "shared":false,
+                       "id":"bc1a76cb-8767-4c3a-bb95-018b822f2130",
+                       "provider:segmentation_id":null
+                    },
+                    {
+                       "status":"ACTIVE",
+                       "subnets":[
+
+                       ],
+                       "name":"sample_network4",
+                       "provider:physical_network":null,
+                       "admin_state_up":true,
+                       "tenant_id":"4fd44f30292945e481c7b8a0c8908869",
+                       "provider:network_type":"local",
+                       "shared":false,
+                       "id":"af374017-c9ae-4a1d-b799-ab73111476e2",
+                       "provider:segmentation_id":null
+                    }
+                 ]
+              }
+      parameters:
+      - name: network
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The container for the network details.</p>
+                               </p>
+      - name: admin_state_up
+        required: false
+        in: body
+        description: "<p>\n                        <p>The administrative state of\
+          \ the network. The default value is <p>true</p> \n              and cannot\
+          \ be changed by the user.</p>\n                     </p>\n"
+      - name: name
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The network name.  Currently, network names should
+          be 40 characters or fewer.</p>
+                               </p>
+      - name: shared
+        required: false
+        in: body
+        description: "<p>\n                        <p>Admin only. Indicates whether\
+          \ this network is shared across all tenants. The default value is <p>false</p>\
+          \ \n              and cannot be changed by the user.</p>\n             \
+          \        </p>\n"
+      - name: tenant_id
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The ID of the tenant who owns the network.</p>
+                               </p>
+    get:
+      operationId: listNetworks
+      summary: List Networks
+      description: Lists networks to which the specified tenant has access.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "networks": [
+                      {
+                          "admin_state_up": true,
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "name": "public",
+                          "shared": true,
+                          "status": "ACTIVE",
+                          "subnets": [],
+                          "tenant_id": "rackspace"
+                      },
+                      {
+                          "admin_state_up": true,
+                          "id": "11111111-1111-1111-1111-111111111111",
+                          "name": "private",
+                          "shared": true,
+                          "status": "ACTIVE",
+                          "subnets": [],
+                          "tenant_id": "rackspace"
+                      },
+                      {
+                          "admin_state_up": true,
+                          "id": "2993e407-5531-4ca8-9d2a-0d13b5cac904",
+                          "name": "RackNet",
+                          "shared": false,
+                          "status": "ACTIVE",
+                          "subnets": [
+                              "017d8997-70ec-4448-91d9-a8097d6d60f3"
+                          ],
+                          "tenant_id": "123456"
+                      }
+                  ]
+              }
+  /v2.0/networks/{network_id}:
+    get:
+      operationId: showNetwork
+      summary: Show Network
+      description: Shows information for a specified network.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"network\": \n    {\n        \"admin_state_up\"\
+              : true,\n        \"id\": \"4d4e772a-98e7-4409-8a3c-4fed4324da26\",\n\
+              \        \"name\": \"sameer-3\",\n        \"shared\": false,\n     \
+              \   \"status\": \"ACTIVE\",\n        \"subnets\": [],\n        \"tenant_id\"\
+              : \"546428\"\n    }\n}"
+    put:
+      operationId: updateNetwork
+      summary: Update Network
+      description: Updates a specified network.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                   "network":{
+                    "status":"ACTIVE",
+                    "subnets":[
+
+                    ],
+                    "name":"sample_network_5_updated",
+                    "admin_state_up":true,
+                    "tenant_id":"4fd44f30292945e481c7b8a0c8908869",
+                    "shared":false,
+                    "id":"1f370095-98f6-4079-be64-6d3d4a6adcc6",
+                 }
+
+              }
+      parameters:
+      - name: network
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The container for the network details.</p>
+                               </p>
+      - name: name
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The network name.</p>
+                               </p>
+    delete:
+      operationId: deleteNetwork
+      summary: Delete Network
+      description: Deletes a specified network and its associated resources.
+      produces:
+      - application/json
+      responses:
+        204:
+          description: |-
+            204 response
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

@@ -1,0 +1,123 @@
+swagger: 2
+info:
+  title: Cloud Servers
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2/{tenant_id}/servers/{server_id}/os-instance-actions:
+    get:
+      operationId: listActions
+      summary: List server actions
+      description: "Lists available actions for a\n                specified server.\
+        \ Deployers set permissions for this\n                request in the "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "instanceActions": [
+                      {
+                          "action": "resize",
+                          "instance_uuid": "b48316c5-71e8-45e4-9884-6c78055b9b13",
+                          "message": "",
+                          "project_id": "842",
+                          "request_id": "req-25517360-b757-47d3-be45-0e8d2a01b36a",
+                          "start_time": "2012-12-05 01:00:00.000000",
+                          "user_id": "789"
+                      },
+                      {
+                          "action": "reboot",
+                          "instance_uuid": "b48316c5-71e8-45e4-9884-6c78055b9b13",
+                          "message": "",
+                          "project_id": "147",
+                          "request_id": "req-3293a3f1-b44c-4609-b8d2-d81b105636b8",
+                          "start_time": "2012-12-05 00:00:00.000000",
+                          "user_id": "789"
+                      }
+                  ]
+              }
+  /v2/{tenant_id}/servers/{server_id}/os-instance-actions/{action_id}:
+    get:
+      operationId: getActionDetails
+      summary: Get action details
+      description: "Gets details for a specified action\n                for a specified\
+        \ server instance. Deployers set\n                permissions for this request\
+        \ in the\n                    "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "instanceAction": {
+                      "action": "reboot",
+                      "events": [
+                          {
+                              "event": "schedule",
+                              "finish_time": "2012-12-05 01:02:00.000000",
+                              "result": "Success",
+                              "start_time": "2012-12-05 01:00:02.000000",
+                              "traceback": ""
+                          },
+                          {
+                              "event": "compute_create",
+                              "finish_time": "2012-12-05 01:04:00.000000",
+                              "result": "Success",
+                              "start_time": "2012-12-05 01:03:00.000000",
+                              "traceback": ""
+                          }
+                      ],
+                      "instance_uuid": "b48316c5-71e8-45e4-9884-6c78055b9b13",
+                      "message": "",
+                      "project_id": "147",
+                      "request_id": "req-3293a3f1-b44c-4609-b8d2-d81b105636b8",
+                      "start_time": "2012-12-05 00:00:00.000000",
+                      "user_id": "789"
+                  }
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "instanceAction": {
+                      "action": "reboot",
+                      "events": [
+                          {
+                              "event": "schedule",
+                              "finish_time": "2012-12-05 01:02:00.000000",
+                              "result": "Success",
+                              "start_time": "2012-12-05 01:00:02.000000",
+                              "traceback": ""
+                          },
+                          {
+                              "event": "compute_create",
+                              "finish_time": "2012-12-05 01:04:00.000000",
+                              "result": "Success",
+                              "start_time": "2012-12-05 01:03:00.000000",
+                              "traceback": ""
+                          }
+                      ],
+                      "instance_uuid": "b48316c5-71e8-45e4-9884-6c78055b9b13",
+                      "message": "",
+                      "project_id": "147",
+                      "request_id": "req-3293a3f1-b44c-4609-b8d2-d81b105636b8",
+                      "start_time": "2012-12-05 00:00:00.000000",
+                      "user_id": "789"
+                  }
+              }
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

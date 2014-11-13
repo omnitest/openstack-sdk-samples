@@ -1,0 +1,1766 @@
+swagger: 2
+info:
+  title: Cloud Databases
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /:
+    get:
+      operationId: getVersions
+      summary: List versions
+      description: "\n                Lists information about all versions of the\
+        \ API.\n            "
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"versions\": [\n        {\n            \"id\"\
+              : \"v1.0\", \n            \"links\": [\n                {\n        \
+              \            \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/\"\
+              , \n                    \"rel\": \"self\"\n                }\n     \
+              \       ], \n            \"status\": \"CURRENT\", \n            \"updated\"\
+              : \"2012-01-01T00:00:00Z\"\n        }\n    ]\n}\n"
+  /{version}:
+    get:
+      operationId: getVersionInfo
+      summary: List version details
+      description: "\n                Returns detailed information about the specified\
+        \ version of the API.\n            "
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: "{\n    \"version\": {\n        \"id\": \"v1.0\", \n\
+              \        \"links\": [\n            {\n                \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/\"\
+              , \n                \"rel\": \"self\"\n            }\n        ], \n\
+              \        \"status\": \"CURRENT\", \n        \"updated\": \"2012-01-01T00:00:00Z\"\
+              \n    }\n}\n"
+  /{version}/{accountId}/instances:
+    post:
+      operationId: createReplica
+      summary: Create replica
+      description: 'Creates a replica of the source instance, as specified by the
+        value of the '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                "instance": {
+                  "status": "BUILD",
+                  "updated": "2014-10-14T18:42:15",
+                  "name": "t2s1_ALT_GUEST",
+                  "links": [
+                    {
+                      "href": "https://ord.databases.api.rackspacecloud.com/v1.0/5919009/instances/8367c312-7c40-4a66-aab1-5767478914fc",
+                      "rel": "self"
+                    },
+                    {
+                      "href": "https://ord.databases.api.rackspacecloud.com/instances/8367c312-7c40-4a66-aab1-5767478914fc",
+                      "rel": "bookmark"
+                    }
+                  ],
+                  "created": "2014-10-14T18:42:15",
+                  "id": "8367c312-7c40-4a66-aab1-5767478914fc",
+                  "volume": {
+                    "size": 1
+                  },
+                  "flavor": {
+                    "id": "9",
+                    "links": [
+                      {
+                        "href": "https://ord.databases.api.rackspacecloud.com/v1.0/5919009/flavors/9",
+                        "rel": "self"
+                      },
+                      {
+                        "href": "https://ord.databases.api.rackspacecloud.com/flavors/9",
+                        "rel": "bookmark"
+                      }
+                    ]
+                  },
+                  "datastore": {
+                    "version": "5.6",
+                    "type": "mysql"
+                  },
+                  "replica_of": {
+                    "id": "6bdca2fc-418e-40bd-a595-62abda61862d",
+                    "links": [
+                      {
+                        "href": "https://ord.databases.api.rackspacecloud.com/v1.0/5919009/instances/6bdca2fc-418e-40bd-a595-62abda61862d",
+                        "rel": "self"
+                      },
+                      {
+                        "href": "https://ord.databases.api.rackspacecloud.com/instances/6bdca2fc-418e-40bd-a595-62abda61862d",
+                        "rel": "bookmark"
+                      }
+                    ]
+                  }
+                }
+              }
+    get:
+      operationId: getReplicasOrReplicaSources
+      summary: List all replicas or replica sources
+      description: Lists the status and information for all replicas or replica sources.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{  \n   \"instances\":[  \n      {  \n         \"status\"\
+              :\"ACTIVE\",\n         \"name\":\"t1s1_ALT_GUEST\",\n         \"links\"\
+              :[  \n            {  \n               \u201Chttps://ord.databases.api.rackspacecloud.com/v1.0/1234/instances/3c691f06-bf9a-4618-b7ec-2817ce0cf254\"\
+              ,\n               \"rel\":\"self\"\n            },\n            {  \n\
+              \               \"href\":\" https://ord.databases.api.rackspacecloud.com/instances/3c691f06-bf9a-4618-b7ec-2817ce0cf254\"\
+              ,\n               \"rel\":\"bookmark\"\n            }\n         ],\n\
+              \         \"ip\":[  \n            \"10.0.0.3\"\n         ],\n      \
+              \   \"id\":\"3c691f06-bf9a-4618-b7ec-2817ce0cf254\",\n         \"volume\"\
+              :{  \n            \"size\":1\n         },\n         \"flavor\":{  \n\
+              \            \"id\":\"9\",\n            \"links\":[  \n            \
+              \   {  \n                  \"href\":\"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/9\"\
+              ,\n                  \"rel\":\"self\"\n               },\n         \
+              \      {  \n                  \"href\":\" https://ord.databases.api.rackspacecloud.com/flavors/9\"\
+              ,\n                  \"rel\":\"bookmark\"\n               }\n      \
+              \      ]\n         },\n         \"datastore\":{  \n            \"version\"\
+              :\"5.6\",\n            \"type\":\"mysql\"\n         },\n         \"\
+              replica_of\":{  \n            \"id\":\"8b499b45-52d6-402d-b398-f9d8f279c69a\"\
+              ,\n            \"links\":[  \n               {  \n                 \
+              \ \"href\":\"https://ord.databases.api.rackspacecloud.com/v1.0/1234/instances/8b499b45-52d6-402d-b398-f9d8f279c69a\"\
+              ,\n                  \"rel\":\"self\"\n               },\n         \
+              \      {  \n                  \"href\":\"https://ord.databases.api.rackspacecloud.com/instances/8b499b45-52d6-402d-b398-f9d8f279c69a\"\
+              ,\n                  \"rel\":\"bookmark\"\n               }\n      \
+              \      ]\n         }\n      },\n      {  \n         \"status\":\"ACTIVE\"\
+              ,\n         \"name\":\"t1_ALT_GUEST\",\n         \"links\":[  \n   \
+              \         {  \n               \"href\":\"https://ord.databases.api.rackspacecloud.com/v1.0/1234/instances/8b499b45-52d6-402d-b398-f9d8f279c69a\"\
+              ,\n               \"rel\":\"self\"\n            },\n            {  \n\
+              \               \"href\":\"https://ord.databases.api.rackspacecloud.com/instances/8b499b45-52d6-402d-b398-f9d8f279c69a\"\
+              ,\n               \"rel\":\"bookmark\"\n            }\n         ],\n\
+              \         \"ip\":[  \n            \"10.0.0.2\"\n         ],\n      \
+              \   \"id\":\"8b499b45-52d6-402d-b398-f9d8f279c69a\",\n         \"volume\"\
+              :{  \n            \"size\":1\n         },\n         \"flavor\":{  \n\
+              \            \"id\":\"9\",\n            \"links\":[  \n            \
+              \   {  \n                  \"href\":\"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/9\"\
+              ,\n                  \"rel\":\"self\"\n               },\n         \
+              \      {  \n                  \"href\":\" https://ord.databases.api.rackspacecloud.com/flavors/9\"\
+              ,\n                  \"rel\":\"bookmark\"\n               }\n      \
+              \      ]\n         },\n         \"datastore\":{  \n            \"version\"\
+              :\"5.6\",\n            \"type\":\"mysql\"\n         }\n      }\n   ]\n\
+              }\n"
+  /{version}/{accountId}/instances/{instanceId}:
+    put:
+      operationId: updateInstance
+      summary: Update database instance
+      description: 'Associates a specified database instance with a '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:15 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+    get:
+      operationId: getReplica
+      summary: List replica
+      description: Lists status and details for a specified replica.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                "instance": {
+                  "status": "ACTIVE",
+                  "updated": "2014-10-21T19:54:55",
+                  "name": "t1s1_ALT_GUEST",
+                  "links": [
+                    {
+                      "href": " https://ord.databases.api.rackspacecloud.com/v1.0/1234/instances /1131f914-571c-4cd1-a5e5-0c2235eaa66f",
+                      "rel": "self"
+                    },
+                    {
+                      "href": " https://ord.databases.api.rackspacecloud.com/instances /1131f914-571c-4cd1-a5e5-0c2235eaa66f",
+                      "rel": "bookmark"
+                    }
+                  ],
+                  "created": "2014-10-21T19:54:00",
+                  "ip": [
+                    "10.0.0.3"
+                  ],
+                  "id": "1131f914-571c-4cd1-a5e5-0c2235eaa66f",
+                  "volume": {
+                    "used": 0.06,
+                    "size": 1
+                  },
+                  "flavor": {
+                    "id": "9",
+                    "links": [
+                      {
+                        "href": " https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors /9",
+                        "rel": "self"
+                      },
+                      {
+                        "href": " https://ord.databases.api.rackspacecloud.com/flavors /9",
+                        "rel": "bookmark"
+                      }
+                    ]
+                  },
+                  "datastore": {
+                    "version": "5.6",
+                    "type": "mysql"
+                  },
+                  "replica_of": {
+                    "id": "8215d522-d66a-479b-83c0-fbacc5dd05fc",
+                    "links": [
+                      {
+                        "href": "https https://ord.databases.api.rackspacecloud.com/v1.0/1234/instances /8215d522-d66a-479b-83c0-fbacc5dd05fc",
+                        "rel": "self"
+                      },
+                      {
+                        "href": " https://ord.databases.api.rackspacecloud.com/instances /8215d522-d66a-479b-83c0-fbacc5dd05fc",
+                        "rel": "bookmark"
+                      }
+                    ]
+                  }
+                }
+              }
+    delete:
+      operationId: deleteInstance
+      summary: Delete database instance
+      description: Deletes the specified database instance.
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+    patch:
+      operationId: detachReplica
+      summary: Detach replica
+      description: Detaches the specified replica instance from its replication source.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |2
+
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Tue, 21 Oct 2014 21:47:15 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/instances/{instanceId}/action:
+    post:
+      operationId: restartInstance
+      summary: Restart instance
+      description: Restarts the database service on the instance.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:18 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/instances/{instanceId}/databases:
+    post:
+      operationId: createDatabase
+      summary: Create database
+      description: 'Creates a new '
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:14 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+    get:
+      operationId: getDatabases
+      summary: List databases for instance
+      description: Lists databases for the specified instance.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"databases\": [\n        {\n            \"\
+              name\": \"anotherdb\"\n        }\n    ], \n    \"links\": [\n      \
+              \  {\n            \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/instances/d4603f69-ec7e-4e9b-803f-600b9205576f/databases?marker=anotherdb&limit=1\"\
+              , \n            \"rel\": \"next\"\n        }\n    ]\n}\n"
+  /{version}/{accountId}/instances/{instanceId}/databases/{databaseName}:
+    delete:
+      operationId: deleteDatabase
+      summary: Delete database
+      description: Deletes the specified database.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:14 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/instances/{instanceId}/users:
+    post:
+      operationId: createUser
+      summary: Create user
+      description: Creates a user for the specified database instance.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:14 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+    get:
+      operationId: getUsers
+      summary: List users in database instance
+      description: Lists the users in the specified database instance.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"links\": [\n        {\n            \"href\"\
+              : \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/instances/d4603f69-ec7e-4e9b-803f-600b9205576f/users?marker=dbuser2%2540%2525&limit=2\"\
+              , \n            \"rel\": \"next\"\n        }\n    ], \n    \"users\"\
+              : [\n        {\n            \"databases\": [\n                {\n  \
+              \                  \"name\": \"databaseA\"\n                }\n    \
+              \        ], \n            \"host\": \"%\", \n            \"name\": \"\
+              dbuser1\"\n        }, \n        {\n            \"databases\": [\n  \
+              \              {\n                    \"name\": \"databaseB\"\n    \
+              \            }, \n                {\n                    \"name\": \"\
+              databaseC\"\n                }\n            ], \n            \"host\"\
+              : \"%\", \n            \"name\": \"dbuser2\"\n        }\n    ]\n}\n"
+    put:
+      operationId: changePass
+      summary: Change user(s) password
+      description: Changes the database password of one or more users.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |+
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Content-Length: 152
+              Date: Wed, 21 Mar 2012 17:46:46 GMT
+
+  /{version}/{accountId}/instances/{instanceId}/users/{name}:
+    delete:
+      operationId: deleteUser
+      summary: Delete user
+      description: Deletes the user identified by {name} for the specified database
+        instance.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:14 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+    get:
+      operationId: listUser
+      summary: List user
+      description: Lists the specified user's name and a list of databases that the
+        user can access.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"user\": {\n        \"databases\": [], \n \
+              \       \"host\": \"%\", \n        \"name\": \"dbuser1\"\n    }\n}\n"
+    put:
+      operationId: modifyUser
+      summary: Modify user attributes
+      description: 'Modifies one or more of the following for the specified user:
+        name, password, and host from which the user is allowed to connect to the
+        database. '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:14 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/instances/{instanceId}/users/{name}/databases:
+    get:
+      operationId: getUserAccess
+      summary: List user access
+      description: Shows a list of all databases a user has access to.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"databases\": [\n        {\n            \"\
+              name\": \"databaseB\"\n        }, \n        {\n            \"name\"\
+              : \"databaseC\"\n        }\n    ]\n}\n"
+    put:
+      operationId: grantUserAccess
+      summary: Grant user access
+      description: Grants access for the specified user to one or more databases for
+        the specified instance.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Wed, 08 May 2013 22:43:35 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/instances/{instanceId}/users/{name}/databases/{databaseName}:
+    delete:
+      operationId: revokeUserAccess
+      summary: Revoke user access
+      description: Removes access to the specified database for the specified user.
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Wed, 08 May 2013 22:43:35 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/instances/{instanceId}/configuration:
+    get:
+      operationId: getDefaultConfig
+      summary: Get default configuration
+      description: Lists the default configuration settings from the template that
+        were applied to the specified instance.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"instance\": {\n        \"configuration\":\
+              \ {\n            \"basedir\": \"/usr\", \n            \"connect_timeout\"\
+              : \"15\", \n            \"datadir\": \"/var/lib/mysql\", \n        \
+              \    \"default_storage_engine\": \"innodb\", \n            \"innodb_buffer_pool_instances\"\
+              : \"1\", \n            \"innodb_buffer_pool_size\": \"175M\", \n   \
+              \         \"innodb_checksum_algorithm\": \"crc32\", \n            \"\
+              innodb_data_file_path\": \"ibdata1:10M:autoextend\", \n            \"\
+              innodb_file_per_table\": \"1\", \n            \"innodb_io_capacity\"\
+              : \"200\", \n            \"innodb_io_capacity_max\": \"400         \
+              \      # 2 x innodb_io_capacity\", \n            \"innodb_log_buffer_size\"\
+              : \"8M\", \n            \"innodb_log_file_size\": \"256M\", \n     \
+              \       \"innodb_log_files_in_group\": \"2\", \n            \"innodb_open_files\"\
+              : \"8192\", \n            \"innodb_thread_concurrency\": \"0\", \n \
+              \           \"join_buffer_size\": \"1M\", \n            \"key_buffer_size\"\
+              : \"50M\", \n            \"local-infile\": \"0\", \n            \"log-error\"\
+              : \"/var/log/mysql/mysqld.log\", \n            \"max_allowed_packet\"\
+              : \"16M\", \n            \"max_connect_errors\": \"10000\", \n     \
+              \       \"max_connections\": \"40\", \n            \"max_heap_table_size\"\
+              : \"16M\", \n            \"myisam-recover\": \"BACKUP\", \n        \
+              \    \"open_files_limit\": \"8192\", \n            \"performance_schema\"\
+              : \"off\", \n            \"pid_file\": \"/var/run/mysqld/mysqld.pid\"\
+              , \n            \"port\": \"3306\", \n            \"query_cache_limit\"\
+              : \"1M\", \n            \"query_cache_size\": \"8M\", \n           \
+              \ \"query_cache_type\": \"1\", \n            \"read_buffer_size\": \"\
+              256K\", \n            \"read_rnd_buffer_size\": \"1M\", \n         \
+              \   \"server_id\": \"1\", \n            \"skip-external-locking\": \"\
+              1\", \n            \"skip_name_resolve\": \"1\", \n            \"sort_buffer_size\"\
+              : \"256K\", \n            \"table_open_cache\": \"4096\", \n       \
+              \     \"thread_stack\": \"192K\", \n            \"tmp_table_size\":\
+              \ \"16M\", \n            \"tmpdir\": \"/var/tmp\", \n            \"\
+              user\": \"mysql\", \n            \"wait_timeout\": \"3600\"\n      \
+              \  }\n    }\n}\n"
+  /{version}/{accountId}/instances/{instanceId}/root:
+    post:
+      operationId: createRoot
+      summary: Enable root user
+      description: Enables the root user for the specified database instance and returns
+        the root password.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"user\": {\n        \"name\": \"root\", \n\
+              \        \"password\": \"12345\"\n    }\n}\n"
+    get:
+      operationId: isRootEnabled
+      summary: List root-enabled status
+      description: Returns true if root user is enabled for the specified database
+        instance or false otherwise.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                  "rootEnabled": true
+              }
+  /{version}/{accountId}/instances/{instanceId}/backups:
+    get:
+      operationId: getBackupsByInstance
+      summary: List backups for instance
+      description: Lists all backups for a specified instance.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "backup": {
+                      "status": "COMPLETED",
+                      "updated": "2014-06-19T15:56:58",
+                      "description": "Backup from Restored Instance",
+                      "datastore": {
+                          "version": "5.1",
+                          "type": "MySQL",
+                          "version_id": "20000000-0000-0000-0000-000000000002"
+                      },
+                      "id": "e2d3dfca-430f-4cd2-bec0-884cd7426f13",
+                      "size": 0.141026,
+                      "name": "restored_backup",
+                      "created": "2014-06-19T15:55:54",
+                      "instance_id": "34d6c8bf-539e-47d1-8a06-2b7590521309",
+                      "parent_id": null,
+                      "locationRef": "http://localhost/path/to/backup"
+                  }
+              }
+  /{version}/{accountId}/flavors:
+    get:
+      operationId: getFlavors
+      summary: List flavors
+      description: 'Lists information for all available '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"flavors\": [\n        {\n            \"id\"\
+              : 1, \n            \"links\": [\n                {\n               \
+              \     \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/1\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/1\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"512MB Instance\", \n      \
+              \      \"ram\": 512\n        }, \n        {\n            \"id\": 2,\
+              \ \n            \"links\": [\n                {\n                  \
+              \  \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/2\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/2\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"1GB Instance\", \n        \
+              \    \"ram\": 1024\n        }, \n        {\n            \"id\": 3, \n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/3\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/3\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"2GB Instance\", \n        \
+              \    \"ram\": 2048\n        }, \n        {\n            \"id\": 4, \n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/4\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/4\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"4GB Instance\", \n        \
+              \    \"ram\": 4096\n        }, \n        {\n            \"id\": 5, \n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/5\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/5\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"8GB Instance\", \n        \
+              \    \"ram\": 8192\n        }, \n        {\n            \"id\": 6, \n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/6\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/6\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"16GB Instance\", \n       \
+              \     \"ram\": 16384\n        },\n        {\n            \"id\": 7,\
+              \ \n            \"links\": [\n                {\n                  \
+              \  \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/647683/flavors/7\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/7\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"32GB Instance\", \n       \
+              \     \"ram\": 32768\n        }, \n        {\n            \"id\": 8,\
+              \ \n            \"links\": [\n                {\n                  \
+              \  \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/647683/flavors/8\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/8\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"64GB Instance\", \n       \
+              \     \"ram\": 65536\n        }\n    ]\n}\n"
+  /{version}/{accountId}/flavors/{flavorId}:
+    get:
+      operationId: getFlavorById
+      summary: List flavor by ID
+      description: Lists all flavor information about the specified flavor ID.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"flavor\": {\n        \"id\": 1, \n       \
+              \ \"links\": [\n            {\n                \"href\": \"https://ord.databases.api.rackspacecloud.com/v1.0/1234/flavors/1\"\
+              , \n                \"rel\": \"self\"\n            }, \n           \
+              \ {\n                \"href\": \"https://ord.databases.api.rackspacecloud.com/flavors/1\"\
+              , \n                \"rel\": \"bookmark\"\n            }\n        ],\
+              \ \n        \"name\": \"512MB Instance\", \n        \"ram\": 512\n \
+              \   }\n}\n"
+  /{version}/{accountId}/backups:
+    post:
+      operationId: createBackup
+      summary: Create backup
+      description: 'Creates a new '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"backup\": {\n        \"created\": \"2014-02-13T21:47:16\"\
+              , \n        \"description\": \"My Backup\", \n        \"id\": \"61f12fef-edb1-4561-8122-e7c00ef26a82\"\
+              , \n        \"instance_id\": \"d4603f69-ec7e-4e9b-803f-600b9205576f\"\
+              , \n        \"locationRef\": null, \n        \"name\": \"snapshot\"\
+              , \n        \"parent_id\": null, \n        \"size\": null, \n      \
+              \  \"status\": \"NEW\", \n        \"updated\": \"2014-02-13T21:47:16\"\
+              \n    }\n}\n"
+    get:
+      operationId: getBackups
+      summary: List backups
+      description: Lists all backups for all database instances.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |+
+              {
+                  "backups": [
+                      {
+                          "status": "COMPLETED",
+                          "updated": "2014-06-19T15:56:58",
+                          "description": "Backup from Restored Instance",
+                          "datastore": {
+                              "version": "5.1",
+                              "type": "MySQL",
+                              "version_id": "20000000-0000-0000-0000-000000000002"
+                          },
+                          "id": "e2d3dfca-430f-4cd2-bec0-884cd7426f13",
+                          "size": 0.141026,
+                          "name": "restored_backup",
+                          "created": "2014-06-19T15:55:54",
+                          "instance_id": "34d6c8bf-539e-47d1-8a06-2b7590521309",
+                          "parent_id": null,
+                          "locationRef": "http://localhost/path/to/backup"
+                      },
+                      {
+                          "status": "COMPLETED",
+                          "updated": "2014-06-19T15:26:10",
+                          "description": "Backup from Restored Instance",
+                          "datastore": {
+                              "version": "5.1",
+                              "type": "MySQL",
+                              "version_id": "20000000-0000-0000-0000-000000000002"
+                          },
+                          "id": "5890e1cc-c5ad-460c-baec-cfdaf2ccf796",
+                          "size": 0.141026,
+                          "name": "restored_backup",
+                          "created": "2014-06-19T15:25:06",
+                          "instance_id": "c7855b60-2a50-4ed9-8de3-f35f2067fb2a",
+                          "parent_id": null,
+                          "locationRef": "http://localhost/path/to/backup"
+                      },
+                      {
+                          "status": "COMPLETED",
+                          "updated": "2014-06-19T15:20:04",
+                          "description": "Backup from Restored Instance",
+                          "datastore": {
+                              "version": "5.1",
+                              "type": "MySQL",
+                              "version_id": "20000000-0000-0000-0000-000000000002"
+                          },
+                          "id": "6fdbf0cc-8950-481b-995f-1f041abda2b6",
+                          "size": 0.141026,
+                          "name": "restored_backup",
+                          "created": "2014-06-19T15:19:00",
+                          "instance_id": "e84b5d1c-97c9-4aa1-9f0a-dbf867f1087c",
+                          "parent_id": null,
+                          "locationRef": "http://localhost/path/to/backup"
+                      },
+                      {
+                          "status": "COMPLETED",
+                          "updated": "2014-06-19T15:05:23",
+                          "description": "Backup from Restored Instance",
+                          "datastore": {
+                              "version": "5.1",
+                              "type": "MySQL",
+                              "version_id": "20000000-0000-0000-0000-000000000002"
+                          },
+                          "id": "b3b8ef8b-36a6-4043-9997-701b34a2b805",
+                          "size": 0.141026,
+                          "name": "restored_backup",
+                          "created": "2014-06-19T15:04:19",
+                          "instance_id": "3120d7eb-42fe-4d63-b8f6-98396f4c8590",
+                          "parent_id": null,
+                          "locationRef": "http://localhost/path/to/backup"
+                      },
+                      {
+                          "status": "COMPLETED",
+                          "updated": "2014-06-18T21:24:39",
+                          "description": "Backup from Restored Instance",
+                          "datastore": {
+                              "version": "5.1",
+                              "type": "MySQL",
+                              "version_id": "20000000-0000-0000-0000-000000000002"
+                          },
+                          "id": "87972694-4be2-40f5-83f8-501656e0032a",
+                          "size": 0.141026,
+                          "name": "restored_backup",
+                          "created": "2014-06-18T21:23:35",
+                          "instance_id": "29af2cd9-0674-48ab-b87a-b160f00208e6",
+                          "parent_id": null,
+                          "locationRef": "http://localhost/path/to/backup"
+                      }
+                  ]
+              }
+
+
+
+
+
+  /{version}/{accountId}/backups/{backupId}:
+    get:
+      operationId: getBackupById
+      summary: List backup by ID
+      description: Lists details about a specified backup.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                  "backup": {
+                      "status": "COMPLETED",
+                      "updated": "2014-06-19T15:56:58",
+                      "description": "Backup from Restored Instance",
+                      "datastore": {
+                          "version": "5.1",
+                          "type": "MySQL",
+                          "version_id": "20000000-0000-0000-0000-000000000002"
+                      },
+                      "id": "e2d3dfca-430f-4cd2-bec0-884cd7426f13",
+                      "size": 0.141026,
+                      "name": "restored_backup",
+                      "created": "2014-06-19T15:55:54",
+                      "instance_id": "34d6c8bf-539e-47d1-8a06-2b7590521309",
+                      "parent_id": null,
+                      "locationRef": "http://localhost/path/to/backup"
+                  }
+              }
+    delete:
+      operationId: deleteBackup
+      summary: Delete backup
+      description: Deletes the specified backup.
+      produces: []
+      responses:
+        202:
+          description: |-
+            202 response
+  /{version}/{accountId}/configurations:
+    get:
+      operationId: getConfigurations
+      summary: List configurations
+      description: 'Lists all defined '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "configurations": [
+                      {
+                          "created": "2014-07-31T18:56:09",
+                          "datastore_name": "mysql",
+                          "datastore_version_id": "b00000b0-00b0-0b00-00b0-000b000000bb",
+                          "datastore_version_name": "5.6",
+                          "description": "example description",
+                          "id": "005a8bb7-a8df-40ee-b0b7-fc144641abc2",
+                          "name": "example-configuration-name",
+                          "updated": "2014-07-31T18:56:09"
+                      }
+                  ]
+              }
+    post:
+      operationId: createConfiguration
+      summary: Create configuration
+      description: 'Creates a new '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "configuration": {
+                      "created": "2014-07-31T15:02:52",
+                      "datastore_name": "mysql",
+                      "datastore_version_id": "b00000b0-00b0-0b00-00b0-000b000000bb"",
+                      "datastore_version_name": "5.6",
+                      "description": "example description",
+                      "id": "005a8bb7-a8df-40ee-b0b7-fc144641abc2",
+                      "instance_count": 0,
+                      "name": "example-configuration-name",
+                      "updated": "2014-07-31T15:02:52",
+                      "values": {
+                          "collation_server": "latin1_swedish_ci",
+                          "connect_timeout": 120
+                      }
+                  }
+              }
+      parameters:
+      - name: datastore
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The datastore for the configuration. If omitted,
+          it defaults to MySQL 5.6.</p>
+                               </p>
+      - name: type
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The type of the datastore for the configuration.
+          If omitted, it defaults to MySQL.</p>
+                               </p>
+      - name: version
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The version of the datastore for the configuration.
+          If omitted, it defaults to MySQL 5.6.</p>
+                               </p>
+      - name: description
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The description for the configuration.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The name for the configuration.</p>
+                               </p>
+      - name: values
+        required: true
+        in: body
+        description: "<p>\n                        <p>The values for the configuration.\
+          \ The key value pairs \"values\" should be in JSON format with no spaces.\
+          \ \n                            The key and the value are strings and must\
+          \ be enclosed in double quotation marks. For example: \"default_time_zone\"\
+          : \"-6:00\". \n                            Each key value pair should be\
+          \ separated by a comma.</p>\n                     </p>\n"
+  /{version}/{accountId}/configurations/{configId}:
+    get:
+      operationId: getConfigurationById
+      summary: List configuration details
+      description: 'Lists details for the specified '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "configuration": {
+                      "created": "2014-07-31T15:19:50",
+                      "datastore_name": "mysql",
+                      "datastore_version_id": "b00000b0-00b0-0b00-00b0-000b000000bb",
+                      "datastore_version_name": "5.6",
+                      "description": "example description",
+                      "id": "005a8bb7-a8df-40ee-b0b7-fc144641abc2",
+                      "instance_count": 0,
+                      "name": "example-configuration-name",
+                      "updated": "2014-07-31T15:19:50",
+                      "values": {
+                          "collation_server": "latin1_swedish_ci",
+                          "connect_timeout": 120
+                      }
+                  }
+              }
+    patch:
+      operationId: updateSomeConfigParmsById
+      summary: Update some configuration parameters
+      description: 'Updates some of the '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              HTTP/1.1 200 OK
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:15 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+    put:
+      operationId: replaceAllConfigParmsById
+      summary: Replace all configuration parameters
+      description: 'Replaces all of the '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:15 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+    delete:
+      operationId: deleteConfigGroup
+      summary: Delete configuration group
+      description: 'Deletes the specified '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              HTTP/1.1 202 Accepted
+              Content-Type: application/json
+              Via: 1.1 Repose (Repose/2.6.7)
+              Content-Length: 0
+              Date: Thu, 13 Feb 2014 21:47:19 GMT
+              Server: Jetty(8.0.y.z-SNAPSHOT)
+  /{version}/{accountId}/configurations/{configId}/instances:
+    get:
+      operationId: getInstancesForConfiguration
+      summary: List instances for configuration
+      description: 'Lists instances that are associated with the specified '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"instances\": [\n        {\n            \"\
+              id\": \"d4603f69-ec7e-4e9b-803f-600b9205576f\", \n            \"name\"\
+              : \"json_rack_instance\"\n        }\n    ]\n}\n"
+  /{version}/{accountId}/datastores:
+    get:
+      operationId: getDatastoreTypes
+      summary: List all datastore types
+      description: Lists all datastore types.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"datastores\": [\n        {\n            \"\
+              default_version\": \"c00000b0-00c0-0c00-00c0-000b000000cc\",\n     \
+              \       \"id\": \"10000000-0000-0000-0000-000000000001\", \n       \
+              \     \"links\": [\n                {\n                    \"href\"\
+              : \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/10000000-0000-0000-0000-000000000001\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/10000000-0000-0000-0000-000000000001\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"mysql\", \n            \"versions\"\
+              : [\n                {\n                    \"id\": \"b00000b0-00b0-0b00-00b0-000b000000bb\"\
+              ,\n                    \"links\": [\n                        {\n   \
+              \                         \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb\"\
+              ,\n                            \"rel\": \"self\"\n                 \
+              \       }, \n                        {\n                           \
+              \ \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb\"\
+              ,\n                            \"rel\": \"bookmark\"\n             \
+              \           }\n                    ], \n                    \"name\"\
+              : \"5.1\"\n                }, \n                {\n                \
+              \    \"id\": \"c00000b0-00c0-0c00-00c0-000b000000cc\",\n           \
+              \         \"links\": [\n                        {\n                \
+              \            \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc\"\
+              ,\n                            \"rel\": \"self\"\n                 \
+              \       }, \n                        {\n                           \
+              \ \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc\"\
+              ,\n                            \"rel\": \"bookmark\"\n             \
+              \           }\n                    ], \n                    \"name\"\
+              : \"5.6\"\n                }\n            ]\n        }, \n        {\n\
+              \            \"default_version\": \"e8b1ee46-58c9-459e-bb02-50ddc8844be7\"\
+              , \n            \"id\": \"17e9bb89-0dce-476d-b785-0c8485f932c0\", \n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/17e9bb89-0dce-476d-b785-0c8485f932c0\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/17e9bb89-0dce-476d-b785-0c8485f932c0\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"percona\", \n            \"\
+              versions\": [\n                {\n                    \"id\": \"e8b1ee46-58c9-459e-bb02-50ddc8844be7\"\
+              , \n                    \"links\": [\n                        {\n  \
+              \                          \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/e8b1ee46-58c9-459e-bb02-50ddc8844be7\"\
+              , \n                            \"rel\": \"self\"\n                \
+              \        }, \n                        {\n                          \
+              \  \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/e8b1ee46-58c9-459e-bb02-50ddc8844be7\"\
+              , \n                            \"rel\": \"bookmark\"\n            \
+              \            }\n                    ], \n                    \"name\"\
+              : \"5.6\"\n                }\n            ]\n        }, \n        {\n\
+              \            \"default_version\": \"bf414e62-0e66-4e0f-9b76-05d7408eb140\"\
+              , \n            \"id\": \"a87786d5-879d-4680-a98c-684122bd7cce\", \n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/a87786d5-879d-4680-a98c-684122bd7cce\"\
+              , \n                    \"rel\": \"self\"\n                }, \n   \
+              \             {\n                    \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/a87786d5-879d-4680-a98c-684122bd7cce\"\
+              , \n                    \"rel\": \"bookmark\"\n                }\n \
+              \           ], \n            \"name\": \"mariadb\", \n            \"\
+              versions\": [\n                {\n                    \"id\": \"53e8fe38-c18d-47d8-9d9e-2ba09a57ae6c\"\
+              , \n                    \"links\": [\n                        {\n  \
+              \                          \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/53e8fe38-c18d-47d8-9d9e-2ba09a57ae6c\"\
+              , \n                            \"rel\": \"self\"\n                \
+              \        }, \n                        {\n                          \
+              \  \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/53e8fe38-c18d-47d8-9d9e-2ba09a57ae6c\"\
+              , \n                            \"rel\": \"bookmark\"\n            \
+              \            }\n                    ], \n                    \"name\"\
+              : \"10.0\"\n                }, \n                {\n               \
+              \     \"id\": \"bf414e62-0e66-4e0f-9b76-05d7408eb140\", \n         \
+              \           \"links\": [\n                        {\n              \
+              \              \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/bf414e62-0e66-4e0f-9b76-05d7408eb140\"\
+              , \n                            \"rel\": \"self\"\n                \
+              \        }, \n                        {\n                          \
+              \  \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/bf414e62-0e66-4e0f-9b76-05d7408eb140\"\
+              , \n                            \"rel\": \"bookmark\"\n            \
+              \            }\n                    ], \n                    \"name\"\
+              : \"10\"\n                }\n            ]\n        }\n    ]\n}"
+  /{version}/{accountId}/datastores/versions/{versionId}/parameters:
+    get:
+      operationId: getConfigurationParametersWithoutDatastore
+      summary: List configuration parameters without datastore
+      description: 'Lists the '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"configuration-parameters\": [\n        {\n\
+              \            \"max\": 1, \n            \"min\": 0, \n            \"\
+              name\": \"innodb_file_per_table\", \n            \"restart_required\"\
+              : true, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 1, \n            \"min\": 0, \n            \"\
+              name\": \"autocommit\", \n            \"restart_required\": false, \n\
+              \            \"type\": \"integer\"\n        }, \n        {\n       \
+              \     \"max\": 1, \n            \"min\": 0, \n            \"name\":\
+              \ \"local_infile\", \n            \"restart_required\": false, \n  \
+              \          \"type\": \"integer\"\n        }, \n        {\n         \
+              \   \"max\": 4294967296, \n            \"min\": 0, \n            \"\
+              name\": \"key_buffer_size\", \n            \"restart_required\": false,\
+              \ \n            \"type\": \"integer\"\n        }, \n        {\n    \
+              \        \"max\": 65535, \n            \"min\": 1, \n            \"\
+              name\": \"connect_timeout\", \n            \"restart_required\": false,\
+              \ \n            \"type\": \"integer\"\n        }, \n        {\n    \
+              \        \"max\": 4294967296, \n            \"min\": 0, \n         \
+              \   \"name\": \"join_buffer_size\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 18446744073709547520, \n            \"min\": 32768,\
+              \ \n            \"name\": \"sort_buffer_size\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 68719476736, \n            \"min\": 0, \n    \
+              \        \"name\": \"innodb_buffer_pool_size\", \n            \"restart_required\"\
+              : true, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 2, \n            \"min\": 0, \n            \"\
+              name\": \"innodb_flush_log_at_trx_commit\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 4294967296, \n            \"min\": 1048576, \n\
+              \            \"name\": \"innodb_log_buffer_size\", \n            \"\
+              restart_required\": true, \n            \"type\": \"integer\"\n    \
+              \    }, \n        {\n            \"max\": 4294967296, \n           \
+              \ \"min\": 10, \n            \"name\": \"innodb_open_files\", \n   \
+              \         \"restart_required\": true, \n            \"type\": \"integer\"\
+              \n        }, \n        {\n            \"max\": 1000, \n            \"\
+              min\": 0, \n            \"name\": \"innodb_thread_concurrency\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"sync_binlog\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"auto_increment_increment\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"auto_increment_offset\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"bulk_insert_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"expire_logs_days\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"interactive_timeout\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1073741824,\
+              \ \n            \"min\": 1024, \n            \"name\": \"max_allowed_packet\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_connect_errors\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"max_connections\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 4, \n            \"name\": \"myisam_sort_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 100000,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_user_connections\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 100000,\
+              \ \n            \"min\": 1, \n            \"name\": \"server_id\", \n\
+              \            \"restart_required\": true, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 31536000, \n\
+              \            \"min\": 1, \n            \"name\": \"wait_timeout\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"name\": \"character_set_client\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"character_set_connection\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"character_set_database\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"character_set_filesystem\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"character_set_results\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"character_set_server\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"collation_connection\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"collation_database\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"collation_server\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }\n    ]\n}\n"
+  /{version}/{accountId}/datastores/versions/{versionId}/parameters/{parameterId}:
+    get:
+      operationId: getConfigurationParameterDetailsWithoutDatastore
+      summary: List configuration parameter details without datastore
+      description: 'Lists the details of a specified '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"max\": 1, \n    \"min\": 0, \n    \"name\"\
+              : \"innodb_file_per_table\", \n    \"restart_required\": true, \n  \
+              \  \"type\": \"integer\"\n}\n"
+  /{version}/{accountId}/datastores/{datastoreId}:
+    get:
+      operationId: getDatastoreTypesById
+      summary: List datastore type
+      description: Lists datastore type.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |+
+              {
+                  "datastore": {
+                      "default_version": "7104c15f-ace0-479b-97ad-b368de32cb68",
+                      "id": "a00000a0-00a0-0a00-00a0-000a000000aa",
+                      "links": [
+                          {
+                              "href": "https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/a00000a0-00a0-0a00-00a0-000a000000aa",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "https://api.staging.ord1.clouddb.rackspace.net/datastores/a00000a0-00a0-0a00-00a0-000a000000aa",
+                              "rel": "bookmark"
+                          }
+                      ],
+                      "name": "mysql",
+                      "versions": [
+                          {
+                              "id": "b00000b0-00b0-0b00-00b0-000b000000bb",
+                              "links": [
+                                  {
+                                      "href": "https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb",
+                                      "rel": "self"
+                                  },
+                                  {
+                                      "href": "https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb",
+                                      "rel": "bookmark"
+                                  }
+                              ],
+                              "name": "5.1"
+                          },
+                          {
+                              "id": "c00000b0-00c0-0c00-00c0-000b000000cc",
+                              "links": [
+                                  {
+                                      "href": "https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc",
+                                      "rel": "self"
+                                  },
+                                  {
+                                      "href": "https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc",
+                                      "rel": "bookmark"
+                                  }
+                              ],
+                              "name": "5.6"
+                          }
+                      ]
+                  }
+              }
+
+  /{version}/{accountId}/datastores/{datastoreId}/versions:
+    get:
+      operationId: getDatastoreVersionsById
+      summary: List datastore versions for datastore
+      description: Lists all datastore versions for the specified datastore.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"versions\": [\n        {\n            \"datastore\"\
+              : \"a00000a0-00a0-0a00-00a0-000a000000aa\", \n            \"id\": \"\
+              b00000b0-00b0-0b00-00b0-000b000000bb\",\n            \"links\": [\n\
+              \                {\n                    \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb\"\
+              ,\n                    \"rel\": \"self\"\n                }, \n    \
+              \            {\n                    \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb\"\
+              ,\n                    \"rel\": \"bookmark\"\n                }\n  \
+              \          ], \n            \"name\": \"5.1\"\n        }, \n       \
+              \ {\n            \"datastore\": \"a00000a0-00a0-0a00-00a0-000a000000aa\"\
+              , \n            \"id\": \"c00000b0-00c0-0c00-00c0-000b000000cc\",\n\
+              \            \"links\": [\n                {\n                    \"\
+              href\": \"https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc\"\
+              ,\n                    \"rel\": \"self\"\n                }, \n    \
+              \            {\n                    \"href\": \"https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/c00000b0-00c0-0c00-00c0-000b000000cc\"\
+              ,\n                    \"rel\": \"bookmark\"\n                }\n  \
+              \          ], \n            \"name\": \"5.6\"\n        }\n    ]\n}"
+  /{version}/{accountId}/datastores/{datastoreId}/versions/{versionId}:
+    get:
+      operationId: getDatastoreVersionByVersionId
+      summary: List datastore version
+      description: Lists datastore version.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                  "version": {
+                      "datastore": "10000000-0000-0000-0000-000000000001",
+                      "id": "b00000b0-00b0-0b00-00b0-000b000000bb",
+                      "links": [
+                          {
+                              "href": "https://api.staging.ord1.clouddb.rackspace.net/v1.0/1234/datastores/versions/b00000b0-00b0-0b00-00b0
+                              -000b000000bb",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "https://api.staging.ord1.clouddb.rackspace.net/datastores/versions/b00000b0-00b0-0b00-00b0-000b000000bb",
+                              "rel": "bookmark"
+                          }
+                      ],
+                      "name": "5.1"
+                  }
+              }
+  /{version}/{accountId}/datastores/{datastoreId}/versions/{versionId}/parameters:
+    get:
+      operationId: getConfigurationParameters
+      summary: List configuration parameters
+      description: 'Lists '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"configuration-parameters\": [\n        {\n\
+              \            \"max\": 1, \n            \"min\": 0, \n            \"\
+              name\": \"innodb_file_per_table\", \n            \"restart_required\"\
+              : true, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 4294967296, \n            \"min\": 0, \n     \
+              \       \"name\": \"key_buffer_size\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 65535, \n            \"min\": 2, \n          \
+              \  \"name\": \"connect_timeout\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 4294967296, \n            \"min\": 0, \n     \
+              \       \"name\": \"join_buffer_size\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 18446744073709547520, \n            \"min\": 32768,\
+              \ \n            \"name\": \"sort_buffer_size\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 68719476736, \n            \"min\": 0, \n    \
+              \        \"name\": \"innodb_buffer_pool_size\", \n            \"restart_required\"\
+              : true, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 2, \n            \"min\": 0, \n            \"\
+              name\": \"innodb_flush_log_at_trx_commit\", \n            \"restart_required\"\
+              : false, \n            \"type\": \"integer\"\n        }, \n        {\n\
+              \            \"max\": 4294967296, \n            \"min\": 1048576, \n\
+              \            \"name\": \"innodb_log_buffer_size\", \n            \"\
+              restart_required\": true, \n            \"type\": \"integer\"\n    \
+              \    }, \n        {\n            \"max\": 4294967296, \n           \
+              \ \"min\": 10, \n            \"name\": \"innodb_open_files\", \n   \
+              \         \"restart_required\": true, \n            \"type\": \"integer\"\
+              \n        }, \n        {\n            \"max\": 1000, \n            \"\
+              min\": 0, \n            \"name\": \"innodb_thread_concurrency\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"sync_binlog\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"auto_increment_increment\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"auto_increment_offset\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"bulk_insert_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"expire_logs_days\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"interactive_timeout\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1073741824,\
+              \ \n            \"min\": 1024, \n            \"name\": \"max_allowed_packet\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_connect_errors\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 1, \n            \"name\": \"max_connections\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 4, \n            \"name\": \"myisam_sort_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 100000,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_user_connections\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 100000,\
+              \ \n            \"min\": 1, \n            \"name\": \"server_id\", \n\
+              \            \"restart_required\": true, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 31536000, \n\
+              \            \"min\": 1, \n            \"name\": \"wait_timeout\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"name\": \"character_set_filesystem\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"character_set_server\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"name\": \"collation_server\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 10, \n            \"name\": \"ft_max_word_len\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"ft_min_word_len\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 16384, \n\
+              \            \"min\": 0, \n            \"name\": \"thread_cache_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"query_cache_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 2, \n  \
+              \          \"min\": 0, \n            \"name\": \"query_cache_type\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 524288,\
+              \ \n            \"min\": 256, \n            \"name\": \"table_definition_cache\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 0, \n            \"name\": \"open-files-limit\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 524288,\
+              \ \n            \"min\": 1, \n            \"name\": \"table_open_cache\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"name\": \"default_time_zone\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"string\"\n        }, \n        {\n            \"max\": 2, \n   \
+              \         \"min\": 0, \n            \"name\": \"completion_type\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 2, \n      \
+              \      \"min\": 0, \n            \"name\": \"concurrent_insert\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"name\": \"default-storage-engine\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 7, \n   \
+              \         \"min\": 0, \n            \"name\": \"default_week_format\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"delay_key_write\",\
+              \ \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"delayed_insert_limit\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 31536000,\
+              \ \n            \"min\": 1, \n            \"name\": \"delayed_insert_timeout\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"delayed_queue_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 30, \n \
+              \           \"min\": 0, \n            \"name\": \"div_precision_increment\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"event_scheduler\",\
+              \ \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"flush\", \n       \
+              \     \"restart_required\": false, \n            \"type\": \"integer\"\
+              \n        }, \n        {\n            \"max\": 31536000, \n        \
+              \    \"min\": 0, \n            \"name\": \"flush_time\", \n        \
+              \    \"restart_required\": false, \n            \"type\": \"integer\"\
+              \n        }, \n        {\n            \"name\": \"ft_boolean_syntax\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 1000, \n\
+              \            \"min\": 0, \n            \"name\": \"ft_query_expansion_limit\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"general_log\", \n \
+              \           \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 4, \n            \"name\": \"group_concat_max_len\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 100, \n            \"name\": \"key_cache_age_threshold\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 100, \n\
+              \            \"min\": 1, \n            \"name\": \"key_cache_division_limit\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"name\": \"log_output\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 1, \n   \
+              \         \"min\": 0, \n            \"name\": \"log_queries_not_using_indexes\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"log_slow_admin_statements\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"log_slow_queries\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 31536000,\
+              \ \n            \"min\": 0, \n            \"name\": \"long_query_time\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"low_priority_updates\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 2, \n  \
+              \          \"min\": 0, \n            \"name\": \"lower_case_table_names\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 16384, \n\
+              \            \"min\": 0, \n            \"name\": \"max_delayed_threads\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 65535, \n\
+              \            \"min\": 0, \n            \"name\": \"max_error_count\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1844674407370954752,\
+              \ \n            \"min\": 16384, \n            \"name\": \"max_heap_table_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 4294967295,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_join_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 8388608,\
+              \ \n            \"min\": 4, \n            \"name\": \"max_length_for_sort_data\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1048576,\
+              \ \n            \"min\": 0, \n            \"name\": \"max_prepared_stmt_count\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_seeks_for_key\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 8388608,\
+              \ \n            \"min\": 4, \n            \"name\": \"max_sort_length\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"max_write_lock_count\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"min_examined_rows_limit\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 9223372036854775807,\
+              \ \n            \"min\": 0, \n            \"name\": \"myisam_max_sort_file_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"name\": \"myisam_stats_method\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 31536000,\
+              \ \n            \"min\": 1, \n            \"name\": \"net_read_timeout\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 1, \n            \"name\": \"net_retry_count\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 31536000,\
+              \ \n            \"min\": 1, \n            \"name\": \"net_write_timeout\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"old_alter_table\",\
+              \ \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"old_style_user_limits\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"old_passwords\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 1, \n      \
+              \      \"min\": 0, \n            \"name\": \"optimizer_prune_level\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 62, \n \
+              \           \"min\": 0, \n            \"name\": \"optimizer_search_depth\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1073741824,\
+              \ \n            \"min\": 1024, \n            \"name\": \"preload_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 0, \n            \"name\": \"query_cache_limit\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"query_cache_wlock_invalidate\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 8192, \n            \"name\": \"query_prealloc_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 4096, \n            \"name\": \"range_alloc_block_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 2147479552,\
+              \ \n            \"min\": 8200, \n            \"name\": \"read_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 2147483647,\
+              \ \n            \"min\": 8200, \n            \"name\": \"read_rnd_buffer_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"secure_auth\", \n \
+              \           \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"max\": 31536000, \n\
+              \            \"min\": 0, \n            \"name\": \"slow_launch_time\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"slow_query_log\", \n\
+              \            \"restart_required\": false, \n            \"type\": \"\
+              integer\"\n        }, \n        {\n            \"name\": \"sql_mode\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 1, \n   \
+              \         \"min\": 0, \n            \"name\": \"sync_frm\", \n     \
+              \       \"restart_required\": false, \n            \"type\": \"integer\"\
+              \n        }, \n        {\n            \"max\": 18446744073709547520,\
+              \ \n            \"min\": 131072, \n            \"name\": \"thread_stack\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709551615,\
+              \ \n            \"min\": 1024, \n            \"name\": \"tmp_table_size\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"name\": \"transaction-isolation\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"string\"\n        }, \n        {\n            \"max\": 1, \n   \
+              \         \"min\": 0, \n            \"name\": \"updatable_views_with_limit\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"innodb_adaptive_hash_index\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 2, \n  \
+              \          \"min\": 0, \n            \"name\": \"innodb_autoinc_lock_mode\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 1000, \n\
+              \            \"min\": 0, \n            \"name\": \"innodb_commit_concurrency\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 4294967295,\
+              \ \n            \"min\": 1, \n            \"name\": \"innodb_concurrency_tickets\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"name\": \"innodb_file_format\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 1073741824,\
+              \ \n            \"min\": 1, \n            \"name\": \"innodb_lock_wait_timeout\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"innodb_locks_unsafe_for_binlog\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"max\": 100, \n\
+              \            \"min\": 0, \n            \"name\": \"innodb_max_dirty_pages_pct\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 4294967295,\
+              \ \n            \"min\": 0, \n            \"name\": \"innodb_max_purge_lag\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 95, \n \
+              \           \"min\": 5, \n            \"name\": \"innodb_old_blocks_pct\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 4294967295,\
+              \ \n            \"min\": 0, \n            \"name\": \"innodb_old_blocks_time\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"innodb_rollback_on_timeout\"\
+              , \n            \"restart_required\": true, \n            \"type\":\
+              \ \"integer\"\n        }, \n        {\n            \"name\": \"innodb_stats_method\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"string\"\n        }, \n        {\n            \"max\": 1, \n   \
+              \         \"min\": 0, \n            \"name\": \"innodb_stats_on_metadata\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709551615,\
+              \ \n            \"min\": 1, \n            \"name\": \"innodb_stats_sample_pages\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 1, \n  \
+              \          \"min\": 0, \n            \"name\": \"innodb_strict_mode\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 4294967295,\
+              \ \n            \"min\": 0, \n            \"name\": \"innodb_sync_spin_loops\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }, \n        {\n            \"max\": 18446744073709551615,\
+              \ \n            \"min\": 1, \n            \"name\": \"innodb_thread_sleep_delay\"\
+              , \n            \"restart_required\": false, \n            \"type\"\
+              : \"integer\"\n        }\n    ]\n}\n"
+  /{version}/{accountId}/datastores/{datastoreId}/versions/{versionId}/parameters/{parameterId}:
+    get:
+      operationId: getConfigurationParameterDetails
+      summary: List configuration parameter details
+      description: 'Lists the details of a specified '
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: "{\n    \"max\": 1, \n    \"min\": 0, \n    \"name\"\
+              : \"innodb_file_per_table\", \n    \"restart_required\": true, \n  \
+              \  \"type\": \"integer\"\n}\n"
+host: '{data_center}.databases.api.rackspacecloud.com'
+schemes:
+- http
+- https

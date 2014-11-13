@@ -1,0 +1,118 @@
+swagger: 2
+info:
+  title: Cloud Servers
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2/{tenant_id}/limits/{tenant_id}:
+    get:
+      operationId: getCustomerLimits
+      summary: Get customer limits
+      description: "Enables administrators to get\n                absolute and rate\
+        \ limit information, including\n                information about currently\
+        \ used absolute limits, for\n                a specified customer tenant ID."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "limits": {
+                      "absolute": {
+                          "maxImageMeta": 128,
+                          "maxPersonality": 5,
+                          "maxPersonalitySize": 10240,
+                          "maxSecurityGroupRules": 20,
+                          "maxSecurityGroups": 10,
+                          "maxServerMeta": 128,
+                          "maxTotalCores": 20,
+                          "maxTotalFloatingIps": 10,
+                          "maxTotalInstances": 10,
+                          "maxTotalKeypairs": 100,
+                          "maxTotalRAMSize": 51200,
+                          "totalCoresUsed": 0,
+                          "totalInstancesUsed": 0,
+                          "totalRAMUsed": 0,
+                          "totalSecurityGroupsUsed": 0,
+                          "totalFloatingIpsUsed": 0
+                      },
+                      "rate": [
+                          {
+                              "limit": [
+                                  {
+                                      "next-available": "2012-11-27T17:24:52Z",
+                                      "remaining": 120,
+                                      "unit": "MINUTE",
+                                      "value": 120,
+                                      "verb": "POST"
+                                  },
+                                  {
+                                      "next-available": "2012-11-27T17:24:52Z",
+                                      "remaining": 120,
+                                      "unit": "MINUTE",
+                                      "value": 120,
+                                      "verb": "PUT"
+                                  },
+                                  {
+                                      "next-available": "2012-11-27T17:24:52Z",
+                                      "remaining": 120,
+                                      "unit": "MINUTE",
+                                      "value": 120,
+                                      "verb": "DELETE"
+                                  }
+                              ],
+                              "regex": ".*",
+                              "uri": "*"
+                          },
+                          {
+                              "limit": [
+                                  {
+                                      "next-available": "2012-11-27T17:24:52Z",
+                                      "remaining": 120,
+                                      "unit": "MINUTE",
+                                      "value": 120,
+                                      "verb": "POST"
+                                  }
+                              ],
+                              "regex": "^/servers",
+                              "uri": "*/servers"
+                          },
+                          {
+                              "limit": [
+                                  {
+                                      "next-available": "2012-11-27T17:24:52Z",
+                                      "remaining": 120,
+                                      "unit": "MINUTE",
+                                      "value": 120,
+                                      "verb": "GET"
+                                  }
+                              ],
+                              "regex": ".*changes-since.*",
+                              "uri": "*changes-since*"
+                          },
+                          {
+                              "limit": [
+                                  {
+                                      "next-available": "2012-11-27T17:24:52Z",
+                                      "remaining": 12,
+                                      "unit": "MINUTE",
+                                      "value": 12,
+                                      "verb": "GET"
+                                  }
+                              ],
+                              "regex": "^/os-fping",
+                              "uri": "*/os-fping"
+                          }
+                      ]
+                  }
+              }
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

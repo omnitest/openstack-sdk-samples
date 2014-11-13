@@ -1,0 +1,583 @@
+swagger: 2
+info:
+  title: Cloud Identity
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2.0/users:
+    get:
+      operationId: listUsers
+      summary: List Users
+      description: Lists users.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "users": [
+                      {
+                          "id": "u1000",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      },
+                      {
+                          "id": "u1001",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      }
+                  ],
+                  "users_links": []
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "users": [
+                      {
+                          "id": "u1000",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      },
+                      {
+                          "id": "u1001",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      }
+                  ],
+                  "users_links": []
+              }
+    post:
+      operationId: addUser
+      summary: Add User
+      description: Adds a user.
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                  "user": {
+                      "id": "u1000",
+                      "name": "jqsmith",
+                      "email": "john.smith@example.org",
+                      "enabled": true
+                  }
+              }
+      parameters:
+      - name: name
+        required: false
+        in: body
+        description: >
+          <p>The user name.</p>
+  /v2.0/users/{userId}:
+    put:
+      operationId: updateUser
+      summary: Update User
+      description: Updates a user.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "user": {
+                      "id": "u1000",
+                      "name": "jqsmith",
+                      "email": "john.smith@example.org",
+                      "enabled": true
+                  }
+              }
+    delete:
+      operationId: deleteUser
+      summary: Delete User
+      description: Deletes a user.
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v2.0/users/{userId}/roles:
+    get:
+      operationId: listUserRoles
+      summary: List global roles for user
+      description: "Lists global roles for a specified\n                user."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "roles": [
+                      {
+                          "id": "8341d3603a1d4d5985bff09f10704d4d",
+                          "name": "service"
+                      },
+                      {
+                          "id": "2e66d57df76946fdbe034bc4da6fdec0",
+                          "name": "admin"
+                      }
+                  ]
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "roles": [
+                      {
+                          "id": "8341d3603a1d4d5985bff09f10704d4d",
+                          "name": "service"
+                      },
+                      {
+                          "id": "2e66d57df76946fdbe034bc4da6fdec0",
+                          "name": "admin"
+                      }
+                  ]
+              }
+  /v2.0/users/{userId}/roles/OS-KSADM/{roleId}:
+    put:
+      operationId: addUserRole
+      summary: Add global role to user
+      description: "Adds a specific global role to a\n                user."
+      produces: []
+      responses:
+        201:
+          description: |-
+            201 response
+    delete:
+      operationId: deleteUserRole
+      summary: Delete Global Role from User
+      description: "Deletes a specific global role from\n                a user."
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v2.0/tenants:
+    post:
+      operationId: addTenant
+      summary: Add Tenant
+      description: ' Creates a tenant.'
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                  "tenant": {
+                      "id": "1234",
+                      "name": "ACME corp",
+                      "description": "A description ...",
+                      "enabled": true
+                  }
+              }
+  /v2.0/tenants/{tenantId}:
+    post:
+      operationId: updateTenant
+      summary: Update Tenant
+      description: ' Updates a tenant.'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              {
+                  "tenant": {
+                      "id": "1234",
+                      "name": "ACME corp",
+                      "description": "A description ...",
+                      "enabled": true
+                  }
+              }
+    delete:
+      operationId: deleteTenant
+      summary: Delete Tenant
+      description: ' Deletes a tenant.'
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v2.0/tenants/{tenantId}/users:
+    get:
+      operationId: listUsersForTenant
+      summary: List Users for a Tenant
+      description: "Lists all users for a\n                tenant."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "users": [
+                      {
+                          "id": "u1000",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      },
+                      {
+                          "id": "u1001",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      }
+                  ],
+                  "users_links": []
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "users": [
+                      {
+                          "id": "u1000",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      },
+                      {
+                          "id": "u1001",
+                          "name": "jqsmith",
+                          "email": "john.smith@example.org",
+                          "enabled": true
+                      }
+                  ],
+                  "users_links": []
+              }
+  /v2.0/tenants/{tenantId}/users/{userId}/roles/OS-KSADM/{roleId}:
+    put:
+      operationId: addRolesToUserOnTenant
+      summary: Add Roles to User on Tenant
+      description: "Adds a specified role to a user for\n                a tenant."
+      produces: []
+      responses:
+        201:
+          description: |-
+            201 response
+    delete:
+      operationId: deleteRoleFromUserOnTenant
+      summary: Delete Roles from User on Tenant
+      description: "Deletes a specified role from a\n                user on a tenant."
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v2.0/OS-KSADM/roles:
+    get:
+      operationId: getRoleByName
+      summary: Get role information by name
+      description: Gets a role by name.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "role": {
+                      "id": "123",
+                      "name": "Guest",
+                      "description": "Guest Access"
+                  }
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "role": {
+                      "id": "123",
+                      "name": "Guest",
+                      "description": "Guest Access"
+                  }
+              }
+    post:
+      operationId: addRole
+      summary: Add Role
+      description: Adds a role.
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                  "role": {
+                      "id": "123",
+                      "name": "Guest",
+                      "description": "Guest Access"
+                  }
+              }
+  /v2.0/OS-KSADM/roles/:
+    get:
+      operationId: listRoles
+      summary: List Roles
+      description: Lists roles.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "roles": [
+                      {
+                          "id": "123",
+                          "name": "compute:admin",
+                          "description": "Nova Administrator"
+                      }
+                  ],
+                  "roles_links": []
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "roles": [
+                      {
+                          "id": "123",
+                          "name": "compute:admin",
+                          "description": "Nova Administrator"
+                      }
+                  ],
+                  "roles_links": []
+              }
+  /v2.0/OS-KSADM/roles/{roleId}:
+    get:
+      operationId: getRole
+      summary: Get role information
+      description: "Gets information for a specified\n                role."
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "role": {
+                      "id": "123",
+                      "name": "Guest",
+                      "description": "Guest Access"
+                  }
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "role": {
+                      "id": "123",
+                      "name": "Guest",
+                      "description": "Guest Access"
+                  }
+              }
+    delete:
+      operationId: deleteRole
+      summary: Delete Role
+      description: Deletes a role.
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+  /v2.0/OS-KSADM/services:
+    get:
+      operationId: listServices
+      summary: List Services
+      description: Lists services.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:services": [
+                      {
+                          "id": "123",
+                          "name": "nova",
+                          "type": "compute",
+                          "description": "OpenStack Compute Service"
+                      },
+                      {
+                          "id": "234",
+                          "name": "glance",
+                          "type": "image",
+                          "description": "OpenStack Image Service"
+                      }
+                  ],
+                  "OS-KSADM:services_links": []
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:services": [
+                      {
+                          "id": "123",
+                          "name": "nova",
+                          "type": "compute",
+                          "description": "OpenStack Compute Service"
+                      },
+                      {
+                          "id": "234",
+                          "name": "glance",
+                          "type": "image",
+                          "description": "OpenStack Image Service"
+                      }
+                  ],
+                  "OS-KSADM:services_links": []
+              }
+    post:
+      operationId: addService
+      summary: Add Service
+      description: Adds a service.
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:service": {
+                      "id": "123",
+                      "name": "nova",
+                      "type": "compute",
+                      "description": "OpenStack Compute Service"
+                  }
+              }
+  /v2.0/OS-KSADM/services/:
+    get:
+      operationId: getServiceByName
+      summary: Get Service by Name
+      description: Gets a service by name.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:service": {
+                      "id": "123",
+                      "name": "nova",
+                      "type": "compute",
+                      "description": "OpenStack Compute Service"
+                  }
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:service": {
+                      "id": "123",
+                      "name": "nova",
+                      "type": "compute",
+                      "description": "OpenStack Compute Service"
+                  }
+              }
+  /v2.0/OS-KSADM/services/{serviceId}:
+    get:
+      operationId: getService
+      summary: Get Service
+      description: Gets a service.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:service": {
+                      "id": "123",
+                      "name": "nova",
+                      "type": "compute",
+                      "description": "OpenStack Compute Service"
+                  }
+              }
+        203:
+          description: |-
+            200 203 response
+          examples:
+            application/json: |-
+              {
+                  "OS-KSADM:service": {
+                      "id": "123",
+                      "name": "nova",
+                      "type": "compute",
+                      "description": "OpenStack Compute Service"
+                  }
+              }
+    delete:
+      operationId: deleteService
+      summary: Delete Service
+      description: Deletes a service.
+      produces: []
+      responses:
+        204:
+          description: |-
+            204 response
+host: identity.api.rackspacecloud.com
+schemes:
+- http
+- https

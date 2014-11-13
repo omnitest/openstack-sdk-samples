@@ -1,0 +1,298 @@
+swagger: 2
+info:
+  title: Cloud Networks
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2.0/subnets:
+    get:
+      operationId: listSubnets
+      summary: List Subnets
+      description: Lists subnets to which the specified tenant has access.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: |-
+            200 response
+          examples:
+            application/json: |
+              {
+                  "subnets": [
+                      {
+                          "allocation_pools": [
+                              {
+                                  "end": "192.168.9.254",
+                                  "start": "192.168.9.1"
+                              }
+                          ],
+                          "cidr": "192.168.9.0/24",
+                          "dns_nameservers": [],
+                          "enable_dhcp": false,
+                          "gateway_ip": null,
+                          "host_routes": [],
+                          "id": "f975defc-637d-4e2a-858b-c6cc4cec3951",
+                          "ip_version": 4,
+                          "name": "",
+                          "network_id": "0ebf6a10-5fc1-4f13-aca9-be0a2a00b1ac",
+                          "tenant_id": "123456"
+                      }
+                  ]
+              }
+    post:
+      operationId: bulkCreateSubnet
+      summary: Bulk Create Subnet
+      description: "Creates multiple subnets in a single request. Specify a list of\
+        \ subnets in the request\n                body."
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                 "subnets":[
+                    {
+                       "allocation_pools":[
+                          {
+                             "end":"192.168.199.254",
+                             "start":"192.168.199.2"
+                          }
+                       ],
+                       "cidr":"192.168.199.0/24",
+                       "dns_nameservers":[
+
+                       ],
+                       "enable_dhcp":true,
+                       "gateway_ip":"192.168.199.1",
+                       "host_routes":[
+
+                       ],
+                       "id":"0468a7a7-290d-4127-aedd-6c9449775a24",
+                       "ip_version":4,
+                       "name":"",
+                       "network_id":"e6031bc2-901a-4c66-82da-f4c32ed89406",
+                       "tenant_id":"d19231fc08ec4bc4829b668040d34512"
+                    },
+                    {
+                       "allocation_pools":[
+                          {
+                             "end":"10.56.7.254",
+                             "start":"10.56.4.2"
+                          }
+                       ],
+                       "cidr":"10.56.4.0/22",
+                       "dns_nameservers":[
+
+                       ],
+                       "enable_dhcp":true,
+                       "gateway_ip":"10.56.4.1",
+                       "host_routes":[
+
+                       ],
+                       "id":"b0e7435c-1512-45fb-aa9e-9a7c5932fb30",
+                       "ip_version":4,
+                       "name":"",
+                       "network_id":"64239a54-dcc4-4b39-920b-b37c2144effa",
+                       "tenant_id":"d19231fc08ec4bc4829b668040d34512"
+                    }
+                 ]
+              }
+      parameters:
+      - name: subnet
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The container for subnet details.</p>
+                               </p>
+      - name: name
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The subnet name.</p>
+                               </p>
+      - name: network_id
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The ID of the attached network.</p>
+                               </p>
+      - name: cidr
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The subnet CIDR.</p>
+                               </p>
+      - name: ip_version
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The subnet IP version, which is <p>4</p> or <p>6</p>.</p>
+                               </p>
+      - name: allocation_pools
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The array of allocation pool objects.</p>
+                               </p>
+      - name: end
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The ending IP address of the subnet allocation
+          pool.</p>
+                               </p>
+      - name: start
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The starting IP address of the subnet allocation
+          pool.</p>
+                               </p>
+      - name: host_routes
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The array of host route IP addresses for the
+          subnet.</p>
+                               </p>
+      - name: destination
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The host route destination IP address and port.</p>
+                               </p>
+      - name: next_hop
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The host route destination next hop IP address.</p>
+                               </p>
+      - name: gateway_ip
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The subnet gateway IP address.</p>
+                               </p>
+  /v2.0/subnets/{subnet_id}:
+    get:
+      operationId: showSubnet
+      summary: Show Subnet
+      description: Shows information for a specified subnet.
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |
+              {
+                  "subnet": {
+                      "name": "my_subnet",
+                      "enable_dhcp": false,
+                      "network_id": "d32019d3-bc6e-4319-9c1d-6722fc136a22",
+                      "tenant_id": "4fd44f30292945e481c7b8a0c8908869",
+                      "dns_nameservers": [
+                      ],
+                      "allocation_pools": [
+                          {
+                              "start": "192.0.0.2",
+                              "end": "192.255.255.254"
+                          }
+                      ],
+                      "host_routes":[
+                      ],
+                      "ip_version": 4,
+                      "gateway_ip": "192.0.0.1",
+                      "cidr": "192.0.0.0/8",
+                      "id": "54d6f61d-db07-451c-9ab3-b9609b6b6f0b"
+                  }
+              }
+    put:
+      operationId: updateSubnet
+      summary: Update Subnet
+      description: Updates a specified subnet.
+      produces:
+      - application/json
+      responses:
+        201:
+          description: |-
+            201 response
+          examples:
+            application/json: |-
+              {
+                  "subnet": {
+                      "name": "private-subnet",
+                      "enable_dhcp": false,
+                      "network_id": "db193ab3-96e3-4cb3-8fc5-05f4296d0324",
+                      "tenant_id": "26a7980765d0414dbc1fc1f88cdb7e6e",
+                      "dns_nameservers": [
+                      ],
+                      "allocation_pools": [
+                          {
+                              "start": "10.0.0.2",
+                              "end": "10.0.0.254"
+                          }
+                      ],
+                      "host_routes": [
+                      ],
+                      "ip_version": 4,
+                      "gateway_ip": "10.0.0.1",
+                      "cidr": "10.0.0.0/24",
+                      "id": "08eae331-0402-425a-923c-34f7cfe39c1b"
+                  }
+              }
+      parameters:
+      - name: subnet
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The container for subnet details.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The subnet name.</p>
+                               </p>
+      - name: gateway_ip
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The gateway IP address.</p>
+                               </p>
+    delete:
+      operationId: removeSubnet
+      summary: Delete Subnet
+      description: Deletes a specified subnet.
+      produces:
+      - application/json
+      responses:
+        204:
+          description: |-
+            204 response
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

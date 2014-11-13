@@ -1,0 +1,344 @@
+swagger: 2
+info:
+  title: Cloud Servers
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2/{tenant_id}/servers:
+    post:
+      operationId: createServer
+      summary: Create server with configuration drive
+      description: "Creates a server with the configuration drive extended\n     \
+        \           attribute."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                  "server": {
+                      "adminPass": "am5LKVsBVQ4s",
+                      "id": "58da039c-dc81-4d8f-8688-a2f819e2f750",
+                      "links": [
+                          {
+                              "href": "http://openstack.example.com/v2/openstack/servers/58da039c-dc81-4d8f-8688-a2f819e2f750",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "http://openstack.example.com/openstack/servers/58da039c-dc81-4d8f-8688-a2f819e2f750",
+                              "rel": "bookmark"
+                          }
+                      ]
+                  }
+              }
+      parameters:
+      - name: security_groups
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>A <code>security_groups</code>
+                                  object.</p>
+                               </p>
+      - name: security_group
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>One or more
+                                      <code>security_group</code> objects.
+                                  Specify the name of the security group in the
+                                      <code>name</code> attribute. If you omit
+                                  this attribute, the server is created in the
+                                      <code>default</code> security
+                                  group.</p>
+                               </p>
+      - name: user_data
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Configuration information or
+                                  scripts to use upon launch. Must be Base64
+                                  encoded.</p>
+                               </p>
+      - name: availability_zone
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>The availability zone in which
+                                  to launch the server.</p>
+                               </p>
+      - name: server
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>server.</p>
+                               </p>
+      - name: imageRef
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The image reference for the desired image
+                                  for your server instance.</p>
+                                  <p>Specify as an ID or full
+                              URL.</p>
+                               </p>
+      - name: flavorRef
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The flavor reference for the desired flavor
+                                  for your server instance.</p>
+                                  <p>Specify as an ID or full
+                              URL.</p>
+                               </p>
+      - name: networks
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>A <code>networks</code> object. By default,
+                                  the server instance is provisioned with all
+                                  isolated networks for the tenant.</p>
+                                  <p>Optionally, you can create one or more NICs
+                                  on the server.</p>
+                                  <p>To provision the server instance with a NIC
+                                  for a <code>nova-network</code> network,
+                                  specify the UUID in the <code>uuid</code>
+                                  attribute in a <code>networks</code>
+                                  object.</p>
+                                  <p>To provision the server instance with a NIC
+                                  for a <code>neutron</code> network, specify
+                                  the UUID in the <code>port</code> attribute in
+                                  a <code>networks</code> object.</p>
+                                  <p>You can specify multiple NICs on the
+                                  server.</p>
+                               </p>
+      - name: uuid
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>To provision the server instance with a NIC
+                                  for a <code>nova-network</code> network,
+                                  specify the UUID in the <code>uuid</code>
+                                  attribute in a <code>networks</code> object.
+                                  Required if you omit the <code>port</code>
+                                  attribute.</p>
+                               </p>
+      - name: port
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>To provision the server instance with a NIC
+                                  for a <code>neutron</code> network, specify
+                                  the UUID in the <code>port</code> attribute in
+                                  a <code>networks</code> object. Required if
+                                  you omit the <code>uuid</code>
+                                  attribute.</p>
+                               </p>
+      - name: fixed_ip
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>A fixed IPv4 address for the NIC. Valid with
+                                  a <code>neutron</code> or
+                                      <code>nova-networks</code> network.</p>
+                               </p>
+      - name: name
+        required: true
+        in: body
+        description: >
+          <p>
+                                  <p>The server name.</p>
+                               </p>
+      - name: metadata
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Metadata key and value pairs. The maximum
+                                  size of the metadata key and value is 255
+                                  bytes each.</p>
+                               </p>
+      - name: personality
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>File path and contents (text only) to inject
+                                  into the server at launch. The maximum size of
+                                  the file path data is 255 bytes. The maximum
+                                  limit refers to the number of bytes in the
+                                  decoded data and not the number of characters
+                                  in the encoded data.</p>
+                               </p>
+      - name: config_drive
+        required: false
+        in: body
+        description: >
+          <p>
+                                  <p>Enables
+                                      metadata injection in a server through a configuration
+          drive.</p>
+                                  <p>To enable a configuration drive, specify <code>true</code>.
+          Otherwise,
+                                      specify <code>false</code>.</p>
+                               </p>
+  /v2/{tenant_id}/servers/{server_id}:
+    get:
+      operationId: getServer
+      summary: Get server information with configuration drive
+      description: "Shows information for a specified server including the\n     \
+        \           configuration drive extended attribute."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                  "server": {
+                      "accessIPv4": "",
+                      "accessIPv6": "",
+                      "addresses": {
+                          "private": [
+                              {
+                                  "addr": "192.168.0.3",
+                                  "version": 4
+                              }
+                          ]
+                      },
+                      "config_drive": "",
+                      "created": "2013-02-04T13:17:50Z",
+                      "flavor": {
+                          "id": "1",
+                          "links": [
+                              {
+                                  "href": "http://openstack.example.com/openstack/flavors/1",
+                                  "rel": "bookmark"
+                              }
+                          ]
+                      },
+                      "hostId": "8725fb615b191d8249a40f3e90d1efde88d914412e4edb2719176afd",
+                      "id": "dd3b0715-a3fc-43d8-bbd2-2720beb226fb",
+                      "image": {
+                          "id": "70a599e0-31e7-49b7-b260-868f441e862b",
+                          "links": [
+                              {
+                                  "href": "http://openstack.example.com/openstack/images/70a599e0-31e7-49b7-b260-868f441e862b",
+                                  "rel": "bookmark"
+                              }
+                          ]
+                      },
+                      "links": [
+                          {
+                              "href": "http://openstack.example.com/v2/openstack/servers/dd3b0715-a3fc-43d8-bbd2-2720beb226fb",
+                              "rel": "self"
+                          },
+                          {
+                              "href": "http://openstack.example.com/openstack/servers/dd3b0715-a3fc-43d8-bbd2-2720beb226fb",
+                              "rel": "bookmark"
+                          }
+                      ],
+                      "metadata": {
+                          "My Server Name": "Apache1"
+                      },
+                      "name": "new-server-test",
+                      "progress": 0,
+                      "status": "ACTIVE",
+                      "tenant_id": "openstack",
+                      "updated": "2013-02-04T13:17:51Z",
+                      "user_id": "fake"
+                  }
+              }
+  /v2/{tenant_id}/servers/{server_id}/detail:
+    get:
+      operationId: getServersDetailed
+      summary: Get server details with configuration drive
+      description: "Lists details for all servers including the configuration drive\n\
+        \                extended attribute."
+      produces:
+      - application/json
+      responses:
+        202:
+          description: |-
+            202 response
+          examples:
+            application/json: |-
+              {
+                  "servers": [
+                      {
+                          "accessIPv4": "",
+                          "accessIPv6": "",
+                          "addresses": {
+                              "private": [
+                                  {
+                                      "addr": "192.168.0.3",
+                                      "version": 4
+                                  }
+                              ]
+                          },
+                          "config_drive": "",
+                          "created": "2013-02-04T13:21:44Z",
+                          "flavor": {
+                              "id": "1",
+                              "links": [
+                                  {
+                                      "href": "http://openstack.example.com/openstack/flavors/1",
+                                      "rel": "bookmark"
+                                  }
+                              ]
+                          },
+                          "hostId": "76e154b0015e25fad65a7ab0c35a86dd79acfa8312075a6534ef6176",
+                          "id": "720e688f-5ec8-4d4f-b585-dbd1a89ceeb0",
+                          "image": {
+                              "id": "70a599e0-31e7-49b7-b260-868f441e862b",
+                              "links": [
+                                  {
+                                      "href": "http://openstack.example.com/openstack/images/70a599e0-31e7-49b7-b260-868f441e862b",
+                                      "rel": "bookmark"
+                                  }
+                              ]
+                          },
+                          "links": [
+                              {
+                                  "href": "http://openstack.example.com/v2/openstack/servers/720e688f-5ec8-4d4f-b585-dbd1a89ceeb0",
+                                  "rel": "self"
+                              },
+                              {
+                                  "href": "http://openstack.example.com/openstack/servers/720e688f-5ec8-4d4f-b585-dbd1a89ceeb0",
+                                  "rel": "bookmark"
+                              }
+                          ],
+                          "metadata": {
+                              "My Server Name": "Apache1"
+                          },
+                          "name": "new-server-test",
+                          "progress": 0,
+                          "status": "ACTIVE",
+                          "tenant_id": "openstack",
+                          "updated": "2013-02-04T13:21:44Z",
+                          "user_id": "fake"
+                      }
+                  ]
+              }
+host: '{data_center}.servers.api.rackspacecloud.com'
+schemes:
+- http
+- https

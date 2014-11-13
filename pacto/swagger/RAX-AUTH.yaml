@@ -1,0 +1,23 @@
+swagger: 2
+info:
+  title: Cloud Identity
+  version: unknown
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2.0/users/{userId}/OS-KSADM/credentials/RAX-KSKEY:apiKeyCredentials/RAX-AUTH/reset:
+    post:
+      operationId: resetUserAPIKeyCredentials
+      summary: Reset user API key
+      description: "Resets the API key for a specified\n                user."
+      produces: []
+      responses:
+        200:
+          description: |-
+            200 response
+host: identity.api.rackspacecloud.com
+schemes:
+- http
+- https
