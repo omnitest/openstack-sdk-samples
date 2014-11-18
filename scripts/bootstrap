@@ -19,6 +19,7 @@ pip install --upgrade wadl2swagger
 wadlcrawler http://api.rackspace.com/wadls/
 # Remove the WADL files we don't need
 rm wadls/email-apps-*.wadl # We're not testing mailgun
+rm wadls/cloud_monitoring.wadl # This still needs to be cleaned up before it's convertable
 # Convert the WADL files to Swagger
 wadl2swagger --autofix wadls/*.wadl --swagger-dir pacto/swagger/
 
@@ -26,4 +27,3 @@ wadl2swagger --autofix wadls/*.wadl --swagger-dir pacto/swagger/
 bundle exec polytrix clone
 # Install the dependencies for each SDK
 bundle exec polytrix bootstrap
-
