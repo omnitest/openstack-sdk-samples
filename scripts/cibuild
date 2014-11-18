@@ -1,5 +1,5 @@
 #!/bin/bash
 # set -e
 bundle exec polytrix test
-bundle exec polytrix report dashboard
+bundle exec polytrix generate dashboard
 
