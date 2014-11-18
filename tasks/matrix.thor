@@ -64,39 +64,46 @@ class Matrix < Thor
   def enhance(csv_file = 'matrix.csv')
     matched_operations, missing_operations, ignored_features = {}, [], []
     contracts = Pacto.load_contracts('pacto/swagger', nil, :swagger)
-    CSV.foreach("matrix.csv", headers: :first_row) do |row|
-      # WIP
-      product = row['Product']
-      feature = row['Feature']
-      slugified_name = "#{product} - #{feature}"
+    add_file 'features.csv' do
+      CSV.generate(:headers => :first_row) do |csv|
+        CSV.foreach("matrix.csv", headers: :first_row, return_headers: true) do |row|
+          csv << row.dup.headers.insert(2, 'operationId') if row.header_row?
+          product = row['Product']
+          feature = row['Feature']
+          slugified_name = "#{product} - #{feature}"
 
-      if feature.match(/\*|\^|\$/) # these aren't services
-        ignored_features << slugified_name
-        say_status :ignored, "#{slugified_name} does not correspond to a service", :yellow
-        next
-      end
+          if feature.match(/\*|\^|\$/) # these aren't services
+            ignored_features << slugified_name
+            say_status :ignored, "#{slugified_name} does not correspond to a service", :yellow
+            next
+          end
 
-      contract = contracts.find { |c| c.name.downcase == slugified_name.downcase }
+          contract = contracts.find { |c| c.name.downcase == slugified_name.downcase }
 
-      if contract
-        info = <<-eos
-        Pacto contract for #{slugified_name}:
-          id: #{contract.id}
-          pattern: #{contract.request_pattern}
-        eos
-        say_status :found, info.strip
-        matched_operations[slugified_name] = contract
-        # This would be more accurate
-        # contracts.delete contract
-        # But we'll be more generous and delete duplicates
-        contracts.delete_if {|c| c.name == contract.name }
-      else
-        if slugified_name.match(/.*(\.|\$|\^)/)
-          ignored_features << slugified_name
-          say_status :ignored, "#{slugified_name} is a non-service feature", :yellow
-        else
-          missing_operations << slugified_name
-          say_status :missing, "Pacto contract for #{slugified_name}", :red
+          if contract
+            enhanced_row = row.fields
+            enhanced_row.insert(2, contract.id)
+            csv << enhanced_row
+            info = <<-eos
+            Pacto contract for #{slugified_name}:
+              id: #{contract.id}
+              pattern: #{contract.request_pattern}
+            eos
+            say_status :found, info.strip
+            matched_operations[slugified_name] = contract
+            # This would be more accurate
+            # contracts.delete contract
+            # But we'll be more generous and delete duplicates
+            contracts.delete_if {|c| c.name == contract.name }
+          else
+            if slugified_name.match(/.*(\.|\$|\^)/)
+              ignored_features << slugified_name
+              say_status :ignored, "#{slugified_name} is a non-service feature", :yellow
+            else
+              missing_operations << slugified_name
+              say_status :missing, "Pacto contract for #{slugified_name}", :red
+            end
+          end
         end
       end
     end
