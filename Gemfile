@@ -6,8 +6,8 @@ gem "dpl"
 # Pre-fetch fog for use by dpl
 gem "fog"
 gem "polytrix", '~> 0.1.0', :git => 'https://github.com/rackerlabs/polytrix'
-gem "pacto", '~> 0.4.0.pre', :git => 'https://github.com/thoughtworks/pacto'
-gem "pacto-server", '~> 0.4.0.pre', :git => 'https://github.com/thoughtworks/pacto'
+gem "pacto", '= 0.4.0.rc1'
+gem "pacto-server", '= 0.4.0.rc1'
 gem "swagger-core", :git => 'https://github.com/swagger-rb/swagger-rb'
 gem "goliath"
 gem "em-http-request"
