@@ -1,12 +1,20 @@
-<html>
 <head>
-  <link data-require="bootstrap-css@*" data-semver="3.0.0" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <link data-require="bootstrap-css@*" data-semver="3.0.0" href="assets/bootstrap/bootstrap.min.css" rel="stylesheet">
   <link href="assets/style.css" rel="stylesheet" type="text/css">
 </head>
 <body ng-app="main" ng-controller="DemoCtrl">
-  <script data-require="angular.js@*" data-semver="1.2.0-rc3-nonmin" src="http://code.angularjs.org/1.2.0-rc.3/angular.js"></script>
-  <script data-require="ng-table@*" data-semver="0.3.0" src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>
-  <link data-require="ng-table@*" data-semver="0.3.0" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" rel="stylesheet">
+  <ul class="nav nav-tabs">
+  <% @tabs.each do |tab_name, tab_target | %>
+    <% attrs = 'class="active"' if @active_tab == tab_name %>
+    <li role="presentation" <%= attrs %> >
+      <a href="<%= tab_target%>"><%= tab_name %></a>
+    </li>
+  <% end %>
+  </ul>
+  <script data-require="angular.js@*" data-semver="1.2.27" src="assets/angular/angular.min.js"></script>
+  <script data-require="ng-table@*" data-semver="0.3.1" src="assets/angular/ng-table.min.js"></script>
+  <link data-require="ng-table@*" data-semver="0.3.1" href="assets/angular/ng-table.min.css" rel="stylesheet">
   <script type="text/javascript">
     var app = angular.module('main', ['ngTable']).
     controller('DemoCtrl', function($scope, $filter, ngTableParams) {

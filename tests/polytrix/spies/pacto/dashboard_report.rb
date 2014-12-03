@@ -63,14 +63,26 @@ module Polytrix
 
         class_option :destination, default: 'reports/'
 
+        class << self
+          attr_accessor :tabs
+
+          def tab_name
+            'Pacto'
+          end
+
+          def tab_target
+            'pacto.html'
+          end
+
+          def source_root
+            File.dirname(__FILE__)
+          end
+        end
+
         def implementors
           Polytrix.implementors.map do |implementor|
             slug(implementor.name)
           end
-        end
-
-        def self.source_root
-          File.dirname(__FILE__)
         end
 
         def report_name
@@ -82,6 +94,8 @@ module Polytrix
         end
 
         def copy_base_structure
+          @tabs = self.class.tabs
+          @active_tab = self.class.tab_name
           directory 'files', '.'
         end
       end
