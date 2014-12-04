@@ -83,15 +83,45 @@ module Polytrix
       def call(env)
         @app.call(env)
         # Hacky - need better Pacto API
-        contracts = ::Pacto::InvestigationRegistry.instance.investigations.map(&:contract)
+        investigations = ::Pacto::InvestigationRegistry.instance.investigations.dup
         ::Pacto::InvestigationRegistry.instance.investigations.clear
         # Unknown services aren't captured in detected services
-        detected_services = contracts.compact.map(&:name)
+        detected_services = investigations.map(&:contract).compact.map(&:name)
         puts "Services detected: #{detected_services.join ','}"
         env[:spy_data][:pacto] = {
-          :detected_services => detected_services
+          detected_services: detected_services,
+          investigations: investigations.map do | investigation |
+            investigation_to_hash(investigation)
+          end
         }
         # ...
+      end
+
+      private
+
+      def investigation_to_hash(investigation)
+        # TODO: This belongs in Pacto - should be serializable as JSON/YAML
+        request = ::Pacto::PactoRequest.new(investigation.request.to_hash) # Need to fix WebMock adapter requests to be mutable
+        response = investigation.response
+        contract = investigation.contract.nil? ? nil : investigation.contract.name
+        omit_large_body(request)
+        omit_large_body(response)
+        Hashie::Mash.new({
+          request: request.to_hash,
+          response: response.to_hash,
+          contract: contract,
+          citations: investigation.citations
+        }).to_hash
+      end
+
+      def omit_large_body(object)
+        return if object.body.nil?
+        object.body = object.body.force_encoding('utf-8') # JSON/YAML should be UTF-8 encoded
+
+        if object.content_type.match(/image|octet-stream|audio/) || object.body.bytesize >= 15000
+          chksum = Digest::MD5.hexdigest(object.body)
+          object.body = "(Omitted large or binary data (md5: #{chksum})"
+        end
       end
     end
   end
