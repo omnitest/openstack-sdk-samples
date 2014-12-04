@@ -67,11 +67,11 @@ module Polytrix
           attr_accessor :tabs
 
           def tab_name
-            'Pacto'
+            'Services'
           end
 
           def tab_target
-            'pacto.html'
+            'services.html'
           end
 
           def source_root
