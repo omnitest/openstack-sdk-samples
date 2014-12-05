@@ -119,7 +119,6 @@ module Polytrix
         object.body = object.body.force_encoding('utf-8') # JSON/YAML should be UTF-8 encoded
 
         if object.content_type.match(/image|octet-stream|audio/) || object.body.bytesize >= 15000
-          require 'pry'; binding.pry
           chksum = Digest::MD5.hexdigest(object.body)
           object.body = "(Omitted large or binary data (md5: #{chksum})"
         end
