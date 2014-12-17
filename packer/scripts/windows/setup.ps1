@@ -2,8 +2,9 @@ iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.p
 
 #  Setup Ruby
 choco install git
-choco install ruby
-choco install ruby2.devkit
+# Use x86 versions because of mixlib limitations on Windows
+choco install ruby -x86
+choco install ruby2.devkit -x86
 
 # DevKit doesn't always detect properly...
 pushd C:\tools\DevKit2
@@ -33,7 +34,6 @@ Invoke-WebRequest https://raw.github.com/pypa/pip/master/contrib/get-pip.py -Out
 python get-pip.py
 Write-Host $env:Path
 $env:Path = $env:Path + ";C:\tools\python2\Scripts" # This should be added already....
-
 
 pip install virtualenv
 pip install virtualenvwrapper-win
