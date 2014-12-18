@@ -4,8 +4,32 @@ require 'pacto/server'
 require 'pacto/test_helper'
 require 'celluloid/autostart'
 
+# Celluloid.task_class = Celluloid::TaskThread
+
 module Polytrix
   module Spies
+    class PactoWatcher
+      include Celluloid
+      include Celluloid::Logger
+      trap_exit :actor_died
+
+      def initialize
+        @pacto = PactoActor.new_link({port: pacto_port})
+      end
+
+      def start
+        @pacto.start_server
+      end
+
+      def stop
+        @pacto.stop_server
+      end
+
+      def actor_died(actor, reason)
+        warn "Oh no! #{actor.inspect} has died because of a #{reason.class}"
+      end
+    end
+
     class PactoActor
       include Singleton
       include ::Pacto::TestHelper
@@ -20,7 +44,6 @@ module Polytrix
         @started = Celluloid::Condition.new
         @stopped = Celluloid::Condition.new
         @server_options = server_options
-        start_server
       end
 
       def start_server
@@ -77,10 +100,13 @@ module Polytrix
 
       def initialize(app, server_options = {})
         @app   = app
-        @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, {port: pacto_port})
+        @pacto_controller = Polytrix::Spies::PactoWatcher.new
+        # @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, {port: pacto_port})
+        # @crash_handler.link @server.actors.first
       end
 
       def call(env)
+        @pacto_controller.start
         @app.call(env)
         # Hacky - need better Pacto API
         investigations = ::Pacto::InvestigationRegistry.instance.investigations.dup
@@ -94,6 +120,7 @@ module Polytrix
             investigation_to_hash(investigation)
           end
         }
+        @pacto_controller.stop
         # ...
       end
 
