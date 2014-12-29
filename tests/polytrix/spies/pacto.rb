@@ -23,10 +23,11 @@ module Polytrix
 
       def stop
         @pacto.stop_server
+        @pacto.terminate
       end
 
       def actor_died(actor, reason)
-        warn "Oh no! #{actor.inspect} has died because of a #{reason.class}"
+        warn "Oh no! #{actor.inspect} has died because of a #{reason.class}" if reason
       end
     end
 
@@ -120,8 +121,9 @@ module Polytrix
             investigation_to_hash(investigation)
           end
         }
-        @pacto_controller.stop
         # ...
+      ensure
+        @pacto_controller.stop
       end
 
       private
@@ -142,9 +144,10 @@ module Polytrix
       end
 
       def omit_large_body(object)
-        return if object.body.nil?
+        return if object.body.nil? || object.body.empty?
         object.body = object.body.force_encoding('utf-8') # JSON/YAML should be UTF-8 encoded
 
+        content_type = object.content_type || 'application/octet-stream'
         if object.content_type.match(/image|octet-stream|audio/) || object.body.bytesize >= 15000
           chksum = Digest::MD5.hexdigest(object.body)
           object.body = "(Omitted large or binary data (md5: #{chksum})"
