@@ -12,9 +12,9 @@ module Polytrix
             label.gsub('.', '_').gsub('-', '_')
           end
 
-          def implementors
-            Polytrix.implementors.map do |implementor|
-              slug(implementor.name)
+          def projects
+            Polytrix.projects.map do |project|
+              slug(project.name)
             end
           end
 
@@ -23,15 +23,15 @@ module Polytrix
             supported = YAML.load(File.read('supported.yaml'))
             contracts = ::Pacto.load_contracts('pacto/swagger', nil, :swagger)
             services = supported # start w/ claims of supported services
-            grouped_challenges = Polytrix.manifest.challenges.values.group_by(&:implementor)
-            Polytrix.implementors.each do |implementor|
-              services[implementor.name] ||= {}
-              grouped_challenges[implementor].each do |c|
+            grouped_challenges = Polytrix.manifest.challenges.values.group_by(&:project)
+            Polytrix.projects.each do |project|
+              services[project.name] ||= {}
+              grouped_challenges[project].each do |c|
                 begin
                   c[:spy_data][:pacto][:detected_services].each do |s|
-                    services[implementor.name][s] = 'Tested'
-                    # services[implementor.name][s] ||= 0
-                    # services[implementor.name][s] += 1
+                    services[project.name][s] = 'Tested'
+                    # services[project.name][s] ||= 0
+                    # services[project.name][s] += 1
                   end
                 rescue KeyError, NoMethodError
                 end
@@ -46,8 +46,8 @@ module Polytrix
                 product: product,
                 service: service
               }
-              Polytrix.implementors.each do |implementor|
-                row[slugify(implementor.name)] = services[implementor.name][contract.name]
+              Polytrix.projects.each do |project|
+                row[slugify(project.name)] = services[project.name][contract.name]
               end
               rows << row
             end
@@ -79,9 +79,9 @@ module Polytrix
           end
         end
 
-        def implementors
-          Polytrix.implementors.map do |implementor|
-            slug(implementor.name)
+        def projects
+          Polytrix.projects.map do |project|
+            slug(project.name)
           end
         end
 

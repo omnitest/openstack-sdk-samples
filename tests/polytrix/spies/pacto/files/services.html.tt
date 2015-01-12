@@ -60,16 +60,16 @@
         <td data-title="'Service'" sortable="service" filter="{ 'service': 'text' }">
           {{results.service}}
         </td>
-        <% implementors.each do |implementor| %>
-        <td data-title="'<%= implementor %>'" ng-class="{'passed': results.<%= implementor %>.length > 0 && results.<%= implementor %>.indexOf('Tested') != -1, 'partial': results.<%= implementor %>.length > 0 && results.<%= implementor %>.indexOf('Supported') != -1, 'failed': results.<%= implementor %>.length > 0 && results.<%= implementor %>.indexOf('Unsupported') != -1 }" sortable="<%= implementor %>" filter="{ '<%= implementor %>': 'implementor' }">
-          {{results.<%= implementor %>}}
+        <% projects.each do |project| %>
+        <td data-title="'<%= project %>'" ng-class="{'passed': results.<%= project %>.length > 0 && results.<%= project %>.indexOf('Tested') != -1, 'partial': results.<%= project %>.length > 0 && results.<%= project %>.indexOf('Supported') != -1, 'failed': results.<%= project %>.length > 0 && results.<%= project %>.indexOf('Unsupported') != -1 }" sortable="<%= project %>" filter="{ '<%= project %>': 'project' }">
+          {{results.<%= project %>}}
         </td>
         <% end %>
       </tr>
     </tbody>
   </table>
-  <script type="text/ng-template" id="ng-table/filters/implementor.html">
-    <select ng-model="params.filter()[name]" name="filter-implementor">
+  <script type="text/ng-template" id="ng-table/filters/project.html">
+    <select ng-model="params.filter()[name]" name="filter-project">
       <option value="">None</option>
       <option value="Supported">Supported</option>
       <option value="Tested">Tested</option>

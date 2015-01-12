@@ -6,6 +6,10 @@ require 'celluloid/autostart'
 
 # Celluloid.task_class = Celluloid::TaskThread
 
+EventMachine.error_handler{ |e|
+  puts "Error raised during event loop: #{e.message}"
+}
+
 module Polytrix
   module Spies
     class PactoWatcher
