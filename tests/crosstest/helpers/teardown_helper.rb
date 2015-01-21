@@ -1,4 +1,4 @@
-# TODO: Polytrix teardown hooks
+# TODO: Crosstest teardown hooks
 # RSpec.configure do |c|
 #   c.after(:each) { auto_teardown }
 # end

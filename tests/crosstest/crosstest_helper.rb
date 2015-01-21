@@ -1,20 +1,20 @@
 $:.unshift File.expand_path('../../', File.dirname(__FILE__))
 require 'yaml'
-require 'polytrix'
+require 'crosstest'
 require 'pacto/extensions/matchers'
 
-Dir['tests/polytrix/spies/*.rb'].each do |middleware|
-  file = middleware.gsub('tests/polytrix/', '').gsub('.rb','')
+Dir['tests/crosstest/spies/*.rb'].each do |middleware|
+  file = middleware.gsub('tests/crosstest/', '').gsub('.rb','')
   require file
 end
 
-Polytrix.configure do |c|
+Crosstest.configure do |c|
   # Mimic isn't really ready
-  # c.register_spy Polytrix::Spies::Mimic
-  c.register_spy Polytrix::Spies::Pacto
+  # c.register_spy Crosstest::Skeptic::Spies::Mimic
+  c.register_spy Crosstest::Skeptic::Spies::Pacto
 end
 
-Polytrix.configuration.default_validator_callback = proc{ |challenge|
+Crosstest.configuration.default_validator_callback = proc{ |challenge|
   result = challenge[:result]
   expect(result.execution_result.exitstatus).to eq(0)
   detected_services = challenge.spy_data[:pacto][:detected_services]

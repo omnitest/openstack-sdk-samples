@@ -10,8 +10,8 @@ rbenv rehash
 bundle update
 
 # Install wadl2swagger
-virtualenv polytrix_venv
-source polytrix_venv/bin/activate
+virtualenv crosstest_venv
+source crosstest_venv/bin/activate
 pip install --upgrade wadl2swagger
 
 # Fetch Swagger definition for all services
@@ -24,6 +24,6 @@ rm wadls/cloud_monitoring.wadl # This still needs to be cleaned up before it's c
 wadl2swagger --autofix wadls/*.wadl --swagger-dir pacto/swagger/
 
 # Fetch the code samples for each SDK
-bundle exec polytrix clone
+bundle exec crosstest clone
 # Install the dependencies for each SDK
-bundle exec polytrix bootstrap
+bundle exec crosstest bootstrap
