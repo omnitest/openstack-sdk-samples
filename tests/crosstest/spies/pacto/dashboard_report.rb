@@ -24,10 +24,10 @@ module Crosstest
               supported = YAML.load(File.read('supported.yaml'))
               contracts = ::Pacto.load_contracts('pacto/swagger', nil, :swagger)
               services = supported # start w/ claims of supported services
-              grouped_scenarios = Crosstest.manifest.scenarios.values.group_by(&:project)
+              grouped_scenarios = Crosstest.manifest.scenarios.group_by{|s| s.psychic.name }
               Crosstest.projects.each do |project|
                 services[project.name] ||= {}
-                grouped_scenarios[project].each do |c|
+                grouped_scenarios[project.name].each do |c|
                   begin
                     c[:spy_data][:pacto][:detected_services].each do |s|
                       services[project.name][s] = 'Tested'

@@ -18,8 +18,8 @@ module Crosstest
         include Celluloid::Logger
         trap_exit :actor_died
 
-        def initialize
-          @pacto = PactoActor.new_link({port: pacto_port})
+        def initialize(server_options)
+          @pacto = PactoActor.new_link(server_options)
         end
 
         def start
@@ -88,7 +88,7 @@ module Crosstest
             validate: true,
             directory: File.join(Dir.pwd, 'pacto', 'swagger'),
             format: 'swagger',
-            port: pacto_port,
+            # port: pacto_port,
             strip_dev: true,
             strip_port: true,
             pacto_logger: Crosstest.logger,
@@ -104,23 +104,26 @@ module Crosstest
       class Pacto < Crosstest::Skeptic::Spy
         report :dashboard, DashboardReport
 
-        def initialize(app, server_options = {})
+        def initialize(app, test_env_number, server_options = {})
           @app   = app
-          @pacto_controller = Crosstest::Skeptic::Spies::PactoWatcher.new
+          @port = 9900 + test_env_number
+          server_options[:port] = @port
+          @pacto_controller = Crosstest::Skeptic::Spies::PactoWatcher.new(server_options)
           # @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, {port: pacto_port})
           # @crash_handler.link @server.actors.first
         end
 
-        def call(env)
+        def call(scenario)
           @pacto_controller.start
-          @app.call(env)
+          scenario.psychic.env['OS_AUTH_URL'] = "http://identity.api.rackspacecloud.dev:#{@port}/v2.0"
+          @app.call(scenario)
           # Hacky - need better Pacto API
           investigations = ::Pacto::InvestigationRegistry.instance.investigations.dup
           ::Pacto::InvestigationRegistry.instance.investigations.clear
           # Unknown services aren't captured in detected services
           detected_services = investigations.map(&:contract).compact.map(&:name)
           puts "Services detected: #{detected_services.join ','}"
-          env[:spy_data][:pacto] = {
+          scenario.spy_data[:pacto] = {
             detected_services: detected_services,
             investigations: investigations.map do | investigation |
               investigation_to_hash(investigation)
