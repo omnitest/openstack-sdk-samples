@@ -65,7 +65,7 @@ module Crosstest
           test_env_number = scenario.vars['TEST_ENV_NUMBER']
           port = 9900 + test_env_number.to_i
           scenario.vars['OS_AUTH_URL'] = "http://identity.api.rackspacecloud.dev:#{port}/v2.0"
-          supervisor = Reel::Server::HTTP.supervise("0.0.0.0", port) do |connection|
+          supervisor = Reel::Server::HTTP.supervise("0.0.0.0", port, spy: scenario.logger.debug?) do |connection|
             # Support multiple keep-alive requests per connection
             connection.each_request do |request|
               ::Pacto::Reel::RequestHandler.new.handle_request(request)
