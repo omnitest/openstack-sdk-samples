@@ -1,6 +1,6 @@
 require 'json'
 module Crosstest
-  module Skeptic
+  class Skeptic
     module Spies
       class Pacto < Crosstest::Skeptic::Spy
         module Reports
@@ -24,7 +24,7 @@ module Crosstest
               supported = YAML.load(File.read('supported.yaml'))
               contracts = ::Pacto.load_contracts('pacto/swagger', nil, :swagger)
               services = supported # start w/ claims of supported services
-              grouped_scenarios = Crosstest.manifest.scenarios.group_by{|s| s.psychic.name }
+              grouped_scenarios = Crosstest.scenarios.group_by{|s| s.psychic.name }
               Crosstest.projects.each do |project|
                 services[project.name] ||= {}
                 grouped_scenarios[project.name].each do |c|

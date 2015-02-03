@@ -1,121 +1,77 @@
 $: << Dir.pwd
+require 'pacto'
+require 'reel'
 require_relative 'pacto/dashboard_report'
-require 'pacto/server'
-require 'pacto/test_helper'
-require 'celluloid/autostart'
+
+::Pacto.validate!
+::Pacto.load_contracts('pacto/swagger', 'https://{server}', :swagger)
+WebMock.allow_net_connect!
+
+module Pacto
+  module Reel
+    class RequestHandler
+      def handle_request(reel_request)
+        pacto_request =  Pacto::PactoRequest.new(
+          headers: reel_request.headers, body: reel_request.read,
+          method: reel_request.method, uri: Addressable::URI.heuristic_parse(reel_request.uri)
+        )
+
+        prepare_to_forward(pacto_request)
+        pacto_response = forward(pacto_request)
+        prepare_to_respond(pacto_response)
+
+        puts 'responding'
+        reel_response = ::Reel::Response.new(pacto_response.status, pacto_response.headers, pacto_response.body)
+        reel_request.respond(reel_response)
+      end
+
+      def prepare_to_forward(pacto_request)
+        host = pacto_request.uri.site || pacto_request.headers['Host']
+        host.gsub!('.dev', '.com')
+        scheme, host = host.split('://')
+        host, scheme = scheme, host if host.nil?
+        host, _port = host.split(':')
+        scheme ||= 'https'
+        pacto_request.uri = Addressable::URI.heuristic_parse("#{scheme}://#{host}#{pacto_request.uri.to_s}")
+        pacto_request.headers.delete_if { |k, _v| %w(host content-length transfer-encoding).include? k.downcase }
+      end
+
+      def forward(pacto_request)
+        puts 'forwarding'
+        Pacto::Consumer::FaradayDriver.new.execute(pacto_request)
+      end
+
+      def prepare_to_respond(pacto_response)
+        pacto_response.headers.delete_if { |k, _v| %w(connection content-encoding content-length transfer-encoding).include? k.downcase }
+      end
+    end
+  end
+end
+
 
 # Celluloid.task_class = Celluloid::TaskThread
 
-EventMachine.error_handler{ |e|
-  puts "Error raised during event loop: #{e.message}"
-}
-
 module Crosstest
-  module Skeptic
+  class Skeptic
     module Spies
-      class PactoWatcher
-        include Celluloid
-        include Celluloid::Logger
-        trap_exit :actor_died
-
-        def initialize(server_options)
-          @pacto = PactoActor.new_link(server_options)
-        end
-
-        def start
-          @pacto.start_server
-        end
-
-        def stop
-          @pacto.stop_server
-          @pacto.terminate
-        end
-
-        def actor_died(actor, reason)
-          warn "Oh no! #{actor.inspect} has died because of a #{reason.class}" if reason
-        end
-      end
-
-      class PactoActor
-        include Singleton
-        include ::Pacto::TestHelper
-        include Celluloid
-        include Celluloid::Logger
-        include Celluloid::Notifications
-
-        # finalizer :stop_server
-
-        def initialize(server_options)
-          @time_to_stop = Celluloid::Condition.new
-          @started = Celluloid::Condition.new
-          @stopped = Celluloid::Condition.new
-          @server_options = server_options
-        end
-
-        def start_server
-          async.run_server
-          @started.wait
-        end
-
-        def run_server
-          Celluloid::Future.new {
-            info "Server is starting..."
-            opts = default_opts.merge(@server_options)
-            with_pacto(opts) do |uri|
-              info "Server started on #{uri}"
-              @started.signal
-              @time_to_stop.wait
-              info "Stopping..."
-            end
-          }
-        end
-
-        def stop_server
-          info "Server is stopping..."
-          @time_to_stop.signal
-        end
-
-        private
-
-        def default_opts
-          {
-            stdout: true,
-            log_file: 'pacto.log',
-            stub: false,
-            live: true,
-            generate: generate?,
-            verbose: true,
-            validate: true,
-            directory: File.join(Dir.pwd, 'pacto', 'swagger'),
-            format: 'swagger',
-            # port: pacto_port,
-            strip_dev: true,
-            strip_port: true,
-            pacto_logger: Crosstest.logger,
-            pacto_log_level: log_level
-          }
-       end
-
-        def log_level
-          ENV.fetch('PACTO_LOG_LEVEL', 'debug').downcase.to_sym
-        end
-      end
-
       class Pacto < Crosstest::Skeptic::Spy
         report :dashboard, DashboardReport
 
-        def initialize(app, test_env_number, server_options = {})
+        def initialize(app, server_options = {})
           @app   = app
-          @port = 9900 + test_env_number
-          server_options[:port] = @port
-          @pacto_controller = Crosstest::Skeptic::Spies::PactoWatcher.new(server_options)
-          # @server = Celluloid::Actor[:pacto_server] ||= PactoActor.supervise_as(:pacto_server, {port: pacto_port})
-          # @crash_handler.link @server.actors.first
         end
 
         def call(scenario)
-          @pacto_controller.start
-          scenario.psychic.env['OS_AUTH_URL'] = "http://identity.api.rackspacecloud.dev:#{@port}/v2.0"
+          test_env_number = scenario.vars['TEST_ENV_NUMBER']
+          port = 9900 + test_env_number.to_i
+          scenario.vars['OS_AUTH_URL'] = "http://identity.api.rackspacecloud.dev:#{port}/v2.0"
+          supervisor = Reel::Server::HTTP.supervise("0.0.0.0", port) do |connection|
+            # Support multiple keep-alive requests per connection
+            connection.each_request do |request|
+              ::Pacto::Reel::RequestHandler.new.handle_request(request)
+            end
+          end
+
           @app.call(scenario)
           # Hacky - need better Pacto API
           investigations = ::Pacto::InvestigationRegistry.instance.investigations.dup
@@ -129,9 +85,8 @@ module Crosstest
               investigation_to_hash(investigation)
             end
           }
-          # ...
         ensure
-          @pacto_controller.stop
+          supervisor.terminate unless supervisor.nil?
         end
 
         private
