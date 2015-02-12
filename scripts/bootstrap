@@ -10,8 +10,8 @@ rbenv rehash
 bundle update
 
 # Install wadl2swagger
-virtualenv crosstest_venv
-source crosstest_venv/bin/activate
+virtualenv ~/crosstest_venv
+source ~/crosstest_venv/bin/activate
 pip install --upgrade wadl2swagger
 
 # Fetch Swagger definition for all services
