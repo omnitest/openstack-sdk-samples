@@ -6,10 +6,9 @@
       repo: 'https://github.com/maxlinc/fog-samples'
       to: 'sdks/fog'
    gophercloud:
-    basedir: 'sdks/gophercloud/acceptance'
+    basedir: 'sdks/gophercloud'
     git:
-      repo: 'https://github.com/maxlinc/gophercloud'
-      branch: 'polytrix'
+      repo: 'https://github.com/maxlinc/gophercloud-examples'
       to: 'sdks/gophercloud'
    jclouds:
     basedir: 'sdks/jclouds/rackspace'

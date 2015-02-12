@@ -20,7 +20,6 @@ module Pacto
         pacto_response = forward(pacto_request)
         prepare_to_respond(pacto_response)
 
-        puts 'responding'
         reel_response = ::Reel::Response.new(pacto_response.status, pacto_response.headers, pacto_response.body)
         reel_request.respond(reel_response)
       end
@@ -33,7 +32,7 @@ module Pacto
         host, _port = host.split(':')
         scheme ||= 'https'
         pacto_request.uri = Addressable::URI.heuristic_parse("#{scheme}://#{host}#{pacto_request.uri.to_s}")
-        pacto_request.headers.delete_if { |k, _v| %w(host content-length transfer-encoding).include? k.downcase }
+        pacto_request.headers.delete_if { |k, _v| %w(host content-length accept-encoding transfer-encoding).include? k.downcase }
       end
 
       def forward(pacto_request)

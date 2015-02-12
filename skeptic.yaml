@@ -24,6 +24,8 @@
 #        - delete container
     Identity:
       env:
+        user: test_user_<%= ENV['POLYTRIX_SEED'] %>
+        email: test_<%= ENV['POLYTRIX_SEED'] %>@example.com
         SECONDARY_USER: test_user_<%= ENV['POLYTRIX_SEED'] %>
         SECONDARY_EMAIL: test_<%= ENV['POLYTRIX_SEED'] %>@example.com
       samples:
