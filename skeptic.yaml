@@ -11,12 +11,12 @@
 #    Cleanup:
 #      env:
 #          CONFIRM_DELETE: y
-#          CREATE_KEYPAIR_NAME: my_test_keypair_<%= ENV['POLYTRIX_SEED'] %>
-#          UPLOAD_KEYPAIR_NAME: my_uploaded_keypair_<%= ENV['POLYTRIX_SEED'] %>
-#          SERVER_NAME: my_test_server_<%= ENV['POLYTRIX_SEED'] %>
-#          VOLUME_NAME: my_test_volume_<%= ENV['POLYTRIX_SEED'] %>
+#          CREATE_KEYPAIR_NAME: my_test_keypair_<%= ENV['SKEPTIC_SEED'] %>
+#          UPLOAD_KEYPAIR_NAME: my_uploaded_keypair_<%= ENV['SKEPTIC_SEED'] %>
+#          SERVER_NAME: my_test_server_<%= ENV['SKEPTIC_SEED'] %>
+#          VOLUME_NAME: my_test_volume_<%= ENV['SKEPTIC_SEED'] %>
 #          ATTACHMENT_NAME: /dev/xvdb
-#          REMOTE_DIRECTORY: automated_test_dir_<%= ENV['POLYTRIX_SEED'] %>
+#          REMOTE_DIRECTORY: automated_test_dir_<%= ENV['SKEPTIC_SEED'] %>
 #      samples:
 #        - delete keypair
 #        - detach volume
@@ -24,10 +24,10 @@
 #        - delete container
     Identity:
       env:
-        user: test_user_<%= ENV['POLYTRIX_SEED'] %>
-        email: test_<%= ENV['POLYTRIX_SEED'] %>@example.com
-        SECONDARY_USER: test_user_<%= ENV['POLYTRIX_SEED'] %>
-        SECONDARY_EMAIL: test_<%= ENV['POLYTRIX_SEED'] %>@example.com
+        user: test_user_<%= ENV['SKEPTIC_SEED'] %>
+        email: test_<%= ENV['SKEPTIC_SEED'] %>@example.com
+        SECONDARY_USER: test_user_<%= ENV['SKEPTIC_SEED'] %>
+        SECONDARY_EMAIL: test_<%= ENV['SKEPTIC_SEED'] %>@example.com
       samples:
         - authenticate token
         - add user
@@ -36,8 +36,8 @@
         - delete user
     Network:
       env:
-        NETWORK_LABEL: test_network_<%= ENV['POLYTRIX_SEED'] %>
-        SERVER_NAME: test_networked_server_<%= ENV['POLYTRIX_SEED'] %>
+        network_label: test_network_<%= ENV['SKEPTIC_SEED'] %>
+        server_name: test_networked_server_<%= ENV['SKEPTIC_SEED'] %>
       samples:
         - create network
         - create networked server # re-use create server?
@@ -46,12 +46,12 @@
     Compute:
       env:
         CONFIRM_DELETE: y
-        CREATE_KEYPAIR_NAME: my_test_keypair_<%= ENV['POLYTRIX_SEED'] %>
-        UPLOAD_KEYPAIR_NAME: my_uploaded_keypair_<%= ENV['POLYTRIX_SEED'] %>
-        SERVER_NAME: my_test_server_<%= ENV['POLYTRIX_SEED'] %>
+        CREATE_KEYPAIR_NAME: my_test_keypair_<%= ENV['SKEPTIC_SEED'] %>
+        UPLOAD_KEYPAIR_NAME: my_uploaded_keypair_<%= ENV['SKEPTIC_SEED'] %>
+        SERVER_NAME: my_test_server_<%= ENV['SKEPTIC_SEED'] %>
         SERVER_SIZE: 1 GB Performance
         SERVER_RESIZE: 2 GB Performance
-        VOLUME_NAME: my_test_volume_<%= ENV['POLYTRIX_SEED'] %>
+        VOLUME_NAME: my_test_volume_<%= ENV['SKEPTIC_SEED'] %>
         ATTACHMENT_NAME: /dev/xvdb
       samples:
         - create keypair
@@ -61,7 +61,7 @@
         - delete server
     Storage:
       env:
-        REMOTE_DIRECTORY: automated_test_dir_<%= ENV['POLYTRIX_SEED'] %>
+        REMOTE_DIRECTORY: automated_test_dir_<%= ENV['SKEPTIC_SEED'] %>
         LOCAL_DIRECTORY: tmp/storage
         REMOTE_FILE: sample.txt
         UPLOAD_DIRECTORY: fixtures/sample_site
@@ -74,7 +74,7 @@
         - delete container
     Queues:
       env:
-        QUEUE_NAME: test_queue_<%= ENV['POLYTRIX_SEED'] %>
+        QUEUE_NAME: test_queue_<%= ENV['SKEPTIC_SEED'] %>
         MSGS_TO_CLAIM: "5" # Env vars must be strings
       samples:
         - create queue
@@ -83,7 +83,7 @@
         - delete queue
     Load Balancers:
       env:
-        LOAD_BALANCER_NAME: test_lb_<%= ENV['POLYTRIX_SEED'] %>
+        LOAD_BALANCER_NAME: test_lb_<%= ENV['SKEPTIC_SEED'] %>
       samples:
         - create load balancer
         - secure load balancer
