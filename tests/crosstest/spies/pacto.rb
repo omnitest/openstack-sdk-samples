@@ -10,7 +10,7 @@ WebMock.allow_net_connect!
 module Pacto
   module Reel
     class RequestHandler
-      def handle_request(reel_request)
+      def handle_request(reel_request, rewrite_port = nil)
         pacto_request =  Pacto::PactoRequest.new(
           headers: reel_request.headers, body: reel_request.read,
           method: reel_request.method, uri: Addressable::URI.heuristic_parse(reel_request.uri)
@@ -19,13 +19,18 @@ module Pacto
         prepare_to_forward(pacto_request)
         pacto_response = forward(pacto_request)
         prepare_to_respond(pacto_response)
+        response_body = if rewrite_port
+                          rewrite(pacto_response.body, rewrite_port)
+                        else
+                          pacto_response.body
+                        end
 
-        reel_response = ::Reel::Response.new(pacto_response.status, pacto_response.headers, pacto_response.body)
+        reel_response = ::Reel::Response.new(pacto_response.status, pacto_response.headers, response_body)
         reel_request.respond(reel_response)
       end
 
       def prepare_to_forward(pacto_request)
-        host = pacto_request.uri.site || pacto_request.headers['Host']
+        host = pacto_request.uri.site || pacto_request.headers.find{ |key, _| key.downcase == 'host' }[1]
         host.gsub!('.dev', '.com')
         scheme, host = host.split('://')
         host, scheme = scheme, host if host.nil?
@@ -33,6 +38,10 @@ module Pacto
         scheme ||= 'https'
         pacto_request.uri = Addressable::URI.heuristic_parse("#{scheme}://#{host}#{pacto_request.uri.to_s}")
         pacto_request.headers.delete_if { |k, _v| %w(host content-length accept-encoding transfer-encoding).include? k.downcase }
+      end
+
+      def rewrite(body, port)
+        body.gsub('.com', ".dev:#{port}").gsub(/https\:([\w\-\.\\\/]+).dev/, 'http:\1.dev')
       end
 
       def forward(pacto_request)
@@ -67,7 +76,7 @@ module Crosstest
           supervisor = Reel::Server::HTTP.supervise("0.0.0.0", port, spy: scenario.logger.debug?) do |connection|
             # Support multiple keep-alive requests per connection
             connection.each_request do |request|
-              ::Pacto::Reel::RequestHandler.new.handle_request(request)
+              ::Pacto::Reel::RequestHandler.new.handle_request(request, port)
             end
           end
 
