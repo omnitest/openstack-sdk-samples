@@ -8,6 +8,14 @@ Dir['tests/crosstest/spies/*.rb'].each do |middleware|
   require file
 end
 
+ENV.each_pair do |key, value|
+  # All the SDKs use RAX_* environment variables, except
+  # Gophercloud which uses RS_*
+  if key =~ /RAX/
+    ENV[key.gsub('RAX', 'RS')] = value
+  end
+end
+
 Crosstest.configure do |c|
   # Mimic isn't really ready
   # c.skeptic.register_spy Crosstest::Skeptic::Spies::Mimic
