@@ -4,6 +4,7 @@
     RAX_API_KEY: <%= ENV['RAX_API_KEY'] %>
     RAX_REGION: <%= ENV['RAX_REGION'] %>
     # Enables Pacto integration
+    OS_AUTH_SERVER: http://identity.api.rackspacecloud.dev:9900
     OS_AUTH_URL: http://identity.api.rackspacecloud.dev:9900/v2.0
     # Enables Mimic integration
     # OS_AUTH_URL: http://localhost:8901
@@ -36,6 +37,7 @@
         - delete user
     Network:
       env:
+        cidr: 192.0.2.0/24
         network_label: test_network_<%= ENV['SKEPTIC_SEED'] %>
         server_name: test_networked_server_<%= ENV['SKEPTIC_SEED'] %>
       samples:
@@ -45,10 +47,14 @@
         - delete network
     Compute:
       env:
+        server_name: test_server_<%= ENV['SKEPTIC_SEED'] %>
+        server_flavor: 1 GB General Purpose v1
+        server_image: CoreOS (Stable)
+        server_keyname: test_keypair
         CONFIRM_DELETE: y
         CREATE_KEYPAIR_NAME: my_test_keypair_<%= ENV['SKEPTIC_SEED'] %>
         UPLOAD_KEYPAIR_NAME: my_uploaded_keypair_<%= ENV['SKEPTIC_SEED'] %>
-        SERVER_NAME: my_test_server_<%= ENV['SKEPTIC_SEED'] %>
+        server_name: my_test_server_<%= ENV['SKEPTIC_SEED'] %>
         SERVER_SIZE: 1 GB Performance
         SERVER_RESIZE: 2 GB Performance
         VOLUME_NAME: my_test_volume_<%= ENV['SKEPTIC_SEED'] %>
@@ -61,6 +67,7 @@
         - delete server
     Storage:
       env:
+        container_name: container_<%= ENV['SKEPTIC_SEED'] %>
         REMOTE_DIRECTORY: automated_test_dir_<%= ENV['SKEPTIC_SEED'] %>
         LOCAL_DIRECTORY: tmp/storage
         REMOTE_FILE: sample.txt
