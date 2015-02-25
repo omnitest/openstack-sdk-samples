@@ -118,7 +118,7 @@ class Matrix < Thor
     say "  Unused: #{unused.size}"
   end
 
-  desc 'convert', 'Convert Matrix to crosstest friendly data format'
+  desc 'convert', 'Convert Matrix to omnitest friendly data format'
   def convert(csv_file = 'matrix.csv')
     supported = {}
     contracts = Pacto.load_contracts('pacto/swagger', nil, :swagger)

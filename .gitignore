@@ -1,8 +1,8 @@
 *.log
 Gemfile.lock
 sdks/
-.crosstest/
-crosstest_venv/
+.omnitest/
+omnitest_venv/
 docs/
 reports/
 pacto.log

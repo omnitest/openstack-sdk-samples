@@ -1,5 +1,5 @@
 #!/bin/bash
 # set -e
-bundle exec crosstest test
-bundle exec crossdoc dashboard
+bundle exec omnitest test
+bundle exec omnidoc dashboard
 

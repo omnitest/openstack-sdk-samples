@@ -1,10 +1,10 @@
 $:.unshift File.expand_path('../../', File.dirname(__FILE__))
 require 'yaml'
-require 'crosstest'
+require 'omnitest'
 require 'pacto/extensions/matchers'
 
-Dir['tests/crosstest/spies/*.rb'].each do |middleware|
-  file = middleware.gsub('tests/crosstest/', '').gsub('.rb','')
+Dir['tests/omnitest/spies/*.rb'].each do |middleware|
+  file = middleware.gsub('tests/omnitest/', '').gsub('.rb','')
   require file
 end
 

@@ -2,12 +2,12 @@
 source "https://rubygems.org"
 
 gem "rake"
-gem "crosstest", git: "https://github.com/crosstest/crosstest"
-gem "crosstest-core", git: "https://github.com/crosstest/crosstest-core"
-gem "crosstest-psychic", git: "https://github.com/crosstest/psychic"
-gem "crosstest-skeptic", git: "https://github.com/crosstest/skeptic"
+gem "omnitest" #, git: "https://github.com/omnitest/omnitest"
+# gem "omnitest-core", git: "https://github.com/omnitest/omnitest-core"
+# gem "omnitest-psychic", git: "https://github.com/omnitest/psychic"
+# gem "omnitest-skeptic", git: "https://github.com/omnitest/skeptic"
 gem "fog"
-gem "pacto", '= 0.4.0.rc1', :git => "https://github.com/thoughtworks/pacto"
-gem "pacto-server", '= 0.4.0.rc1'
+gem "pacto", '= 0.4.0.rc2' #, :git => "https://github.com/thoughtworks/pacto"
+gem "pacto-server", '= 0.4.0.rc2' #, :git => "https://github.com/thoughtworks/pacto"
 gem 'pry'
 gem 'reel'

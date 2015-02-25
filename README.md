@@ -1,14 +1,20 @@
 # OpenStack SDK tests
 
-The polytrix-openstack repo contains a suite of tests that use [Polytrix](https://github.com/rackerlabs/polytrix) and [Pacto](https://github.com/thoughtworks/pacto) to test several OpenStack SDKs.
+The polytrix-openstack repo contains a suite of tests that use [Polytrix](https://github.com/rackerlabs/polytrix) and [Pacto](https://github.com/thoughtworks/pacto) to test several OpenStack SDKs. It will produce two reports:
+- A report showing results of running code samples or a common set of scenarios across all SDKs
+- A feature matrix that shows the API operations supported by each SDK
 
 ## Pre-requisites
 
-In order to run the tests you'll need a machine with the necessary pre-requisites installed. The `packer/` folder contains scripts that can be used to create machine images for running tests on Linux. If you want to test locally on OSX or Windows you'll have to manually install the pre-requisites.
+Since this is a Polyglot suite of tests, you'll need a machine with the system-level pre-requisites installed for each language you will be testing. This basically means you need a runtime and/or developer tools for Ruby, Java, PHP, etc. You don't need the project-level dependencies (Gems, JARs, etc.,) installed - the test framework will install each of those as part of running the tests.
 
-### Languages
+### Automated setup
 
-The test suite itself uses Python (for converting WADL to Swagger) and Ruby (for driving tests).
+The `packer/` folder contains scripts that can be used to create Linux machine images that include all of the necessary pre-requisites. You can create VirtualBox or Rackspace images that can be used for testing with Vagrant or Jenkins-JClouds.
+
+### Manual setup
+
+If you don't use the VM image you will need the system-level dependencies in order to test projects written in:
 
 In addition, you'll need tools installed for each of the target languages being tested:
 - Ruby
@@ -19,11 +25,9 @@ In addition, you'll need tools installed for each of the target languages being 
 - Go
 - .NET
 
-You only need to install the developer tools for the language itself - the test suite will take care of installing project dependencies.
-
 ### Infrastructure
 
-The test suite assumes that you have setup the ".dev" pseudo-TLD that always resolves to local host. This is used to proxy requests via a Pacto server so they can be intercepted for testing and monitoring purposes.
+In order to "spy" on the APIs the test suite rewrites the serice catalogue so that all endpoints go through a local proxy server. It does this by using the ".dev" pseudo-TLD, so you'll need to make sure that make sure .dev addresses resolve to localhost.
 
 This can be easily achieved with [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) on [OSX](http://passingcuriosity.com/2013/dnsmasq-dev-osx/) or Linux. The [Windows alternatives](http://serverfault.com/questions/539591/how-to-resolve-all-dev-domains-to-localhost-on-windows) are a bit trickier.
 

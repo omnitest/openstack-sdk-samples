@@ -1,4 +1,4 @@
-require 'crosstest'
+require 'omnitest'
 
 Crosstest.validate 'Create server', suite: 'Compute', scenario: 'create server' do |challenge|
   detected_services = challenge.spy_data[:pacto][:detected_services]

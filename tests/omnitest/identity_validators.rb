@@ -1,4 +1,4 @@
-require 'crosstest'
+require 'omnitest'
 
 Crosstest.validate 'Identity Authenticate Token', suite: 'Identity', scenario: 'authenticate token' do |challenge|
   detected_services = challenge.spy_data[:pacto][:detected_services]
