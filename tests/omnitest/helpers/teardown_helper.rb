@@ -1,4 +1,4 @@
-# TODO: Crosstest teardown hooks
+# TODO: Omnitest teardown hooks
 # RSpec.configure do |c|
 #   c.after(:each) { auto_teardown }
 # end

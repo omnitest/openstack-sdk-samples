@@ -68,7 +68,7 @@
     Storage:
       env:
         container_name: container_<%= ENV['SKEPTIC_SEED'] %>
-        local_file: <%= Pathname(Crosstest.basedir).join('tests', 'fixtures', 'sample.txt').expand_path %>
+        local_file: <%= Pathname(Omnitest.basedir).join('tests', 'fixtures', 'sample.txt').expand_path %>
         REMOTE_DIRECTORY: automated_test_dir_<%= ENV['SKEPTIC_SEED'] %>
         LOCAL_DIRECTORY: tmp/storage
         REMOTE_FILE: sample.txt

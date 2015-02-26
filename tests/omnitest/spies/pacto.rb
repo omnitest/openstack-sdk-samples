@@ -7,10 +7,10 @@ require_relative 'pacto/dashboard_report'
 ::Pacto.load_contracts('pacto/swagger', 'https://{server}', :swagger)
 WebMock.allow_net_connect!
 
-module Crosstest
+module Omnitest
   class Skeptic
     module Spies
-      class Pacto < Crosstest::Skeptic::Spy
+      class Pacto < Omnitest::Skeptic::Spy
         report :dashboard, DashboardReport
 
         def initialize(app, server_options = {})
@@ -44,7 +44,7 @@ module Crosstest
           ::Pacto::InvestigationRegistry.instance.investigations.clear
           # Unknown services aren't captured in detected services
           detected_services = investigations.map(&:contract).compact.map(&:name)
-          Crosstest.logger.info "Services detected: #{detected_services.join ','}"
+          Omnitest.logger.info "Services detected: #{detected_services.join ','}"
           scenario.spy_data[:pacto] = {
             detected_services: detected_services,
             investigations: investigations.map do | investigation |

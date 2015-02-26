@@ -16,10 +16,10 @@ ENV.each_pair do |key, value|
   end
 end
 
-Crosstest.configure do |c|
+Omnitest.configure do |c|
   # Mimic isn't really ready
-  # c.skeptic.register_spy Crosstest::Skeptic::Spies::Mimic
-  c.skeptic.register_spy Crosstest::Skeptic::Spies::Pacto
+  # c.skeptic.register_spy Omnitest::Skeptic::Spies::Mimic
+  c.skeptic.register_spy Omnitest::Skeptic::Spies::Pacto
   c.skeptic.default_validator_callback = proc{ |challenge|
     result = challenge.result
     expect(result.execution_result.exitstatus).to eq(0)

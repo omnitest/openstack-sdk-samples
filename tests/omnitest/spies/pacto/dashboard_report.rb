@@ -1,8 +1,8 @@
 require 'json'
-module Crosstest
+module Omnitest
   class Skeptic
     module Spies
-      class Pacto < Crosstest::Skeptic::Spy
+      class Pacto < Omnitest::Skeptic::Spy
         module Reports
           module Helpers
             def as_json(table)
@@ -14,7 +14,7 @@ module Crosstest
             end
 
             def projects
-              Crosstest.projects.map do |project|
+              Omnitest.projects.map do |project|
                 slug(project.name)
               end
             end
@@ -24,8 +24,8 @@ module Crosstest
               supported = YAML.load(File.read('supported.yaml'))
               contracts = ::Pacto.load_contracts('pacto/swagger', nil, :swagger)
               services = supported # start w/ claims of supported services
-              grouped_scenarios = Crosstest.scenarios.group_by{|s| s.psychic.name }
-              Crosstest.projects.each do |project|
+              grouped_scenarios = Omnitest.scenarios.group_by{|s| s.psychic.name }
+              Omnitest.projects.each do |project|
                 services[project.name] ||= {}
                 grouped_scenarios[project.name].each do |c|
                   begin
@@ -47,7 +47,7 @@ module Crosstest
                   product: product,
                   service: service
                 }
-                Crosstest.projects.each do |project|
+                Omnitest.projects.each do |project|
                   row[slugify(project.name)] = services[project.name][contract.name]
                 end
                 rows << row
@@ -58,7 +58,7 @@ module Crosstest
         end
 
         class DashboardReport < Thor::Group
-          include Crosstest::Core::FileSystem
+          include Omnitest::Core::FileSystem
           include Thor::Actions
           include Reports::Helpers
 
@@ -81,7 +81,7 @@ module Crosstest
           end
 
           def projects
-            Crosstest.projects.map do |project|
+            Omnitest.projects.map do |project|
               slug(project.name)
             end
           end
