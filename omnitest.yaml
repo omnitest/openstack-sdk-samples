@@ -3,38 +3,38 @@
    fog:
     basedir: 'sdks/fog'
     git:
-      repo: 'https://github.com/maxlinc/fog-samples'
+      repo: 'https://github.com/omnitest/fog-samples'
       to: 'sdks/fog'
    gophercloud:
     basedir: 'sdks/gophercloud'
     git:
-      repo: 'https://github.com/maxlinc/gophercloud-examples'
+      repo: 'https://github.com/omnitest/gophercloud-examples'
       to: 'sdks/gophercloud'
    jclouds:
     basedir: 'sdks/jclouds/rackspace'
     git:
-      repo: 'https://github.com/maxlinc/jclouds-examples'
-      branch: 'polytrix'
+      repo: 'https://github.com/omnitest/jclouds-examples'
+      branch: 'omnitest'
       to: 'sdks/jclouds'
    openstack.net:
     basedir: 'sdks/openstack.net'
     git:
-      repo: 'https://github.com/DonSchenck/GettingStarted'
+      repo: 'https://github.com/omnitest/OpenStackNetSamples'
    php-opencloud:
     basedir: 'sdks/php-opencloud/samples'
     git:
-      repo: 'https://github.com/maxlinc/php-opencloud'
-      branch: 'polytrix'
+      repo: 'https://github.com/omnitest/php-opencloud'
+      branch: 'omnitest'
       to: 'sdks/php-opencloud'
    pkgcloud:
     basedir: 'sdks/pkgcloud/lib/providers/rackspace/'
     git:
-      repo: 'https://github.com/maxlinc/pkgcloud-integration-tests/'
-      branch: 'polytrix'
+      repo: 'https://github.com/omnitest/pkgcloud-integration-tests/'
+      branch: 'omnitest'
       to: 'sdks/pkgcloud'
    pyrax:
     basedir: 'sdks/pyrax/samples'
     git:
-      repo: 'https://github.com/maxlinc/pyrax'
+      repo: 'https://github.com/omnitest/pyrax'
       branch: 'local_config_file'
       to: 'sdks/pyrax'

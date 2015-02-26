@@ -1,137 +1,113 @@
 # OpenStack SDK tests
 
-The polytrix-openstack repo contains a suite of tests that use [Polytrix](https://github.com/rackerlabs/polytrix) and [Pacto](https://github.com/thoughtworks/pacto) to test several OpenStack SDKs. It will produce two reports:
-- A report showing results of running code samples or a common set of scenarios across all SDKs
-- A feature matrix that shows the API operations supported by each SDK
+The openstack-sdk-samples repo contains a suite of tests that use [Omnitest](https://github.com/omnitest/omnitest) to test code samples for OpenStack SDKs.It generates two reports:
+- A matrix showing which code samples are implemented and working for each SDK
+- A matrix showing which OpenStack APIs were called by each SDK as part of the tests
 
 ## Pre-requisites
 
-Since this is a Polyglot suite of tests, you'll need a machine with the system-level pre-requisites installed for each language you will be testing. This basically means you need a runtime and/or developer tools for Ruby, Java, PHP, etc. You don't need the project-level dependencies (Gems, JARs, etc.,) installed - the test framework will install each of those as part of running the tests.
+Since the suite tests SDKs written in several languages you'll need the tools for the languages themselves insteadd. The suite will generally take care of project level dependencies but assumes you have already installed system-level dependencies. For example, it assumes you already have Ruby installed but will install the Ruby gem for Fog via bundler.
 
-### Automated setup
+The suite also uses a DNS trick in order to more easily route all of the requests through a "spy" server to capture the OpenStack API calls being made for testing and reporting purposes. It does this by routing the ".dev" pseudo top level domain to localhost, where a reverse proxy will intercept the requests and forward them to the real OpenStack service. This can be easily achieved with [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) on [OSX](http://passingcuriosity.com/2013/dnsmasq-dev-osx/) or Linux. The [Windows alternatives](http://serverfault.com/questions/539591/how-to-resolve-all-dev-domains-to-localhost-on-windows) are a bit trickier.
 
-The `packer/` folder contains scripts that can be used to create Linux machine images that include all of the necessary pre-requisites. You can create VirtualBox or Rackspace images that can be used for testing with Vagrant or Jenkins-JClouds.
+The [omnitest-images] repo contains a [packer](https://www.packer.io/) project for building machine images containing all of the prerequisites.
 
-### Manual setup
+### Setup
 
-If you don't use the VM image you will need the system-level dependencies in order to test projects written in:
+You can run the test suite locally or import it into Jenkins with the [Jenkins Job Builder](http://ci.openstack.org/jenkins-job-builder/) configuration in this repo.
 
-In addition, you'll need tools installed for each of the target languages being tested:
-- Ruby
-- Python
-- Java
-- Node
-- PHP
-- Go
-- .NET
+#### Manual
 
-### Infrastructure
+The `./scripts/bootstrap` script will prepare the local environment for testing. That script:
+- Install the omnitest gem that drives the test suite
+- Fetches OpenStack WADLs and converts them to Swagger
+- Clones the SDKs defined in `omnitest.yaml`
+- Installs the dependencies for each SDK by running the SDK's bootstrap task
 
-In order to "spy" on the APIs the test suite rewrites the serice catalogue so that all endpoints go through a local proxy server. It does this by using the ".dev" pseudo-TLD, so you'll need to make sure that make sure .dev addresses resolve to localhost.
+#### Jenkins
 
-This can be easily achieved with [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) on [OSX](http://passingcuriosity.com/2013/dnsmasq-dev-osx/) or Linux. The [Windows alternatives](http://serverfault.com/questions/539591/how-to-resolve-all-dev-domains-to-localhost-on-windows) are a bit trickier.
+You can import the suite into Jenkins using [Jenkins Job Builder](http://ci.openstack.org/jenkins-job-builder/). This uses two files:
+- Jenkins configuration: You can use `jenkins_jobs.local.ini` for testing on a local Jenkins server. You'll need to provider your own for a remote server.
+- Job definitions: The `jenkins_jobs.yaml` file defines the job(s) to be created in Jenkins
 
-## Usage
+You can install on a local Jenkins server by running: `jenkins-jobs --conf jenkins_jobs.local.ini update jenkins_jobs.yaml`
 
-### CI Behavior
+### Testing
 
-The CI server is setup to run `./scripts/bootstrap` and then `./scripts/cibuild`. You can always re-create the CI behavior by running those two scripts. The instructions below are useful for running a subset of tests.
+The `omnitest` framework provides three executables:
+- `omnitask`: Runs a task in each SDK, used to bootstrap the projects
+- `omnitest`: Runs tests against each SDK and stores the results
+- `omnidoc`: Generates documentation from the code samples in each SDK and/or the test results
 
-### Bootstrapping the framework
+#### Full suite
 
-The `./scripts/bootstrap` script will setup the framework and SDKs for testing. It's commented so please read that script even if you'd prefer to run the commands yourself.
+You can run any of these commands to see a help message that shows the available subcommands.
 
-### Running commands on a subset of tests
+Jenkins uses `./scripts/cibuild` to run the test suite. It runs:
+- `bundle exec omnitest test`: This runs all tests in all SDKs
+- `bundle exec omnidoc dashboard`: This generates the test results dashboard
 
-Most polytrix commands are in the format:
-`bundle exec polytrix <action> [TEST_ID|REGEXP|all]`
+#### Isolated testing
 
-If you run the command with no argument after the `<action>`, or with "all" then it will invoke the action on each test. If you pass an argument it will be used as a regular expression to match against Test IDs, which are a unique value derived from the test suite, scenario, and SDK names. The `list` and `show` actions can be used to view available Test IDs.
+The omnitest command gives you a lot of flexibility to run subsets of tests. Most omnitest commands accept two optional arguments:
+`omnitest test [PROJECT|REGEXP|all] [SCENARIO|REGEXP|all]`
 
-For example:
-  - `bundle exec polytrix test` or `bundle exec polytrix test` will run all tests
-  - `bundle exec polytrix compute-create_server-fog` will that one specific test
-  - `bundle exec polytrix fog` will run all tests for the Fog SDK
-  - `bundle exec polytrix "(fog|pyrax)"` will run all tests for either Fog or Pyrax
+The first argument selects which projects you want to test, and the second selects which scenarios. Both arguments are optional and default to "all" if omitted. The argument can be either the name of a specific project or scenario, or a regular expression. So you could:
 
-### Preparing to test
+- Execute all Fog samples: `omnitest test fog`
+- Execute a single Fog sample: `omnitest test 'create server'`
+- Run all compute tests in Fog and pkgcloud: `omnitest test '(fog|pkgcloud) Compute'
 
-The command `bundle exec polytrix clone` will fetch all the code samples for SDKs from their respective repos.
+### Reports
 
-The command `bundle exec polytrix bootstrap` will install the project dependencies for each SDK though the applicable dependency manager (e.g. bundler, pip or maven).
+The omnitest framework provides two sets of reports: command-line and HTML. The command-line reports are useful when you're checking locally and want to quickly check the subset of results. The HTML reports are useful for generating and reviewing a full test report, including when running tests via Jenkins.
 
-### Running tests
+The reports are based on information that is stored by omnitest. This data is persisted and aggregated, so you can test each SDK individually and then generate a report that combines all of the results. You can use the `omnitest clear` command if you want to delete the persisted test results and start fresh.
 
-The command `bundle exec polytrix test` will run all tests. You can also run a subset tests (see "Running commands on a subset of tests").
+#### Command-line
 
-### Viewing results
+##### List
 
-The command `bundle exec polytrix list` will give an overview of the test results. The default behavior is to print a colorized table to the console, but you can use the `--format` option to have it format the results as Markdown, YAML, or JSON.
+The `omnitest list` command gives an overview of the persisted test results. It takes two optional arguments for filtering projects or scenarios, just like other omnitest commands.
 
-TODO: Image
+You can optionally use the `--source` command to add a column showing a path to the code sample associated with the test (relative to the SDK)
 
-The command `bundle exec polytrix show` will give a detailed report of test results.
+![omnitest list](https://cloud.githubusercontent.com/assets/896878/6403568/ffe956c0-bddd-11e4-9d7e-5d16622350ab.png)
 
-TODO: Image
+##### Show
 
-The command `bundle exec polytrix report dashboard` will generate an HTML report in `reports/dashboard.html` with a table giving an overview of results and links to detailed test results for each test. It will also generate a `reports/pacto.html` report that has an overview of the services detected during testing by the Pacto spy.
+The `omnitest show` command displays more detailed results for one or more scenarios. Again, it takes two optional arguments to filter the projects and/or scenarios displayed.
 
-TODO: Image(s)
+![omnitest show](https://cloud.githubusercontent.com/assets/896878/6403585/325a6f7c-bdde-11e4-9e8e-548b7e8157eb.png)
 
-## Adding tests
+#### HTML
 
-### Adding SDKs
+The `omnidoc` command can produce several reports. The main reports used for this suite are generated by `omnidoc dashboard`. It will produces a `./reports/dashboard.html` and related files.
 
-The SDKs to be tested `polytrix.yml` under the **implementors** section. The definitions of each implementor usually just contains the name and the location of a git repo containing code samples:
+##### Scenario Matrix
 
-```yaml
-  implementors:
-   fog:
-    basedir: 'sdks/fog'
-    git:
-      repo: 'https://github.com/maxlinc/fog-samples'
-      to: 'sdks/fog'
-   gophercloud:
-    basedir: 'sdks/gophercloud/acceptance'
-    git:
-      repo: 'https://github.com/maxlinc/gophercloud'
-      branch: 'polytrix'
-      to: 'sdks/gophercloud'
-```
+The default panel in `reports/dashboard.html` displays an overview of the results of testing each scenario. It is essentially an HTML version of the `omnitest list` command-line report:
 
-See the Polytrix documentation for additional documentation on configuring implementors.
+![Scenario Matrix](https://cloud.githubusercontent.com/assets/896878/6403740/84242978-bddf-11e4-9c0c-cf8c474fff39.png)
 
-### Adding test suites/scenarios
+##### Scenario Details
 
-The test suites and scenarios that are shared across all SDKs are also defined in `polytrix.yml`, under the **suites** section.
+If you click on the result for any scenario it will bring you to a more detailed report, similar to the `omnitest show` command-line report:
 
-This is a list of tests that should be part of a compliance test suite, and may include options to drive input to tests (via environment variables by defualt):
+![Scenario Details](https://cloud.githubusercontent.com/assets/896878/6403771/bf6dd3ee-bddf-11e4-9285-71a12619f86b.png)
 
-```yaml
-  suites:
-    Identity:
-      env:
-        SECONDARY_USER: test_user_<%= ENV['POLYTRIX_SEED'] %>
-        SECONDARY_EMAIL: test_<%= ENV['POLYTRIX_SEED'] %>@example.com
-      samples:
-        - authenticate token
-        - add user
-        - list users
-        - reset api key
-        - delete user
-```
+##### API Matrix
 
-### Adding test validations
+The dashboard also contains a second panel labeled "services". This is a matrix where the rows are OpenStack APIs rather than test scenarios. It shows whether a given API is supported by the SDK or was detected to be used while running a test scenario:
 
-You can add new test validations by modifying or adding a file under `tests/polytrix`. The validations are defined in Ruby and make use of the [RSpec Expectations](https://relishapp.com/rspec/rspec-expectations/docs) API.
+![API Matrix](https://cloud.githubusercontent.com/assets/896878/6403839/35010fc2-bde0-11e4-8564-da35e019c0c8.png)
 
-A single validation can be used by multiple tests. The validations are scoped using strings or regular expressions that are matched against the test suite and scenario names to see if they are applicable. A simple definition of a test validation looks like this:
 
-```ruby
-Polytrix.validate 'Create server', suite: 'Compute', scenario: 'create server' do |results|
-  detected_services = results.spy_data[:pacto][:detected_services]
-  expect(detected_services).to include 'Cloud Servers - Create server'
-end
-```
+### Contributing
 
-That expectation uses data captured by the [Pacto](https://github.com/thoughtworks/pacto) spy to make sure the create server code samples are calling the "Cloud Servers - Create Server" service. The names of services should match up with the names used on http://api.rackspace.com/.
+TODO
+- Adding SDKs
+- Adding scenarios
+- Adding assertions
+- Adding reports
+- Backlog
